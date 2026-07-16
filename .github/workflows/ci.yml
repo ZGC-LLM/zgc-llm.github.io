@@ -13,26 +13,8 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: zgcllm_test
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres -d zgcllm_test"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 10
     env:
-      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/zgcllm_test
       NEXT_PUBLIC_SITE_URL: https://www.zgcllm.org.cn
-      PAYLOAD_SECRET: ci-only-secret-that-is-not-used-in-production
-      PAYLOAD_TEST_MODE: 'true'
-      TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/zgcllm_test
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -43,12 +25,9 @@ jobs:
           cache: pnpm
           node-version: 22
       - run: pnpm install --frozen-lockfile
-      - run: pnpm generate:types
-      - run: git diff --exit-code -- src/payload-types.ts
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm test
-      - run: pnpm test:int
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
       - run: pnpm build

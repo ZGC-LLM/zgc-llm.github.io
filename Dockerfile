@@ -1,4 +1,4 @@
-# To use this Dockerfile, you have to set `output: 'standalone'` in your next.config.mjs file.
+# To use this Dockerfile, you have to set `output: 'standalone'` in your next.config.ts file.
 # From https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 
 FROM node:22.17.0-alpine AS base
@@ -25,17 +25,13 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build-time placeholders only. Runtime credentials must be injected into the final container.
-ARG DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/zgcllm_build
+# Build-time placeholders only. These public vars are baked into the static build.
 ARG NEXT_PUBLIC_INSTITUTION_APPLICATION_URL
 ARG NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL
 ARG NEXT_PUBLIC_SITE_URL=https://www.zgcllm.org.cn
-ARG PAYLOAD_SECRET=build-only-placeholder-secret-never-used-at-runtime
-ENV DATABASE_URL=$DATABASE_URL
 ENV NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=$NEXT_PUBLIC_INSTITUTION_APPLICATION_URL
 ENV NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=$NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

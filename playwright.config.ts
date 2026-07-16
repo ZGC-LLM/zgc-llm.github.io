@@ -1,17 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
-import { config } from 'dotenv'
 
 import { resolveE2EBaseURL, resolveE2EPort } from './tests/helpers/e2eConfig'
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-config({ path: 'test.env', override: true })
-
-if (process.env.TEST_DATABASE_URL) {
-  process.env.DATABASE_URL = process.env.TEST_DATABASE_URL
-}
 
 const remoteBaseURL = resolveE2EBaseURL(process.env.E2E_BASE_URL)
 const e2ePort = resolveE2EPort(remoteBaseURL ? undefined : process.env.E2E_PORT)

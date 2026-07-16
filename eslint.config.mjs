@@ -26,12 +26,10 @@ export default defineConfig([
   },
   globalIgnores([
     '.next/**',
+    '.worktree/**',
     'coverage/**',
     'next-env.d.ts',
     'playwright-report/**',
-    'src/app/(payload)/admin/importMap.js',
-    'src/payload-generated-schema.ts',
-    'src/payload-types.ts',
     'test-results/**',
   ]),
 ])
