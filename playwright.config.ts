@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 import { config } from 'dotenv'
 
-import { resolveE2EPort } from './tests/helpers/e2eConfig'
+import { resolveE2EBaseURL, resolveE2EPort } from './tests/helpers/e2eConfig'
 
 /**
  * Read environment variables from file.
@@ -15,7 +15,7 @@ if (process.env.TEST_DATABASE_URL) {
 
 const e2ePort = resolveE2EPort(process.env.E2E_PORT)
 const localBaseURL = `http://127.0.0.1:${e2ePort}`
-const remoteBaseURL = process.env.E2E_BASE_URL
+const remoteBaseURL = resolveE2EBaseURL(process.env.E2E_BASE_URL)
 const e2eBaseURL = remoteBaseURL ?? localBaseURL
 
 /**
