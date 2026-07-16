@@ -17,45 +17,45 @@ export default function PrivacyPage(): ReactElement {
     <main id="main-content">
       <PageHero description={PAGE_DESCRIPTION} eyebrow="PRIVACY" title="隐私说明" />
 
-      <section className="site-container py-16 sm:py-20 lg:py-24">
-        <SectionHeading
-          description="申请入口会将访客带到联盟配置的外部表单，本页帮助您理解跳转前后的边界。"
-          eyebrow="DATA BOUNDARY"
-          title="申请数据边界"
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
-          <article className="surface-card p-6 sm:p-8">
-            <h3 className="text-xl font-semibold text-[var(--alliance-text-title)]">官网</h3>
-            <p className="mt-4 leading-8 text-[var(--alliance-text-secondary)]">
-              官网不接收、代理或存储申请数据，也不提供站内申请提交、材料处理或申请状态服务。
-            </p>
-          </article>
-          <article className="surface-card p-6 sm:p-8">
-            <h3 className="text-xl font-semibold text-[var(--alliance-text-title)]">外部表单</h3>
-            <p className="mt-4 leading-8 text-[var(--alliance-text-secondary)]">
-              飞书表单为外部服务。离开官网后，您填写和提交的信息将由该外部服务页面承接。
-            </p>
-          </article>
+      <section className="block">
+        <div className="site-container">
+          <SectionHeading
+            description="申请入口会将访客带到联盟配置的外部表单，本页帮助您理解跳转前后的边界。"
+            eyebrow="DATA BOUNDARY"
+            title="申请数据边界"
+          />
+          <div className="grid-2">
+            <article className="card">
+              <h3>官网</h3>
+              <p>官网不接收、代理或存储申请数据，也不提供站内申请提交、材料处理或申请状态服务。</p>
+            </article>
+            <article className="card">
+              <h3>外部表单</h3>
+              <p>飞书表单为外部服务。离开官网后，您填写和提交的信息将由该外部服务页面承接。</p>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section className="bg-[var(--alliance-bg-subtle)]">
-        <div className="site-container py-16 sm:py-20 lg:py-24">
+      <section className="block block--subtle">
+        <div className="site-container">
           <SectionHeading eyebrow="BEFORE SUBMITTING" title="提交前请确认" />
-          <div className="mt-8 max-w-4xl rounded-3xl border border-[var(--alliance-border)] bg-[var(--alliance-bg-surface)] p-7 sm:p-9">
-            <p className="text-lg leading-8 text-[var(--alliance-text-primary)]">
+          <div className="prose">
+            <p>
               外部表单可能说明收集字段、使用目的、保存安排及联系渠道。请在提交前阅读相关说明，并以表单内的隐私告知为准；本页不替代该告知。
             </p>
           </div>
         </div>
       </section>
 
-      <section className="site-container py-16 sm:py-20">
-        <SectionHeading
-          description="如对官网隐私边界或外部申请入口有疑问，请通过官网公布的联盟联系方式咨询；正式联系信息将在发布前补充。"
-          eyebrow="CONTACT"
-          title="联系联盟"
-        />
+      <section className="block">
+        <div className="site-container">
+          <SectionHeading
+            description="如对官网隐私边界或外部申请入口有疑问，请通过官网公布的联盟联系方式咨询；正式联系信息将在发布前补充。"
+            eyebrow="CONTACT"
+            title="联系联盟"
+          />
+        </div>
       </section>
     </main>
   )
