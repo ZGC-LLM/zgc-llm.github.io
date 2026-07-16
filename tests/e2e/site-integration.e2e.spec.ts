@@ -37,6 +37,16 @@ test.describe('site integration', () => {
     expect(hasHorizontalOverflow).toBe(false)
   })
 
+  test('navigation remains available at the 1024px breakpoint', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await page.goto('/')
+
+    const menu = page.locator('header details.mobile-menu')
+    await expect(menu.locator('summary')).toBeVisible()
+    await menu.locator('summary').click()
+    await expect(page.getByRole('navigation', { name: '移动导航' })).toBeVisible()
+  })
+
   test('primary journey reaches the ecosystem and application pages', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('main').getByRole('link', { name: '了解网络安全生态' }).click()

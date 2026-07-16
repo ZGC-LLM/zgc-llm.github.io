@@ -13,14 +13,16 @@ import {
 const PAGE_DESCRIPTION =
   '连接专业用户、机构伙伴、真实场景与能力评测，共建厂商中立、安全可治理、可持续演进的网络安全产业生态。'
 
-const ROLE_DESCRIPTIONS: Readonly<Record<string, string>> = {
+type CybersecurityRole = (typeof CYBERSECURITY_ECOSYSTEM.roles)[number]
+
+const ROLE_DESCRIPTIONS = {
   专业用户: '参与任务定义、专业验证与结果反馈。',
   安全企业: '提供产品经验、工具链与合规的行业需求。',
   基础模型厂商: '以开放、对等的方式参与能力验证与持续改进。',
   高校与实验室: '贡献研究方法、评测体系与专业人才。',
   行业客户: '开放经授权的业务需求，验证产品化与落地价值。',
   生态运营伙伴: '协调活动、资源与产业链协作，支持成果推广。',
-}
+} satisfies Readonly<Record<CybersecurityRole, string>>
 
 export const metadata: Metadata = {
   alternates: {

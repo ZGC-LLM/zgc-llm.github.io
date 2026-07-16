@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 import { config } from 'dotenv'
 
+import { resolveE2EPort } from './tests/helpers/e2eConfig'
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -11,8 +13,10 @@ if (process.env.TEST_DATABASE_URL) {
   process.env.DATABASE_URL = process.env.TEST_DATABASE_URL
 }
 
-const e2ePort = Number(process.env.E2E_PORT ?? '3100')
-const e2eBaseURL = process.env.E2E_BASE_URL ?? `http://127.0.0.1:${e2ePort}`
+const e2ePort = resolveE2EPort(process.env.E2E_PORT)
+const localBaseURL = `http://127.0.0.1:${e2ePort}`
+const remoteBaseURL = process.env.E2E_BASE_URL
+const e2eBaseURL = remoteBaseURL ?? localBaseURL
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -40,10 +44,12 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], channel: 'chromium' },
     },
   ],
-  webServer: {
-    command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
-    reuseExistingServer: false,
-    timeout: 120_000,
-    url: e2eBaseURL,
-  },
+  webServer: remoteBaseURL
+    ? undefined
+    : {
+        command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
+        reuseExistingServer: false,
+        timeout: 120_000,
+        url: localBaseURL,
+      },
 })

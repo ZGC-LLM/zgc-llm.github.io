@@ -11,8 +11,4 @@
     # 创建 worktree 时复制的文件模式（glob patterns）
     include = .env.example
 
-    # 创建 worktree 时自动创建符号链接的目录
-    includeDirs = node_modules
-    includeDirs = .next
-    includeDirs = build
-    includeDirs = dist
+    # 依赖与构建产物由各 worktree 独立生成，避免 pnpm 类型重复和开发锁冲突。

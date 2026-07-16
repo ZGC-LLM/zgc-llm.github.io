@@ -80,7 +80,7 @@ src/
 │   ├── cybersecurity.ts
 │   ├── members.ts
 │   ├── news.ts
-│   └── site.ts
+│   └── working-groups.ts
 ├── config/site.ts
 └── types/content.ts
 ```

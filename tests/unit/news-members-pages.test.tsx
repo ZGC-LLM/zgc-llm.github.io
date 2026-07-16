@@ -124,9 +124,12 @@ describe('news detail page', () => {
     expect(metadata.alternates).toEqual({ canonical: '/news/confirmed-update' })
   })
 
-  it('test_news_detail_unknown_or_unpublished_slug_returns_not_found', async () => {
-    await expect(
-      NewsArticlePage({ params: Promise.resolve({ slug: 'internal-draft' }) }),
-    ).rejects.toThrow('NEXT_NOT_FOUND')
-  })
+  it.each(['internal-draft', 'missing-entry'])(
+    'test_news_detail_unknown_or_unpublished_slug_returns_not_found: %s',
+    async (slug) => {
+      await expect(NewsArticlePage({ params: Promise.resolve({ slug }) })).rejects.toThrow(
+        'NEXT_NOT_FOUND',
+      )
+    },
+  )
 })

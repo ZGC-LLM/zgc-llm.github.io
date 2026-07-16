@@ -14,6 +14,8 @@ describe('site configuration', () => {
     expect(SITE_NAME).toBe('中关村自主大模型产业联盟')
     expect(resolveSiteUrl()).toBe('https://www.zgcllm.org.cn')
     expect(resolveSiteUrl('http://localhost:3000')).toBe('http://localhost:3000')
+    expect(resolveSiteUrl('not-a-url')).toBe('https://www.zgcllm.org.cn')
+    expect(resolveSiteUrl('javascript:alert(1)')).toBe('https://www.zgcllm.org.cn')
   })
 
   it('defines unique public navigation destinations', () => {

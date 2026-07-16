@@ -31,7 +31,7 @@ export function SiteHeader(): ReactElement {
           <NavigationLinks />
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <Link className="button-secondary" href="/professionals">
             专业用户加入
           </Link>
@@ -40,7 +40,7 @@ export function SiteHeader(): ReactElement {
           </Link>
         </div>
 
-        <details className="mobile-menu lg:hidden">
+        <details className="mobile-menu xl:hidden">
           <summary aria-label="打开网站导航" className="mobile-menu__trigger">
             <span aria-hidden="true">菜单</span>
           </summary>

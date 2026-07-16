@@ -9,8 +9,18 @@ export const SITE_NAME = '中关村自主大模型产业联盟'
 export const SITE_DESCRIPTION =
   '中关村自主大模型产业联盟官方网站，连接自主大模型产业力量，发布联盟动态、重点专项与生态合作信息。'
 
+const DEFAULT_SITE_URL = 'https://www.zgcllm.org.cn'
+
 export function resolveSiteUrl(configuredUrl?: string): string {
-  return configuredUrl || 'https://www.zgcllm.org.cn'
+  if (!configuredUrl) return DEFAULT_SITE_URL
+
+  try {
+    const url = new URL(configuredUrl)
+
+    return url.protocol === 'http:' || url.protocol === 'https:' ? configuredUrl : DEFAULT_SITE_URL
+  } catch {
+    return DEFAULT_SITE_URL
+  }
 }
 
 export const SITE_URL = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)

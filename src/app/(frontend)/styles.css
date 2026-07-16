@@ -17,7 +17,7 @@
   --alliance-bg-subtle: #edf3f8;
   --alliance-bg-hero: #071b37;
   --alliance-border: #dbe3ec;
-  --alliance-focus: #27c7dc;
+  --alliance-focus: #075ea8;
   --alliance-success: #278451;
   --alliance-warning: #a96908;
   --alliance-shadow: 0 20px 60px rgb(7 27 55 / 10%);
@@ -60,6 +60,11 @@ summary:focus-visible {
   border-radius: 4px;
   outline: 3px solid var(--alliance-focus);
   outline-offset: 3px;
+}
+
+.button-primary:focus-visible {
+  outline-color: var(--alliance-text-inverse);
+  outline-offset: -5px;
 }
 
 .site-container {

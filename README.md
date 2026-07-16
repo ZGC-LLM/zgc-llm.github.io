@@ -56,6 +56,8 @@ pnpm generate:types  # 根据 Payload 配置生成类型
 
 Playwright 默认在隔离的 `127.0.0.1:3100` 启动测试站点，避免误复用开发中的 3000 端口。可通过 `E2E_PORT` 或 `E2E_BASE_URL` 覆盖。
 
+设置 `E2E_BASE_URL` 时，Playwright 仅访问该外部目标，不再启动本地开发服务器。
+
 ## 内容与申请入口维护
 
 - 站点名称、导航、公开路由和申请目标：`src/config/site.ts`
@@ -71,6 +73,18 @@ NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/fo
 ```
 
 仅接受 HTTPS 地址。未配置或地址非法时，页面会显示不可点击状态和联系回退，不会产生死链。申请数据由飞书表单及飞书多维表格承接，官网不接收或保存申请数据。
+
+这些公开环境变量会在 Next.js 构建时写入静态页面。构建生产 Docker 镜像时必须传入：
+
+```bash
+docker build \
+  --build-arg NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
+  --build-arg NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://www.zgcllm.org.cn \
+  -t zgcllm-website .
+```
+
+仅在容器启动时注入上述变量不会改变已经静态生成的申请链接。
 
 ## 公开路由
 
