@@ -69,7 +69,7 @@
 | 主题 | ✅ | light/dark 完整，含对比度校对 |
 | 状态 | ✅ | 首页/成员/新闻 filled+empty；⚠️ loading 态跳过——纯静态展示站无异步加载 |
 | a11y | ✅ | skip-link / aria-current / aria-label / focus-visible / 语义标签 |
-| i18n | ✅ | CN/EN 双份文案 + 切换；英文长词已测不破版；RTL 暂不考虑（无阿拉伯/希伯来语需求） |
+| i18n | 🟡 本轮部分 | **本轮仅语言 toggle UI 占位**（含 aria-label，不切换正文、不改 `html lang`、无 next-intl）；完整 CN/EN 双份内容延后另开 feature（以 §1 范围、§2 语言 toggle 项为准）。RTL 暂不考虑（无阿拉伯/希伯来语需求）。 |
 
 ## 6. 落地建议（不强制，由 dev-spec-dev 决定）
 

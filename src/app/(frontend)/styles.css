@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* 排除 docs/ 目录：设计文档中出现的示意性工具类字面量（如 bg-[var(--alliance-*)]）
+   会被 Tailwind 源扫描误当成真实类并生成非法 CSS，导致 next dev(Turbopack) 解析失败。
+   文档不应驱动样式生成，故显式排除。 */
+@source not "../../../docs";
+
 /* ============================================================
    ZGCLLM Design Language v2 — application stylesheet
    Source of truth: docs/design/prototypes/_design-system.css
