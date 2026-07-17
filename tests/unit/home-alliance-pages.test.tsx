@@ -73,9 +73,9 @@ describe('working groups page', () => {
     render(<WorkingGroupsPage />)
 
     expect(screen.getByRole('heading', { level: 1, name: '工作组' })).toBeTruthy()
-    expect(screen.getByRole('heading', { level: 3, name: '网络安全生态' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: /查看网络安全生态/ }).getAttribute('href')).toBe(
-      '/cybersecurity',
+    expect(screen.getByRole('heading', { level: 3, name: '网络安全工作组' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: /查看网络安全工作组/ }).getAttribute('href')).toBe(
+      '/working-groups/cybersecurity',
     )
     expect(screen.getByText(/其余工作组信息将在确认后发布/)).toBeTruthy()
     expect(screen.getByRole('main').id).toBe('main-content')

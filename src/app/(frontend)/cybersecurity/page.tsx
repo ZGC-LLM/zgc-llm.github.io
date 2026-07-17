@@ -31,6 +31,9 @@ export default function CybersecurityPage(): ReactElement {
             <Link className="btn btn--primary" href="/join">
               机构合作申请
             </Link>
+            <Link className="btn btn--ghost" href="/working-groups/cybersecurity">
+              查看工作组组织信息
+            </Link>
           </>
         }
         description={CYBERSECURITY_ECOSYSTEM.summary}

@@ -36,7 +36,7 @@ export default function WorkingGroupsPage(): ReactElement {
                 <h3 style={{ fontSize: '24px' }}>{group.title}</h3>
                 <p>{group.description}</p>
                 <div style={{ marginTop: '24px' }}>
-                  <Link className="button-primary" href={group.href}>
+                  <Link className="button-primary" href={`/working-groups/${group.slug}`}>
                     查看{group.title}
                   </Link>
                 </div>
