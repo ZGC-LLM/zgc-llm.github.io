@@ -46,6 +46,12 @@ test.describe('site integration', () => {
     await expect(page.getByRole('navigation', { name: '主导航' })).toBeHidden()
     const trigger = page.locator('header details.mobile-menu summary')
     await expect(trigger).toBeVisible()
+
+    // 断点下沿边界：1279px（恰低于 1280）仍应收起为汉堡
+    await page.setViewportSize({ width: 1279, height: 768 })
+    await expect(page.getByRole('navigation', { name: '主导航' })).toBeHidden()
+    await expect(trigger).toBeVisible()
+
     await trigger.click()
     await expect(
       page.getByRole('navigation', { name: '移动导航' }).getByRole('link', { name: '网络安全生态' }),
