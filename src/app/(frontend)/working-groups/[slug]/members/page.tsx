@@ -48,10 +48,12 @@ export async function generateMetadata({
 }
 
 interface WorkingGroupMembersDirectoryProps {
+  group: WorkingGroupSummary
   members: readonly WorkingGroupMember[]
 }
 
 export function WorkingGroupMembersDirectory({
+  group,
   members,
 }: WorkingGroupMembersDirectoryProps): ReactElement {
   if (members.length === 0) {
@@ -61,8 +63,8 @@ export function WorkingGroupMembersDirectory({
           <div className="empty">
             <h3>成员名单整理中</h3>
             <p>成员名单将在获得公开授权后发布，我们不会使用未获授权的名单或标识填充页面。</p>
-            <Link className="btn btn--primary" href="/join">
-              了解生态共建
+            <Link className="btn btn--primary" href={`/working-groups/${group.slug}/join`}>
+              申请加入本工作组
             </Link>
           </div>
         </div>
@@ -115,7 +117,7 @@ export default async function WorkingGroupMembersPage({
         eyebrow={group.title}
         title="成员名单"
       />
-      <WorkingGroupMembersDirectory members={members} />
+      <WorkingGroupMembersDirectory group={group} members={members} />
     </main>
   )
 }

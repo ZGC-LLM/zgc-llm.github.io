@@ -50,7 +50,10 @@ test.describe('工作组导航链路', () => {
     await expect(
       main.getByText('成员名单将在获得公开授权后发布', { exact: false }),
     ).toBeVisible()
-    await expect(main.getByRole('link', { name: '了解生态共建' })).toHaveAttribute('href', '/join')
+    await expect(main.getByRole('link', { name: '申请加入本工作组' })).toHaveAttribute(
+      'href',
+      '/working-groups/cybersecurity/join',
+    )
   })
 
   test('加入工作组页提供专业用户申请入口（按当前渲染状态断言）', async ({ page }) => {

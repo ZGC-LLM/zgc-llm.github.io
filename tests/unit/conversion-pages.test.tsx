@@ -43,6 +43,8 @@ describe('professional conversion page', () => {
   it('is reintroduced as a working-group join target, not a standalone /professionals page', () => {
     expect(APPLICATION_TARGETS).toHaveProperty('professional')
     expect(APPLICATION_TARGETS.professional.internalHref).toBe('/working-groups/cybersecurity/join')
+    // 历史决策：professional 类型复活仅作为工作组加入入口，/professionals 独立页仍不存在
+    expect(APPLICATION_TARGETS.professional.internalHref).not.toMatch(/^\/professionals\b/)
   })
 })
 
