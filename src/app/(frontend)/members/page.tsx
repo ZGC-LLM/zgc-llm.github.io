@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { buildAlternates } from '@/i18n/routing'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
@@ -9,7 +10,7 @@ import { MEMBERS } from '@/content/members'
 import type { MemberSummary } from '@/types/content'
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/members' },
+  alternates: buildAlternates('/members', 'zh'),
   description: '展示经公开授权的联盟成员与生态伙伴，连接产业、科研与生态协作力量。',
   title: '成员伙伴',
 }

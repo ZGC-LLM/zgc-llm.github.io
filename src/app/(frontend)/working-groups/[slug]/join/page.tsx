@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { buildAlternates } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
 
@@ -47,7 +48,7 @@ export function createWorkingGroupJoinMetadata(group: WorkingGroupSummary): Meta
   const description = `了解专业用户加入${group.title}的参与价值、路径与申请流程。`
 
   return {
-    alternates: { canonical: `/working-groups/${group.slug}/join` },
+    alternates: buildAlternates(`/working-groups/${group.slug}/join`, 'zh'),
     description,
     openGraph: {
       description,

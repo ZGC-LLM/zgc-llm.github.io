@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { buildAlternates } from '@/i18n/routing'
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
@@ -7,7 +8,7 @@ import { SectionHeading } from '@/components/site/section-heading'
 import { WORKING_GROUPS } from '@/content/working-groups'
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/working-groups' },
+  alternates: buildAlternates('/working-groups', 'zh'),
   description: '了解联盟工作组，查看已公开的协作方向与参与入口。',
   title: '工作组',
 }

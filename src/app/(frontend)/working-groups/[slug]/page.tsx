@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { buildAlternates } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
@@ -21,7 +22,7 @@ export function generateStaticParams(): { slug: string }[] {
 
 export function createWorkingGroupMetadata(group: WorkingGroupSummary): Metadata {
   return {
-    alternates: { canonical: `/working-groups/${group.slug}` },
+    alternates: buildAlternates(`/working-groups/${group.slug}`, 'zh'),
     description: group.description,
     openGraph: {
       description: group.description,

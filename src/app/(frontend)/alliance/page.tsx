@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { buildAlternates } from '@/i18n/routing'
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
@@ -13,7 +14,7 @@ import {
 } from '@/content/alliance'
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/alliance' },
+  alternates: buildAlternates('/alliance', 'zh'),
   description: '了解中关村自主大模型产业联盟的宗旨、联盟简介、共同价值与协作机制，及其如何连接产业力量、推动开放安全协同。',
   title: '联盟介绍',
 }

@@ -1,4 +1,5 @@
 import { cleanup, render, screen, within } from '@testing-library/react'
+import { buildAlternates } from '@/i18n/routing'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import JoinPage, { metadata as joinMetadata } from '@/app/(frontend)/join/page'
@@ -35,7 +36,7 @@ describe('institution conversion page', () => {
   it('defines page-specific metadata', () => {
     expect(joinMetadata.title).toBe('机构生态共建')
     expect(joinMetadata.description).toMatch(/机构|生态共建/)
-    expect(joinMetadata.alternates).toEqual({ canonical: '/join' })
+    expect(joinMetadata.alternates).toEqual(buildAlternates('/join', 'zh'))
   })
 })
 
@@ -63,6 +64,6 @@ describe('privacy page', () => {
   it('defines page-specific metadata', () => {
     expect(privacyMetadata.title).toBe('隐私说明')
     expect(privacyMetadata.description).toMatch(/隐私|外部表单/)
-    expect(privacyMetadata.alternates).toEqual({ canonical: '/privacy' })
+    expect(privacyMetadata.alternates).toEqual(buildAlternates('/privacy', 'zh'))
   })
 })

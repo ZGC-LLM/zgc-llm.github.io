@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { buildAlternates } from '@/i18n/routing'
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
@@ -10,9 +11,7 @@ const PAGE_DESCRIPTION =
   '连接专业用户、机构伙伴、真实场景与能力评测，共建厂商中立、安全可治理、可持续演进的网络安全产业生态。'
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: '/cybersecurity',
-  },
+  alternates: buildAlternates('/cybersecurity', 'zh'),
   description: PAGE_DESCRIPTION,
   openGraph: {
     description: PAGE_DESCRIPTION,

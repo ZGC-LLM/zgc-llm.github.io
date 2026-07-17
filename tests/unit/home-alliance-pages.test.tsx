@@ -1,4 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react'
+import { buildAlternates } from '@/i18n/routing'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import AlliancePage, { metadata as allianceMetadata } from '@/app/(frontend)/alliance/page'
@@ -44,7 +45,7 @@ describe('home page', () => {
   it('defines page-specific metadata', () => {
     expect(homeMetadata.title).toEqual({ absolute: '首页｜中关村自主大模型产业联盟' })
     expect(homeMetadata.description).toMatch(/产业生态/)
-    expect(homeMetadata.alternates).toEqual({ canonical: '/' })
+    expect(homeMetadata.alternates).toEqual(buildAlternates('/', 'zh'))
   })
 })
 
@@ -64,7 +65,7 @@ describe('alliance page', () => {
   it('defines page-specific metadata', () => {
     expect(allianceMetadata.title).toBe('联盟介绍')
     expect(allianceMetadata.description).toMatch(/宗旨|协同/)
-    expect(allianceMetadata.alternates).toEqual({ canonical: '/alliance' })
+    expect(allianceMetadata.alternates).toEqual(buildAlternates('/alliance', 'zh'))
   })
 })
 
@@ -84,6 +85,6 @@ describe('working groups page', () => {
   it('defines page-specific metadata', () => {
     expect(workingGroupsMetadata.title).toBe('工作组')
     expect(workingGroupsMetadata.description).toMatch(/工作组/)
-    expect(workingGroupsMetadata.alternates).toEqual({ canonical: '/working-groups' })
+    expect(workingGroupsMetadata.alternates).toEqual(buildAlternates('/working-groups', 'zh'))
   })
 })

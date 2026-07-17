@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { buildAlternates } from '@/i18n/routing'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -24,7 +25,7 @@ export function createWorkingGroupMembersMetadata(group: WorkingGroupSummary): M
   const description = `查看${group.title}的公开授权成员名单。`
 
   return {
-    alternates: { canonical: `/working-groups/${group.slug}/members` },
+    alternates: buildAlternates(`/working-groups/${group.slug}/members`, 'zh'),
     description,
     openGraph: {
       description,

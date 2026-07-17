@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { buildAlternates } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
@@ -7,7 +8,7 @@ import { getPublishedNews, NEWS_ENTRIES } from '@/content/news'
 import type { NewsCategory, NewsEntry } from '@/types/content'
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/news' },
+  alternates: buildAlternates('/news', 'zh'),
   description: '查看联盟动态、活动通知、行业观察与阶段成果。',
   title: '新闻动态',
 }

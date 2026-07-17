@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { buildAlternates } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
@@ -33,7 +34,7 @@ export function generateStaticParams(): { slug: string }[] {
 
 export function createNewsMetadata(entry: NewsEntry): Metadata {
   return {
-    alternates: { canonical: `/news/${entry.slug}` },
+    alternates: buildAlternates(`/news/${entry.slug}`, 'zh'),
     description: entry.description,
     openGraph: {
       description: entry.description,

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { buildAlternates } from '@/i18n/routing'
 import type { ReactElement } from 'react'
 
 import { ExternalApplicationLink } from '@/components/site/external-application-link'
@@ -33,7 +34,7 @@ const FAQ = [
 ] as const
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/join' },
+  alternates: buildAlternates('/join', 'zh'),
   description: PAGE_DESCRIPTION,
   title: '机构生态共建',
 }

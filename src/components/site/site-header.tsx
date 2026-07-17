@@ -6,6 +6,7 @@ import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
+import { LanguageToggle } from './language-toggle'
 import { SiteNavigationLink } from './site-navigation-link'
 
 // 导航路由 → 字典 nav 键，用于按 locale 取标签。
@@ -66,6 +67,7 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
           <Link className="button-primary" href={localizePath('/join', locale)}>
             {t.institutionApply}
           </Link>
+          <LanguageToggle locale={locale} />
         </div>
 
         {/* 窄屏(<1280px)常驻控件簇：「菜单」按钮在任何宽度都伸手可点，
@@ -86,6 +88,9 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
                 >
                   {t.institutionApply}
                 </Link>
+              </div>
+              <div className="mt-4 flex justify-center gap-3 border-t border-[var(--alliance-border)] pt-4">
+                <LanguageToggle locale={locale} />
               </div>
             </div>
           </details>

@@ -1,4 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react'
+import { buildAlternates } from '@/i18n/routing'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import type { MemberSummary, NewsEntry } from '@/types/content'
@@ -101,7 +102,7 @@ describe('members page', () => {
   it('test_members_metadata_page_has_independent_title_and_canonical', () => {
     expect(membersMetadata.title).toBe('成员伙伴')
     expect(membersMetadata.description).toContain('公开授权')
-    expect(membersMetadata.alternates).toEqual({ canonical: '/members' })
+    expect(membersMetadata.alternates).toEqual(buildAlternates('/members', 'zh'))
   })
 })
 
@@ -134,7 +135,7 @@ describe('news list page', () => {
   it('test_news_metadata_page_has_independent_title_and_canonical', () => {
     expect(newsMetadata.title).toBe('新闻动态')
     expect(newsMetadata.description).toContain('联盟动态')
-    expect(newsMetadata.alternates).toEqual({ canonical: '/news' })
+    expect(newsMetadata.alternates).toEqual(buildAlternates('/news', 'zh'))
   })
 })
 
@@ -212,7 +213,7 @@ describe('news detail page', () => {
 
     expect(metadata.title).toBe('已确认动态')
     expect(metadata.description).toBe('经确认可公开的阶段信息。')
-    expect(metadata.alternates).toEqual({ canonical: '/news/confirmed-update' })
+    expect(metadata.alternates).toEqual(buildAlternates('/news/confirmed-update', 'zh'))
   })
 
   it.each(['internal-draft', 'missing-entry'])(
