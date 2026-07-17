@@ -11,9 +11,9 @@
 ## 域名（重要）
 
 - **正式主域名：`www.zgc-llm.org.cn`（带连字符）**。canonical、sitemap、robots、邮箱均以此为准。
-- `zgc-llm.cn`、`zgc-llm.net` 为品牌保护域名，上线时 301 跳转到主域名。
+- `zgc-llm.cn`、`zgc-llm.net` 为品牌保护域名，上线时 301 跳转到主域名。无连字符的 `zgcllm.org.cn`、`zgcllm.cn`、`zgcllm.net` 仅作防御性注册并 301 跳转到主域名，不作正式对外服务域名。
 - 域名集中在 `src/config/site.ts`（`DEFAULT_SITE_URL`），生产由 `NEXT_PUBLIC_SITE_URL` 注入。
-- 改动域名时必须同步：`src/config/site.ts`、`public/CNAME`、`.github/workflows/deploy-pages.yml`、`.github/workflows/ci.yml`、`Dockerfile`、`src/components/site/site-footer.tsx`、README 与 docs。切勿把 `zgc-llm` 写成无连字符的 `zgcllm`（`zgcllm` 仅用于品牌名、包名和 localStorage key，不用于域名）。
+- 改动域名时必须同步：`src/config/site.ts`、`public/CNAME`、`.github/workflows/deploy-pages.yml`、`.github/workflows/ci.yml`、`Dockerfile`、`src/components/site/site-footer.tsx`、README 与 docs。正式对外服务与 canonical 一律用带连字符的 `zgc-llm`；无连字符的 `zgcllm` 仅用于品牌名、包名、localStorage key，以及上述防御性注册并 301 跳转的备用域名，不作为对外服务/ canonical 域名。
 
 ## 常用命令
 
