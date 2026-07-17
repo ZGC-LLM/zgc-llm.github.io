@@ -16,9 +16,9 @@ test.describe('home, alliance, and working groups', () => {
     const professionalLink = page.getByRole('main').getByRole('link', { name: '专业用户加入' })
 
     await expect(institutionLink).toHaveAttribute('href', '/join')
-    await expect(institutionLink).toHaveClass(/button-primary/)
+    await expect(institutionLink).toHaveClass(/btn--primary/)
     await expect(professionalLink).toHaveAttribute('href', '/professionals')
-    await expect(professionalLink).toHaveClass(/button-secondary/)
+    await expect(professionalLink).toHaveClass(/btn--ghost/)
     await expect(page.getByRole('link', { name: /了解网络安全生态/ })).toHaveAttribute(
       'href',
       '/cybersecurity',
@@ -40,7 +40,7 @@ test.describe('home, alliance, and working groups', () => {
 
     await expect(page).toHaveTitle(/工作组与专项.*中关村自主大模型产业联盟/)
     await expect(page.getByRole('heading', { level: 1, name: '工作组与专项' })).toBeVisible()
-    await expect(page.getByRole('heading', { level: 2, name: '网络安全生态' })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 3, name: '网络安全生态' })).toBeVisible()
     await expect(page.getByRole('link', { name: /查看网络安全生态/ })).toHaveAttribute(
       'href',
       '/cybersecurity',

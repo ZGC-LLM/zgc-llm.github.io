@@ -21,42 +21,51 @@ export default function WorkingGroupsPage(): ReactElement {
         title="工作组与专项"
       />
 
-      <section className="site-container py-16 sm:py-20 lg:py-24">
-        <SectionHeading
-          description="以下仅展示已经确认并可公开的重点专项；其余方向将在信息确认后陆续发布。"
-          eyebrow="公开专项"
-          title="聚焦真实议题，形成持续协作"
-        />
+      <section className="block">
+        <div className="site-container">
+          <SectionHeading
+            description="以下仅展示已经确认并可公开的重点专项；其余方向将在信息确认后陆续发布。"
+            eyebrow="公开专项"
+            title="聚焦真实议题，形成持续协作"
+          />
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          {WORKING_GROUPS.map((group) => (
-            <article className="surface-card flex flex-col p-6 sm:p-8" key={group.id}>
-              <p className="eyebrow">{group.kind === 'initiative' ? '重点专项' : '工作组'}</p>
-              <h2 className="mt-4 text-2xl font-semibold text-[var(--alliance-text-title)] sm:text-3xl">
-                {group.title}
-              </h2>
-              <p className="mt-4 flex-1 leading-8 text-[var(--alliance-text-secondary)]">
-                {group.description}
+          <div className="grid-2">
+            {WORKING_GROUPS.map((group) => (
+              <article className="card" key={group.id}>
+                <p className="eyebrow">{group.kind === 'initiative' ? '重点专项' : '工作组'}</p>
+                <h3 style={{ fontSize: '24px' }}>{group.title}</h3>
+                <p>{group.description}</p>
+                <div style={{ marginTop: '24px' }}>
+                  <Link className="button-primary" href={group.href}>
+                    查看{group.title}
+                  </Link>
+                </div>
+              </article>
+            ))}
+
+            <aside
+              className="empty"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: 0,
+                textAlign: 'left',
+              }}
+            >
+              <h3>持续开放协作方向</h3>
+              <p style={{ marginLeft: 0 }}>
+                其余工作组信息将在确认后发布，不以未经确认的名称、负责人或成果作为公开内容。
               </p>
-              <div className="mt-7">
-                <Link className="button-primary" href={group.href}>
-                  查看{group.title}
-                </Link>
-              </div>
-            </article>
-          ))}
-
-          <aside className="rounded-2xl border border-dashed border-[var(--alliance-border)] bg-[var(--alliance-bg-subtle)] p-6 sm:p-8">
-            <p className="text-lg font-semibold text-[var(--alliance-text-title)]">
-              持续开放协作方向
-            </p>
-            <p className="mt-4 leading-8 text-[var(--alliance-text-secondary)]">
-              其余工作组信息将在确认后发布，不以未经确认的名称、负责人或成果作为公开内容。
-            </p>
-            <Link className="button-secondary mt-7" href="/join">
-              了解联盟参与方式
-            </Link>
-          </aside>
+              <Link
+                className="button-secondary"
+                href="/join"
+                style={{ alignSelf: 'flex-start', marginTop: '22px' }}
+              >
+                了解联盟参与方式
+              </Link>
+            </aside>
+          </div>
         </div>
       </section>
     </main>

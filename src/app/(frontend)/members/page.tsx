@@ -32,59 +32,57 @@ interface MembersDirectoryProps {
 export function MembersDirectory({ members }: MembersDirectoryProps): ReactElement {
   if (members.length === 0) {
     return (
-      <div className="surface-card px-6 py-12 text-center sm:px-10">
-        <h2 className="text-2xl font-semibold text-[var(--alliance-text-title)]">
-          成员信息整理中
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl leading-8 text-[var(--alliance-text-secondary)]">
-          成员名称与品牌标识将在完成公开授权确认后发布。我们不会使用未获授权的名单或标识填充页面。
-        </p>
-        <Link className="button-primary mt-8" href="/join">
-          了解生态共建
-        </Link>
-      </div>
+      <section className="block">
+        <div className="site-container">
+          <div className="empty">
+            <h3>成员信息整理中</h3>
+            <p>成员名称与品牌标识将在完成公开授权确认后发布。我们不会使用未获授权的名单或标识填充页面。</p>
+            <Link className="btn btn--primary" href="/join">
+              了解生态共建
+            </Link>
+          </div>
+        </div>
+      </section>
     )
   }
 
   return (
-    <div className="grid gap-14">
-      {MEMBER_GROUPS.map((group) => {
-        const groupMembers = members.filter((member) => member.type === group.type)
-
-        if (groupMembers.length === 0) return null
-
-        return (
-          <section key={group.type}>
-            <SectionHeading description={group.description} title={group.label} />
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {groupMembers.map((member) => (
-                <article className="surface-card min-w-0 p-6" key={member.id}>
-                  {member.logo ? (
-                    <div className="mb-5 flex min-h-20 items-center justify-center rounded-xl bg-[var(--alliance-bg-subtle)] p-4">
-                      <Image
-                        alt={`${member.name}标识`}
-                        className="max-h-14 w-auto object-contain"
-                        height={56}
-                        src={member.logo}
-                        width={180}
-                      />
-                    </div>
-                  ) : null}
-                  <h3 className="text-lg font-semibold text-[var(--alliance-text-title)]">
-                    {member.name}
-                  </h3>
-                  {member.description ? (
-                    <p className="mt-3 leading-7 text-[var(--alliance-text-secondary)]">
-                      {member.description}
-                    </p>
-                  ) : null}
-                </article>
-              ))}
+    <>
+      {MEMBER_GROUPS.map((group) => ({
+        group,
+        groupMembers: members.filter((member) => member.type === group.type),
+      }))
+        .filter(({ groupMembers }) => groupMembers.length > 0)
+        .map(({ group, groupMembers }, renderIndex) => (
+          <section
+            className={renderIndex % 2 === 1 ? 'block block--subtle' : 'block'}
+            key={group.type}
+          >
+            <div className="site-container">
+              <SectionHeading description={group.description} title={group.label} />
+              <div className="grid-3">
+                {groupMembers.map((member) => (
+                  <article className="card min-w-0" key={member.id}>
+                    {member.logo ? (
+                      <div className="logo-tile">
+                        <Image
+                          alt={`${member.name}标识`}
+                          className="max-h-14 w-auto object-contain"
+                          height={56}
+                          src={member.logo}
+                          width={180}
+                        />
+                      </div>
+                    ) : null}
+                    <h3>{member.name}</h3>
+                    {member.description ? <p>{member.description}</p> : null}
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
-        )
-      })}
-    </div>
+        ))}
+    </>
   )
 }
 
@@ -96,9 +94,7 @@ export default function MembersPage(): ReactElement {
         eyebrow="MEMBERS & PARTNERS"
         title="成员伙伴"
       />
-      <div className="site-container py-16 sm:py-20 lg:py-24">
-        <MembersDirectory members={MEMBERS} />
-      </div>
+      <MembersDirectory members={MEMBERS} />
     </main>
   )
 }

@@ -30,7 +30,20 @@ export default function RootLayout(props: { children: React.ReactNode }): React.
   const { children } = props
 
   return (
-    <html data-scroll-behavior="smooth" lang="zh-CN">
+    <html data-scroll-behavior="smooth" lang="zh-CN" suppressHydrationWarning>
+      <head>
+        {/*
+          首帧无闪烁主题脚本：在 <body> 绘制前同步设定 html[data-theme]。
+          优先级 localStorage['zgcllm-theme'] > prefers-color-scheme > 'light'。
+          key 字面量须与 src/config/site.ts 的 THEME_STORAGE_KEY 保持一致
+          （内联脚本无法 import）。try/catch 兜底隐私模式 localStorage 抛错。
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('zgcllm-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}})();`,
+          }}
+        />
+      </head>
       <body>
         <a className="skip-link" href="#main-content">
           跳到主要内容

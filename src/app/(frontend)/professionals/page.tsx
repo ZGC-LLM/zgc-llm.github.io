@@ -46,56 +46,60 @@ export default function ProfessionalsPage(): ReactElement {
         title="专业用户加入"
       />
 
-      <section className="site-container py-16 sm:py-20 lg:py-24">
-        <SectionHeading
-          description="无论来自技术、研究、产业还是应用一线，都可以基于真实经验参与开放交流。"
-          eyebrow="WHO CAN JOIN"
-          title="适用人群"
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {AUDIENCES.map(([title, description]) => (
-            <article className="surface-card p-6 sm:p-7" key={title}>
-              <h3 className="text-xl font-semibold text-[var(--alliance-text-title)]">{title}</h3>
-              <p className="mt-4 leading-7 text-[var(--alliance-text-secondary)]">{description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-[var(--alliance-bg-subtle)]">
-        <div className="site-container py-16 sm:py-20 lg:py-24">
+      <section className="block">
+        <div className="site-container">
           <SectionHeading
-            description="参与内容取决于公开计划、议题需求和必要的授权边界。"
-            eyebrow="WAYS TO PARTICIPATE"
-            title="参与方式"
+            description="无论来自技术、研究、产业还是应用一线，都可以基于真实经验参与开放交流。"
+            eyebrow="WHO CAN JOIN"
+            title="适用人群"
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {WAYS.map(([title, description]) => (
-              <article className="surface-card p-6" key={title}>
-                <h3 className="text-xl font-semibold text-[var(--alliance-text-title)]">{title}</h3>
-                <p className="mt-3 leading-7 text-[var(--alliance-text-secondary)]">{description}</p>
+          <div className="grid-3">
+            {AUDIENCES.map(([title, description]) => (
+              <article className="card" key={title}>
+                <h3>{title}</h3>
+                <p>{description}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="site-container py-16 sm:py-20 lg:py-24">
-        <SectionHeading
-          description="联盟提供专业连接和公开参与机会，具体安排以各项活动或专项说明为准。"
-          eyebrow="PARTICIPANT BENEFITS"
-          title="参与权益"
-        />
-        <ul className="mt-10 grid gap-4">
-          {BENEFITS.map((benefit, index) => (
-            <li className="surface-card flex gap-5 p-5 sm:p-6" key={benefit}>
-              <span className="font-semibold text-[var(--alliance-brand-primary)]">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <span className="leading-8 text-[var(--alliance-text-primary)]">{benefit}</span>
-            </li>
-          ))}
-        </ul>
+      <section className="block block--subtle">
+        <div className="site-container">
+          <SectionHeading
+            description="参与内容取决于公开计划、议题需求和必要的授权边界。"
+            eyebrow="WAYS TO PARTICIPATE"
+            title="参与方式"
+          />
+          <div className="grid-3">
+            {WAYS.map(([title, description]) => (
+              <article className="card" key={title}>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="block">
+        <div className="site-container">
+          <SectionHeading
+            description="联盟提供专业连接和公开参与机会，具体安排以各项活动或专项说明为准。"
+            eyebrow="PARTICIPANT BENEFITS"
+            title="参与权益"
+          />
+          <ol className="dir-list" style={{ gridTemplateColumns: '1fr' }}>
+            {BENEFITS.map((benefit, index) => (
+              <li className="dir-item" key={benefit}>
+                <span className="n">{index + 1}</span>
+                <div className="body">
+                  <p>{benefit}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
     </main>
   )

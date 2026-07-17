@@ -24,9 +24,9 @@ describe('home page', () => {
     const professionalLink = screen.getByRole('link', { name: '专业用户加入' })
 
     expect(institutionLink.getAttribute('href')).toBe('/join')
-    expect(institutionLink.className).toContain('button-primary')
+    expect(institutionLink.className).toContain('btn--primary')
     expect(professionalLink.getAttribute('href')).toBe('/professionals')
-    expect(professionalLink.className).toContain('button-secondary')
+    expect(professionalLink.className).toContain('btn--ghost')
     expect(screen.getByRole('link', { name: /了解网络安全生态/ }).getAttribute('href')).toBe(
       '/cybersecurity',
     )
@@ -72,7 +72,7 @@ describe('working groups page', () => {
     render(<WorkingGroupsPage />)
 
     expect(screen.getByRole('heading', { level: 1, name: '工作组与专项' })).toBeTruthy()
-    expect(screen.getByRole('heading', { level: 2, name: '网络安全生态' })).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 3, name: '网络安全生态' })).toBeTruthy()
     expect(screen.getByRole('link', { name: /查看网络安全生态/ }).getAttribute('href')).toBe(
       '/cybersecurity',
     )

@@ -7,26 +7,39 @@ import './(frontend)/styles.css'
 
 export default function GlobalNotFound(): ReactElement {
   return (
-    <html data-scroll-behavior="smooth" lang="zh-CN">
+    <html data-scroll-behavior="smooth" lang="zh-CN" suppressHydrationWarning>
+      <head>
+        {/*
+          首帧无闪烁主题脚本：与 (frontend)/layout.tsx 保持一致。
+          global-not-found 是独立 HTML 页，不经过分组 layout，需自带脚本，
+          否则未知路由 404 页无法应用 data-theme（深色失效）。
+          key 字面量须与 src/config/site.ts 的 THEME_STORAGE_KEY 一致（内联脚本无法 import）。
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('zgcllm-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}})();`,
+          }}
+        />
+      </head>
       <body>
         <a className="skip-link" href="#main-content">
           跳到主要内容
         </a>
         <SiteHeader />
-        <main
-          className="site-container flex min-h-[60vh] max-w-3xl flex-col items-start justify-center py-24"
-          id="main-content"
-        >
-          <p className="eyebrow">404</p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[var(--alliance-text-title)] sm:text-5xl">
-            页面未找到
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--alliance-text-secondary)]">
-            抱歉，你访问的页面不存在、已移动，或暂未公开。
-          </p>
-          <Link className="button-primary mt-10" href="/">
-            返回首页
-          </Link>
+        <main className="site-container" id="main-content">
+          <div className="notfound">
+            <p className="eyebrow">404</p>
+            <h1>页面未找到</h1>
+            <p>抱歉，你访问的页面不存在、已移动，或暂未公开。</p>
+            <div style={{ marginTop: '34px', display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+              <Link className="btn btn--primary" href="/">
+                返回首页
+              </Link>
+              <Link className="btn btn--ghost" href="/news">
+                查看新闻动态
+              </Link>
+            </div>
+          </div>
         </main>
         <SiteFooter />
       </body>

@@ -52,68 +52,72 @@ export default function JoinPage(): ReactElement {
         title="机构生态共建"
       />
 
-      <section className="site-container py-16 sm:py-20 lg:py-24">
-        <SectionHeading
-          description="让机构能力与产业议题、真实场景和生态伙伴形成长期连接。"
-          eyebrow="WHY PARTICIPATE"
-          title="共建价值"
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {VALUES.map(([title, description]) => (
-            <article className="surface-card p-6 sm:p-7" key={title}>
-              <h3 className="text-xl font-semibold text-[var(--alliance-text-title)]">{title}</h3>
-              <p className="mt-4 leading-7 text-[var(--alliance-text-secondary)]">{description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-[var(--alliance-bg-subtle)]">
-        <div className="site-container py-16 sm:py-20 lg:py-24">
+      <section className="block">
+        <div className="site-container">
           <SectionHeading
-            description="可根据机构定位、专业能力与资源条件选择合适的协作切入点。"
-            eyebrow="WAYS TO CONTRIBUTE"
-            title="参与方式"
+            description="让机构能力与产业议题、真实场景和生态伙伴形成长期连接。"
+            eyebrow="WHY PARTICIPATE"
+            title="共建价值"
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {PARTICIPATION_PATHS.map(([title, description]) => (
-              <article className="surface-card p-6" key={title}>
-                <h3 className="text-xl font-semibold text-[var(--alliance-text-title)]">{title}</h3>
-                <p className="mt-3 leading-7 text-[var(--alliance-text-secondary)]">{description}</p>
+          <div className="grid-3">
+            {VALUES.map(([title, description]) => (
+              <article className="card" key={title}>
+                <h3>{title}</h3>
+                <p>{description}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="site-container py-16 sm:py-20 lg:py-24">
-        <SectionHeading
-          description="申请入口承接合作意向，后续协作以双方确认的目标与边界为准。"
-          eyebrow="COLLABORATION PROCESS"
-          title="参与流程"
-        />
-        <ol className="mt-10 grid gap-5 md:grid-cols-3">
-          {PROCESS.map(([title, description], index) => (
-            <li className="surface-card p-6" key={title}>
-              <p className="eyebrow">STEP {String(index + 1).padStart(2, '0')}</p>
-              <h3 className="mt-3 text-xl font-semibold text-[var(--alliance-text-title)]">{title}</h3>
-              <p className="mt-3 leading-7 text-[var(--alliance-text-secondary)]">{description}</p>
-            </li>
-          ))}
-        </ol>
+      <section className="block block--subtle">
+        <div className="site-container">
+          <SectionHeading
+            description="可根据机构定位、专业能力与资源条件选择合适的协作切入点。"
+            eyebrow="WAYS TO CONTRIBUTE"
+            title="参与方式"
+          />
+          <div className="grid-3">
+            {PARTICIPATION_PATHS.map(([title, description]) => (
+              <article className="card" key={title}>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className="border-t border-[var(--alliance-border)] bg-[var(--alliance-bg-surface)]">
-        <div className="site-container py-16 sm:py-20">
-          <SectionHeading eyebrow="FAQ" title="常见问题" />
-          <dl className="mt-10 grid gap-5 md:grid-cols-3">
-            {FAQ.map(([question, answer]) => (
-              <div className="surface-card p-6" key={question}>
-                <dt className="font-semibold text-[var(--alliance-text-title)]">{question}</dt>
-                <dd className="mt-3 leading-7 text-[var(--alliance-text-secondary)]">{answer}</dd>
-              </div>
+      <section className="block">
+        <div className="site-container">
+          <SectionHeading
+            description="申请入口承接合作意向，后续协作以双方确认的目标与边界为准。"
+            eyebrow="COLLABORATION PROCESS"
+            title="参与流程"
+          />
+          <ol className="grid-3">
+            {PROCESS.map(([title, description], index) => (
+              <li className="card" key={title}>
+                <p className="eyebrow">STEP {String(index + 1).padStart(2, '0')}</p>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </li>
             ))}
-          </dl>
+          </ol>
+        </div>
+      </section>
+
+      <section className="block block--subtle">
+        <div className="site-container">
+          <SectionHeading eyebrow="FAQ" title="常见问题" />
+          <div className="grid-3">
+            {FAQ.map(([question, answer]) => (
+              <article className="card" key={question}>
+                <h3>{question}</h3>
+                <p>{answer}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </main>

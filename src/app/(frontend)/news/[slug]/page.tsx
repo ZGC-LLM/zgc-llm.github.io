@@ -51,25 +51,17 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
 function ContentBlockView({ block }: { block: ContentBlock }): ReactElement {
   switch (block.type) {
     case 'heading':
-      return (
-        <h2 className="mt-12 text-2xl font-semibold tracking-tight text-[var(--alliance-text-title)] first:mt-0 sm:text-3xl">
-          {block.text}
-        </h2>
-      )
+      return <h2>{block.text}</h2>
     case 'list':
       return (
-        <ul className="my-6 list-disc space-y-3 pl-6 leading-8 text-[var(--alliance-text-primary)] marker:text-[var(--alliance-brand-primary)]">
+        <ul>
           {block.items.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
       )
     case 'paragraph':
-      return (
-        <p className="my-6 leading-8 text-[var(--alliance-text-primary)] sm:text-lg">
-          {block.text}
-        </p>
-      )
+      return <p>{block.text}</p>
   }
 }
 
@@ -77,23 +69,23 @@ export function NewsArticle({ entry }: NewsArticleProps): ReactElement {
   return (
     <>
       <PageHero description={entry.description} eyebrow={entry.category} title={entry.title} />
-      <article className="site-container max-w-4xl py-14 sm:py-18 lg:py-20">
-        <div className="border-b border-[var(--alliance-border)] pb-6">
-          <time className="text-sm text-[var(--alliance-text-secondary)]" dateTime={entry.date}>
-            发布日期：{entry.date}
-          </time>
+      <section className="block">
+        <div className="site-container">
+          <article className="prose">
+            <p className="meta">
+              发布日期：<time dateTime={entry.date}>{entry.date}</time>
+            </p>
+            {entry.body.map((block, index) => (
+              <ContentBlockView block={block} key={`${block.type}-${index}`} />
+            ))}
+            <div className="back">
+              <Link className="btn btn--ghost" href="/news">
+                ← 返回新闻中心
+              </Link>
+            </div>
+          </article>
         </div>
-        <div className="py-10">
-          {entry.body.map((block, index) => (
-            <ContentBlockView block={block} key={`${block.type}-${index}`} />
-          ))}
-        </div>
-        <div className="border-t border-[var(--alliance-border)] pt-8">
-          <Link className="button-secondary" href="/news">
-            返回新闻中心
-          </Link>
-        </div>
-      </article>
+      </section>
     </>
   )
 }
