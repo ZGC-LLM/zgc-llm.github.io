@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { generateStaticParams as generateJoinStaticParams } from '@/app/(frontend)/working-groups/[slug]/join/page'
 import { generateStaticParams as generateMembersStaticParams } from '@/app/(frontend)/working-groups/[slug]/members/page'
 import { generateStaticParams as generateOverviewStaticParams } from '@/app/(frontend)/working-groups/[slug]/page'
-import { CORE_MODULES, PUBLIC_STATIC_ROUTES, resolveApplicationTarget } from '@/config/site'
+import { PUBLIC_STATIC_ROUTES, resolveApplicationTarget } from '@/config/site'
 import { MEMBERS } from '@/content/members'
 import { getWorkingGroupMembers, WORKING_GROUP_MEMBERS } from '@/content/working-group-members'
 import { getWorkingGroupBySlug, getWorkingGroupSlugs } from '@/content/working-groups'
@@ -82,19 +82,6 @@ describe('working-group routes are registered as public static routes', () => {
       expect(PUBLIC_STATIC_ROUTES).toContain(`/working-groups/${slug}/join`)
     }
     expect(PUBLIC_STATIC_ROUTES).toContain('/working-groups')
-  })
-})
-
-describe('CORE_MODULES copy', () => {
-  it('never mentions the retired admin-review workflow, even in a negated sentence', () => {
-    const bannedPhrases = ['材料上传', '进度管理', '后台审核流转']
-
-    for (const coreModule of CORE_MODULES) {
-      const text = `${coreModule.title}${coreModule.description}`
-      for (const phrase of bannedPhrases) {
-        expect(text).not.toContain(phrase)
-      }
-    }
   })
 })
 

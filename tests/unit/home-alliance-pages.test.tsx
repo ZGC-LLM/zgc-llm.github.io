@@ -77,7 +77,7 @@ describe('working groups page', () => {
     expect(screen.getByRole('link', { name: /查看网络安全工作组/ }).getAttribute('href')).toBe(
       '/working-groups/cybersecurity',
     )
-    expect(screen.getByText(/其余工作组信息将在确认后发布/)).toBeTruthy()
+    expect(screen.getByText(/其余工作组将在筹备成熟后公开/)).toBeTruthy()
     expect(screen.getByRole('main').id).toBe('main-content')
   })
 

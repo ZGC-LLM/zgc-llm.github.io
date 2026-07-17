@@ -62,7 +62,7 @@ export function WorkingGroupMembersDirectory({
         <div className="site-container">
           <div className="empty">
             <h3>成员名单整理中</h3>
-            <p>成员名单将在获得公开授权后发布，我们不会使用未获授权的名单或标识填充页面。</p>
+            <p>成员名单将在获得公开授权后发布；在此之前，我们不会展示未经授权的名单或标识。</p>
             <Link className="btn btn--primary" href={`/working-groups/${group.slug}/join`}>
               申请加入本工作组
             </Link>

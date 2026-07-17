@@ -26,7 +26,7 @@ const VALUES = [
 ] as const
 
 const PARTICIPATION_PATHS = [
-  ['能力验证', '参与模型与智能体的能力测试、先锋验证及动态靶场任务。'],
+  ['能力验证', '参与模型与智能体的能力测试、可信验证及动态靶场任务。'],
   ['深度数据与任务共建', '贡献或使用经授权的深度数据与任务，支撑体系持续沉淀。'],
   ['专业传播', '参与专题研讨、公开活动及经确认的研究成果传播。'],
 ] as const
@@ -40,7 +40,7 @@ const PROCESS = [
 const FAQ = [
   ['哪些专业用户可以申请？', '欢迎安全企业、高校、实验室及专业研究人员以个人身份表达参与意向。'],
   ['提交申请是否代表正式加入？', '不代表。表单用于建立联系，具体参与安排以工作组后续确认为准。'],
-  ['申请通道暂不可用怎么办？', '页面会显示联系提示；正式联系信息将在官网发布前补充。'],
+  ['申请通道暂不可用怎么办？', '若申请通道暂未开放，页面会提示您通过官网公布的联系方式与联盟联系。'],
 ] as const
 
 export function createWorkingGroupJoinMetadata(group: WorkingGroupSummary): Metadata {
@@ -132,7 +132,7 @@ export default async function WorkingGroupJoinPage({
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description="申请入口承接参与意向，后续协作以工作组确认的角色与边界为准。"
+            description="提交申请即表达参与意向，后续协作以工作组确认的角色与范围为准。"
             eyebrow="协作流程"
             title="加入流程"
           />

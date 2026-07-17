@@ -10,7 +10,7 @@ import { SITE_NAME } from '@/config/site'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
-  description: '汇聚自主大模型力量，以长期主义推动核心技术突破，共建开放、安全、协同的产业生态，推动智能体从示范走向生产环境。',
+  description: '汇聚自主大模型力量，共建开放、安全、协同的产业生态，推动技术创新、产业协同、场景落地与国际合作。',
   title: { absolute: `首页｜${SITE_NAME}` },
 }
 
@@ -25,7 +25,7 @@ export default function HomePage(): ReactElement {
             <p className="eyebrow">{SITE_NAME}</p>
             <h1>汇聚自主大模型力量，共建开放、安全、协同的产业生态</h1>
             <p className="hero__lead">
-              联盟汇聚高校、科研机构与产业伙伴，以长期主义推动自主大模型核心技术持续突破，围绕长程任务与自治智能体系统攻坚，推动智能体从示范走向可持续运行的生产环境，并持续强化开放生态、安全可信与人工智能安全治理能力。
+              联盟汇聚高校、科研机构与产业伙伴，围绕自主大模型推动技术创新、产业协同、场景落地与国际合作，持续强化安全大模型、可信智能体与人工智能安全治理能力。
             </p>
             <div className="hero__cta">
               <Link className="btn btn--primary" href="/join">
@@ -41,7 +41,7 @@ export default function HomePage(): ReactElement {
             </div>
             <div className="glass">
               <p className="glass__k">核心议题</p>
-              <p className="glass__v">长程任务、自治智能体与开放、安全可信能力建设</p>
+              <p className="glass__v">技术创新、产业协同、场景落地与安全可信能力建设</p>
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function HomePage(): ReactElement {
       <section className="block">
         <div className="container">
           <SectionHeading
-            description="以自主创新、开放协作、安全可信和产业共建为原则，连接产业各方力量。"
+            description="以自主创新、开放协作、安全可信、产业共建为原则，连接产业各方力量。"
             eyebrow="联盟价值"
             title="开放、安全、协同的产业生态"
           />
@@ -87,7 +87,7 @@ export default function HomePage(): ReactElement {
       <section className="block">
         <div className="container">
           <SectionHeading
-            description="以清晰的行动路径推动联盟从能力建设走向产业价值。"
+            description="以清晰路径推动联盟从能力建设走向产业价值。"
             eyebrow="行动口号"
             title="从能力到生态的持续跃迁"
           />
@@ -108,7 +108,7 @@ export default function HomePage(): ReactElement {
               <p className="eyebrow">安全工作组</p>
               <h2>网络安全生态</h2>
               <p>
-                联盟下设网络安全工作组，聚焦安全大模型与网络安全智能体，推动智能体从示范走向可信的生产环境，连接专业用户、真实场景、深度任务与能力验证，持续推进重点项目落地。
+                联盟下设网络安全工作组，聚焦安全大模型与网络安全智能体，连接专业用户、真实场景、深度任务与能力验证，持续推进重点项目落地。
               </p>
             </div>
             <Link className="btn btn--primary" href="/cybersecurity">
@@ -126,7 +126,7 @@ export default function HomePage(): ReactElement {
                 查看成员伙伴
               </Link>
             }
-            description="仅展示已经确认公开授权的成员信息，不使用示例名称或标识代替。"
+            description="联盟成员信息均经公开授权后发布，携手各方共建开放、协同的产业生态。"
             eyebrow="生态伙伴"
             title="连接多元产业力量"
           />
@@ -142,7 +142,7 @@ export default function HomePage(): ReactElement {
           ) : (
             <div className="empty">
               <h3>成员信息整理中</h3>
-              <p>联盟将在完成公开授权确认后发布成员信息。</p>
+              <p>成员信息将在完成公开授权后陆续发布，敬请关注。</p>
             </div>
           )}
         </div>
@@ -177,7 +177,7 @@ export default function HomePage(): ReactElement {
           ) : (
             <div className="empty">
               <h3>最新动态即将发布</h3>
-              <p>经联盟确认的新闻、活动与成果将在这里持续更新。</p>
+              <p>经联盟确认的新闻、活动与成果将陆续在此更新，敬请关注。</p>
             </div>
           )}
         </div>
@@ -187,7 +187,7 @@ export default function HomePage(): ReactElement {
         <div className="end-cta">
           <div>
             <h2>共建自主大模型产业生态</h2>
-            <p>了解联盟参与方式，携手机构伙伴推动自主大模型产业生态共建。</p>
+            <p>了解联盟参与方式，携手机构伙伴共建产业生态。</p>
           </div>
           <Link className="btn btn--primary" href="/join">
             了解生态共建

@@ -54,9 +54,9 @@ describe('privacy page', () => {
 
     const main = screen.getByRole('main')
     expect(screen.getByRole('heading', { level: 1, name: '隐私说明' })).toBeTruthy()
-    expect(main.textContent).toMatch(/官网不接收、代理或存储申请数据/)
+    expect(main.textContent).toMatch(/官网.*不收集或存储.*申请信息/)
     expect(main.textContent).toMatch(/飞书.*外部服务/)
-    expect(main.textContent).toMatch(/以.*表单内.*隐私告知为准/)
+    expect(main.textContent).toMatch(/以.*表单内.*隐私(说明|告知)为准/)
     expect(main.id).toBe('main-content')
   })
 

@@ -10,7 +10,7 @@ import type { MemberSummary } from '@/types/content'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/members' },
-  description: '按公开授权范围展示联盟成员与生态伙伴，连接产业、科研与生态协作力量。',
+  description: '展示经公开授权的联盟成员与生态伙伴，连接产业、科研与生态协作力量。',
   title: '成员伙伴',
 }
 
@@ -36,7 +36,7 @@ export function MembersDirectory({ members }: MembersDirectoryProps): ReactEleme
         <div className="site-container">
           <div className="empty">
             <h3>成员信息整理中</h3>
-            <p>成员名称与品牌标识将在完成公开授权确认后发布。我们不会使用未获授权的名单或标识填充页面。</p>
+            <p>成员名称与标识将在完成公开授权后发布；在此之前，我们不会展示未经授权的名单或标识。</p>
             <Link className="btn btn--primary" href="/join">
               了解生态共建
             </Link>
@@ -90,7 +90,7 @@ export default function MembersPage(): ReactElement {
   return (
     <main id="main-content">
       <PageHero
-        description="联盟现有 32 家单位会员。以下展示已公开的理事会与监事会成员单位，更多成员将在获得授权后陆续呈现。"
+        description="联盟现有 32 家单位会员。以下为已公开的理事会与监事会成员单位，更多成员将在获得授权后陆续公开。"
         eyebrow="生态伙伴"
         title="成员伙伴"
       />

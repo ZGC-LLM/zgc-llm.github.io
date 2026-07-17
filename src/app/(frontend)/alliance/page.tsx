@@ -118,7 +118,7 @@ export default function AlliancePage(): ReactElement {
         <div className="end-cta">
           <div>
             <h2>联系与参与</h2>
-            <p>欢迎产业、科研与生态伙伴参与联盟共建；可先了解机构生态共建的参与方式，正式联系方式将随官网发布一并公布。</p>
+            <p>欢迎产业、科研与生态伙伴参与联盟共建，可先了解机构生态共建的参与方式。</p>
           </div>
           <Link className="button-primary" href="/join">
             查看生态共建方式

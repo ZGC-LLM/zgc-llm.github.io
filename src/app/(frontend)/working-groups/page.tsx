@@ -8,7 +8,7 @@ import { WORKING_GROUPS } from '@/content/working-groups'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/working-groups' },
-  description: '了解联盟工作组，查看已经确认并公开的协作方向及参与入口。',
+  description: '了解联盟工作组，查看已公开的协作方向与参与入口。',
   title: '工作组',
 }
 
@@ -24,7 +24,7 @@ export default function WorkingGroupsPage(): ReactElement {
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description="以下仅展示已经确认并可公开的工作组；其余方向将在信息确认后陆续发布。"
+            description="以下为已公开的工作组，更多协作方向将陆续发布。"
             eyebrow="公开工作组"
             title="聚焦真实议题，形成持续协作"
           />
@@ -55,7 +55,7 @@ export default function WorkingGroupsPage(): ReactElement {
             >
               <h3>持续开放协作方向</h3>
               <p style={{ marginLeft: 0 }}>
-                其余工作组信息将在确认后发布，不以未经确认的名称、负责人或成果作为公开内容。
+                其余工作组将在筹备成熟后公开，我们只发布已确认的方向、负责单位与成果。
               </p>
               <Link
                 className="button-secondary"
