@@ -48,25 +48,29 @@ export function SiteHeader(): ReactElement {
           <LanguageToggle />
         </div>
 
-        <details className="mobile-menu min-[1280px]:hidden">
-          <summary aria-label="打开网站导航" className="mobile-menu__trigger">
-            <span aria-hidden="true">菜单</span>
-          </summary>
-          <div className="mobile-menu__panel">
-            <nav aria-label="移动导航" className="grid gap-1">
-              <NavigationLinks />
-            </nav>
-            <div className="mt-4 grid gap-3 border-t border-[var(--alliance-border)] pt-4">
-              <Link className="button-primary justify-center" href="/join">
-                机构合作申请
-              </Link>
+        {/* 窄屏(<1280px)常驻控件簇：主题切换按钮与「菜单」并排，任何宽度都伸手可点，
+            不再埋进折叠菜单里。桌面端(≥1280px)仍用上方的控件簇。 */}
+        <div className="flex items-center gap-2 min-[1280px]:hidden">
+          <ThemeToggle />
+          <details className="mobile-menu">
+            <summary aria-label="打开网站导航" className="mobile-menu__trigger">
+              <span aria-hidden="true">菜单</span>
+            </summary>
+            <div className="mobile-menu__panel">
+              <nav aria-label="移动导航" className="grid gap-1">
+                <NavigationLinks />
+              </nav>
+              <div className="mt-4 grid gap-3 border-t border-[var(--alliance-border)] pt-4">
+                <Link className="button-primary justify-center" href="/join">
+                  机构合作申请
+                </Link>
+              </div>
+              <div className="mt-4 flex justify-center gap-3 border-t border-[var(--alliance-border)] pt-4">
+                <LanguageToggle />
+              </div>
             </div>
-            <div className="mt-4 flex justify-center gap-3 border-t border-[var(--alliance-border)] pt-4">
-              <ThemeToggle />
-              <LanguageToggle />
-            </div>
-          </div>
-        </details>
+          </details>
+        </div>
       </div>
     </header>
   )

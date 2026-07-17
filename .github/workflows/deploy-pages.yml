@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 15
     env:
       BUILD_TARGET: export
-      NEXT_PUBLIC_SITE_URL: https://www.zgcllm.org.cn
+      NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
       # 机构合作申请（/join CTA）的外部表单地址：在仓库 Settings → Secrets and variables → Actions
       # 中配置 Variable `NEXT_PUBLIC_INSTITUTION_APPLICATION_URL`（飞书表单 https:// 链接）。
       # 未配置时 CTA 会回退为「申请通道准备中」的禁用态。

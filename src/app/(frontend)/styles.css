@@ -915,9 +915,13 @@ section.block {
 }
 
 .cta-band h2 {
-  margin: 10px 0 0;
+  margin: 18px 0 0;
   font-size: 30px;
   font-weight: 700;
+}
+
+.cta-band .eyebrow {
+  opacity: 0.85;
 }
 
 .cta-band p:not(.eyebrow) {

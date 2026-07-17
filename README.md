@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-UNLICENSED-lightgrey)](#)
 
-正式主域名 [`www.zgcllm.org.cn`](https://www.zgcllm.org.cn) · 品牌保护域名 `zgcllm.cn` / `zgcllm.net` 上线时统一 301 跳转到主域名
+正式主域名 [`www.zgc-llm.org.cn`](https://www.zgc-llm.org.cn) · 品牌保护域名 `zgc-llm.cn` / `zgc-llm.net` 上线时统一 301 跳转到主域名
 
 </div>
 
@@ -37,6 +37,8 @@
 ## 项目简介
 
 本站为**纯静态展示官网**，公开内容全部来自仓库内的类型化配置（`src/content/`），不含内容管理后台与数据库。加入申请通过飞书表单收集，**官网不接收、不记录、不保存任何申请数据**。
+
+> 域名说明：正式主域名为 `www.zgc-llm.org.cn`，`zgc-llm.cn` 与 `zgc-llm.net` 作为品牌保护域名，上线时统一 301 跳转到主域名。`zgc-llm.org.cn`、`zgc-llm.cn`、`zgc-llm.com`、`zgc-llm.net` 均已注册，作为备选域名。
 
 ## 首期范围
 
@@ -91,7 +93,7 @@ pnpm test:all        # 单元 + 端到端测试
 ```bash
 NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=https://example.feishu.cn/share/base/form/...
 NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/form/...
-NEXT_PUBLIC_SITE_URL=https://www.zgcllm.org.cn
+NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn
 ```
 
 > ⚠️ 这些 `NEXT_PUBLIC_*` 变量会在 **Next.js 构建时**写入静态页面。未配置或地址非法时，页面会显示不可点击状态和联系回退，不会产生死链。申请数据由飞书表单及飞书多维表格承接，官网不接收或保存申请数据。
@@ -152,13 +154,13 @@ tests/
 docker build \
   --build-arg NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
   --build-arg NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
-  --build-arg NEXT_PUBLIC_SITE_URL=https://www.zgcllm.org.cn \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn \
   -t zgcllm-website .
 ```
 
 **上线前检查清单：**
 
-- [ ] `www.zgcllm.org.cn` 指向正式服务，其他注册域名配置 HTTPS 301 跳转
+- [ ] `www.zgc-llm.org.cn` 指向正式服务，其他注册域名配置 HTTPS 301 跳转
 - [ ] ICP 备案、HTTPS 证书、WAF、访问日志脱敏
 - [ ] 申请页隐私告知与合规文案（个人信息收集、同意与保留由飞书表单侧承担）
 - [ ] 正式联盟 Logo、成员名单、新闻材料及公开授权确认

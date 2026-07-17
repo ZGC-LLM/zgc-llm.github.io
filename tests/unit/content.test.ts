@@ -22,7 +22,7 @@ describe('public website content', () => {
 
   it('exposes the redesigned cybersecurity ecosystem structure', () => {
     expect(CYBERSECURITY_ECOSYSTEM.cycle).toHaveLength(6)
-    expect(CYBERSECURITY_ECOSYSTEM.resources).toHaveLength(5)
+    expect(CYBERSECURITY_ECOSYSTEM.resources).toHaveLength(6)
     expect(CYBERSECURITY_ECOSYSTEM.actions).toHaveLength(4)
     expect(CYBERSECURITY_ECOSYSTEM.organisation).toHaveLength(6)
     expect(CYBERSECURITY_ECOSYSTEM.openPrinciples).toHaveLength(4)

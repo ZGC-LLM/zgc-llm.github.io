@@ -44,7 +44,7 @@ export default function CybersecurityPage(): ReactElement {
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description="与其各方分别研究、分别验证、分别落地，不如把一次性合作沉淀为持续运行的用户网络、任务体系、评测标准与产业关系。"
+            description="网络安全能力的建设，不应止步于单次研究、单次验证与单次落地。工作组把分散的阶段性合作，沉淀为持续运行的用户网络、任务体系、评测标准与产业关系，形成可积累、可复用的长期机制。"
             eyebrow="持续闭环"
             title="从一次性活动升级为持续运行的生态闭环"
           />
@@ -62,9 +62,9 @@ export default function CybersecurityPage(): ReactElement {
       <section className="block block--subtle">
         <div className="site-container">
           <SectionHeading
-            description="联盟的价值不在于增加一个组织名称，而在于长期的资源组织能力：专业用户入口 + 模型发布渠道 + 场景验证网络 + 深度数据来源 + 行业成果平台。"
+            description="联盟的价值不在于增加一个组织名称，而在于长期的资源组织能力：专业用户入口 + 模型发布渠道 + 场景验证网络 + 深度数据来源 + 行业成果平台 + 专业传播矩阵。"
             eyebrow="关键资源"
-            title="联盟连接的五类关键资源"
+            title="联盟连接的六类关键资源"
           />
           <div className="grid-3">
             {CYBERSECURITY_ECOSYSTEM.resources.map((resource, index) => (

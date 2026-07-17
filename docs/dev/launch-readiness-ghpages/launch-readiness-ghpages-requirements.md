@@ -8,6 +8,8 @@ version: 1
 
 # 需求文档: 上线就绪度收尾（GitHub Pages）
 
+> **更新补记（2026-07-17）**：本文件为该轮上线收尾的历史规划记录。正式主域名已统一为带连字符的 `www.zgc-llm.org.cn`（CNAME 同步更正）。文中域名表述已随之更正，但**现行事实以 [CLAUDE.md](../../../CLAUDE.md) 与 [README.md](../../../README.md) 为准**，本历史文档不作为配置源。
+
 ## 1. 概述
 
 - **一句话**：把 `Clouditera/zgcllm` 官网收尾到「可发布到 GitHub Pages（自定义域名，CNAME）」的干净可发布状态，并开 PR 到 main。
@@ -21,7 +23,7 @@ version: 1
 | R1 | Next.js 迁移到静态导出 | `next.config` 改为 `output: 'export'`；`pnpm build` 产出 `out/` 且成功 |
 | R2 | 动态路由静态化 | `news/[slug]` 补 `generateStaticParams`，导出无报错 |
 | R3 | 图片导出兼容 | `images.unoptimized: true`；`next/image` 页面（members）正常渲染 |
-| R4 | GitHub Pages 部署 | 新增 Pages 部署 workflow；`.nojekyll`；`CNAME`=www.zgcllm.org.cn |
+| R4 | GitHub Pages 部署 | 新增 Pages 部署 workflow；`.nojekyll`；`CNAME`=www.zgc-llm.org.cn |
 | R5 | 接入 logo | `public/brand/llm-alliance-logo.png` 提交并在页面（页头/品牌处）引用 |
 | R6 | 下线「个人专业用户加入」 | 删除 `/professionals` 页；移除 site.ts/页头×2/页脚/首页/cybersecurity×2 全部入口，无死链 |
 | R7 | 就绪度检查 | favicon/OG/meta/404 存在且正确；lint/typecheck/unit/e2e 绿灯 |
@@ -40,7 +42,7 @@ version: 1
 
 - Next.js 16 / React 19 / Tailwind v4 / pnpm。
 - **双部署形态并存**：一套代码同时支持 (a) GitHub Pages 静态导出 与 (b) Docker/standalone SSR。通过 `BUILD_TARGET` 环境变量在 `next.config` 内切换 `output`（`export` vs `standalone`）与 `images.unoptimized`。
-- GitHub Pages：自定义域名 `www.zgcllm.org.cn`（CNAME），**无 basePath**（根路径）；`BUILD_TARGET=export`。
+- GitHub Pages：自定义域名 `www.zgc-llm.org.cn`（CNAME），**无 basePath**（根路径）；`BUILD_TARGET=export`。
 - Docker：保持默认 `standalone`，保留 SSR / 服务端图片优化 / 动态渲染。
 - `news/[slug]` 补 `generateStaticParams`：export 时预渲染，standalone 时不受影响。
 - 现有 CI（`.github/ci.yml`）保持质量门；新增独立的 Pages 部署 workflow。

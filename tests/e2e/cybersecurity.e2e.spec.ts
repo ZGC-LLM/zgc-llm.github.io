@@ -39,10 +39,10 @@ test.describe('网络安全生态专题', () => {
     )
   })
 
-  test('呈现五类关键资源与四项重点行动', async ({ page }) => {
+  test('呈现六类关键资源与四项重点行动', async ({ page }) => {
     const main = page.locator('main#main-content')
 
-    await expect(main.getByRole('heading', { name: '联盟连接的五类关键资源' })).toBeVisible()
+    await expect(main.getByRole('heading', { name: '联盟连接的六类关键资源' })).toBeVisible()
     await expect(main.getByRole('heading', { level: 3, name: '模型与算力' })).toBeVisible()
     await expect(main.getByRole('heading', { level: 3, name: '学术与评测' })).toBeVisible()
     await expect(main.getByRole('heading', { level: 3, name: '产业场景' })).toBeVisible()

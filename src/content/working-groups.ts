@@ -3,7 +3,7 @@ import type { WorkingGroupSummary } from '@/types/content'
 export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
   {
     description:
-      '联盟下设的网络安全工作组，联合网络安全企业、高校实验室与专业研究人员，围绕专业用户、真实场景、深度数据、能力评测与产业落地，建设持续运行的自主大模型网络安全生态。',
+      '汇聚可信的防御者与真实攻防需求，联合安全企业、高校实验室与一线研究人员，把专业用户、真实场景、深度数据与能力评测沉淀为持续运行的自主大模型网络安全生态，诚邀专业力量共建。',
     ecosystemHref: '/cybersecurity',
     ecosystemLabel: '网络安全生态 · 重点专项',
     id: 'cybersecurity',
@@ -36,6 +36,7 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
       '能力评测与动态靶场',
       '代码审计与漏洞挖掘',
       '安全研发与渗透测试',
+      '网络测绘与威胁情报',
     ],
     slug: 'cybersecurity',
     title: '网络安全工作组',
