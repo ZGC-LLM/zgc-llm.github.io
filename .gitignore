@@ -6,48 +6,46 @@
 .pnp.js
 .yarn/install-state.gz
 
-/.idea/*
-!/.idea/runConfigurations
-
-# testing
+# testing / coverage
 /coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-.env
-
-/media
-
-# Playwright
-node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 
-# isolated Git worktrees
+# next.js / build output
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# local env files
+.env
+.env*.local
+
+# logs & debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editors
+/.idea/*
+!/.idea/runConfigurations
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Claude Code
+/.claude/worktrees/
+.claude/settings.local.json
+
+# isolated Git worktrees（gtr）
 /.worktree/
+
+# misc
+.DS_Store
+*.pem
+.vercel
+/media

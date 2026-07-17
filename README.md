@@ -1,7 +1,7 @@
 # 中关村自主大模型产业联盟官网
 
 中关村自主大模型产业联盟（ZGCLLM）官方网站工程。正式主域名为
-[`www.zgcllm.org.cn`](https://www.zgcllm.org.cn)，`zgcllm.cn` 和 `zgcllm.net` 作为品牌保护域名，
+[`www.zgc-llm.org.cn`](https://www.zgc-llm.org.cn)，`zgc-llm.cn` 和 `zgc-llm.net` 作为品牌保护域名，
 上线时统一 301 跳转到主域名。
 
 ## 首期范围
@@ -70,7 +70,7 @@ NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/fo
 docker build \
   --build-arg NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
   --build-arg NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
-  --build-arg NEXT_PUBLIC_SITE_URL=https://www.zgcllm.org.cn \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn \
   -t zgcllm-website .
 ```
 
@@ -110,7 +110,7 @@ tests/
 
 生产部署使用 Docker 构建 Next.js standalone 镜像。上线前需要完成：
 
-- `www.zgcllm.org.cn` 指向正式服务，其他注册域名配置 HTTPS 301 跳转；
+- `www.zgc-llm.org.cn` 指向正式服务，其他注册域名配置 HTTPS 301 跳转；
 - ICP 备案、HTTPS 证书、WAF、访问日志脱敏；
 - 申请页隐私告知与合规文案；个人信息收集、同意与保留由飞书表单侧承担；
 - 正式联盟 Logo、成员名单、新闻材料及公开授权确认；

@@ -229,7 +229,7 @@ export const APPLICATION_TARGETS = {
 - 每个主要页面导出独立 metadata；新闻详情使用 `generateMetadata`，未发布内容不生成索引页。
 - `sitemap.ts` 包含全部公开静态路由和已发布新闻详情。
 - `robots.ts` 允许索引公开官网，禁止索引 `/admin`、`/api` 和 Payload 管理路径。
-- 正式域名使用 `https://www.zgcllm.org.cn` canonical；开发环境可由 `NEXT_PUBLIC_SITE_URL` 覆盖。
+- 正式域名使用 `https://www.zgc-llm.org.cn` canonical；开发环境可由 `NEXT_PUBLIC_SITE_URL` 覆盖。
 - 社交分享图在正式品牌素材缺失时使用统一站点级默认图或无图 metadata，不生成伪 Logo。
 
 ## 9. 安全、隐私与合规

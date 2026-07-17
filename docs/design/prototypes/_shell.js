@@ -49,7 +49,7 @@
     '<div><h4><span data-cn>更多</span><span data-en>More</span></h4>' +
     '<a href="news.html"><span data-cn>新闻动态</span><span data-en>News</span></a><br>' +
     '<a href="privacy.html"><span data-cn>隐私说明</span><span data-en>Privacy</span></a></div>' +
-    '</div><div class="footer__bottom">© 2026 ZGCLLM · www.zgcllm.org.cn</div>' +
+    '</div><div class="footer__bottom">© 2026 ZGCLLM · www.zgc-llm.org.cn</div>' +
     '</div></footer>';
 
   document.body.insertAdjacentHTML('afterbegin', header);
