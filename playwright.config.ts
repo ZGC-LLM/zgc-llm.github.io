@@ -36,7 +36,11 @@ export default defineConfig({
   webServer: remoteBaseURL
     ? undefined
     : {
-        command: `pnpm dev --hostname 127.0.0.1 --port ${e2ePort}`,
+        // 直接调用 next 二进制，绕过 `pnpm dev`。CI(setup-pnpm)下经 pnpm 启动子进程时，
+        // pnpm 会因 package.json `type: module` 去加载不存在的 .pnpmfile.mjs 而崩溃
+        // （Error during pnpmfile execution），导致 webServer 无法启动。直连二进制规避该问题。
+        command: `node node_modules/next/dist/bin/next dev --hostname 127.0.0.1 --port ${e2ePort}`,
+        env: { NODE_OPTIONS: '--no-deprecation' },
         reuseExistingServer: false,
         timeout: 120_000,
         url: localBaseURL,
