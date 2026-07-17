@@ -38,7 +38,7 @@
 
 本站为**纯静态展示官网**，公开内容全部来自仓库内的类型化配置（`src/content/`），不含内容管理后台与数据库。加入申请通过飞书表单收集，**官网不接收、不记录、不保存任何申请数据**。
 
-> 域名说明：正式主域名为 `www.zgc-llm.org.cn`，`zgc-llm.cn` 与 `zgc-llm.net` 作为品牌保护域名，上线时统一 301 跳转到主域名。`zgc-llm.org.cn`、`zgc-llm.cn`、`zgc-llm.com`、`zgc-llm.net` 均已注册，作为备选域名。
+> 域名说明：正式主域名为 `www.zgc-llm.org.cn`（带连字符），`zgc-llm.cn` 与 `zgc-llm.net` 作为品牌保护域名，上线时统一 301 跳转到主域名。带连字符的 `zgc-llm.org.cn`、`zgc-llm.cn`、`zgc-llm.com`、`zgc-llm.net`，以及无连字符的 `zgcllm.org.cn`、`zgcllm.cn`、`zgcllm.net` 均已注册，作为品牌保护与备用域名，统一 301 跳转到主域名。
 
 ## 首期范围
 
