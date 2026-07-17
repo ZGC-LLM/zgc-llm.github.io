@@ -26,7 +26,7 @@ describe('institution conversion page', () => {
     render(<JoinPage />)
 
     const main = screen.getByRole('main')
-    expect(within(main).queryByRole('link', { name: /申请生态共建/ })).toBeNull()
+    expect(within(main).queryByRole('link', { name: /机构合作申请/ })).toBeNull()
     expect(
       within(main)
         .getByText(APPLICATION_TARGETS.institution.unavailableMessage)

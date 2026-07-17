@@ -73,7 +73,7 @@ test.describe('site integration', () => {
     await page.getByRole('main').getByRole('link', { name: '了解网络安全生态' }).click()
     await expect(page).toHaveURL(/\/cybersecurity$/)
 
-    await page.getByRole('main').getByRole('link', { name: '申请生态共建' }).last().click()
+    await page.getByRole('main').getByRole('link', { name: '机构合作申请' }).last().click()
     await expect(page).toHaveURL(/\/join$/)
     await expect(page.getByRole('heading', { level: 1, name: '机构生态共建' })).toBeVisible()
   })

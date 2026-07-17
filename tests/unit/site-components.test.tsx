@@ -17,7 +17,7 @@ describe('site application links', () => {
       />,
     )
 
-    const link = screen.getByRole('link', { name: /申请生态共建.*外部表单/ })
+    const link = screen.getByRole('link', { name: /机构合作申请.*外部表单/ })
 
     expect(link.getAttribute('href')).toBe('https://example.feishu.cn/share/base/form/example')
     expect(link.getAttribute('target')).toBe('_blank')
@@ -38,8 +38,8 @@ describe('site header', () => {
 
     expect(screen.getAllByText('中关村自主大模型产业联盟').length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: '网络安全生态' }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: '申请生态共建' }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: '专业用户加入' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: '机构合作申请' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: '个人专业用户加入' }).length).toBeGreaterThan(0)
     expect(screen.getByRole('navigation', { name: '主导航' })).toBeTruthy()
     expect(
       screen.getByRole('navigation', { name: '主导航' }).querySelector('[aria-current="page"]')
