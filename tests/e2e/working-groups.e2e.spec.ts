@@ -11,10 +11,11 @@ test.describe('工作组导航链路', () => {
     await expect(cardLink).toHaveAttribute('href', '/working-groups/cybersecurity')
 
     await cardLink.click()
-    await expect(page).toHaveURL(/\/working-groups\/cybersecurity$/)
+    // next dev 首次访问 [slug] 路由需按需编译，客户端跳转可能超过默认 5s；放宽超时并容忍尾斜杠
+    await expect(page).toHaveURL(/\/working-groups\/cybersecurity\/?$/, { timeout: 20000 })
     await expect(
       page.locator('main#main-content').getByRole('heading', { level: 1, name: '网络安全工作组' }),
-    ).toBeVisible()
+    ).toBeVisible({ timeout: 20000 })
   })
 
   test('工作组介绍页展示职责/研究方向/负责人/成果四个区块及三个下游入口', async ({ page }) => {
