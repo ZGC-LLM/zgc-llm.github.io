@@ -1139,11 +1139,22 @@ section.block {
 }
 
 .footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
   margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid rgb(255 255 255 / 12%);
   font-size: 12px;
   color: var(--text-inverse-muted);
+}
+
+.footer__bottom p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 /* ============================================================
