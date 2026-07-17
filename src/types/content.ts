@@ -29,6 +29,8 @@ export interface WorkingGroupSummary {
   description: string
   /** 互链业务专题页，如 '/cybersecurity' */
   ecosystemHref?: string
+  /** 互链标签，如 '网络安全生态' */
+  ecosystemLabel?: string
   id: string
   kind: 'working-group' | 'initiative'
   /** 负责人（治理：仅授权者具名） */
