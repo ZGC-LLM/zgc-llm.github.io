@@ -122,7 +122,7 @@ export const CORE_MODULES: readonly CoreModule[] = [
     title: '工作组介绍',
   },
   {
-    description: '按照成员类型展示单位信息、品牌标识与简介。',
+    description: '展示工作组成员单位名单与公开简介，未授权前保持空态占位。',
     path: '/working-groups/[slug]/members',
     slug: 'working-group-members',
     title: '工作组成员',
