@@ -20,7 +20,7 @@ export const CYBERSECURITY_ECOSYSTEM = {
       title: '专业人才',
     },
     {
-      description: '连接安全产品、企业业务、国产软件与重点行业，推动模型能力进入真实生产环境。',
+      description: '连接安全产品、企业业务、国产软件与重点行业，推动模型能力进入真实业务场景。',
       title: '产业场景',
     },
     {
@@ -45,8 +45,8 @@ export const CYBERSECURITY_ECOSYSTEM = {
       title: '建设深度数据与任务体系',
     },
     {
-      description: '新模型面向网络安全行业的固定机制：发布前可信内测、发布期专业传播、发布后产品与场景落地。',
-      title: '建立先锋验证与发布机制',
+      description: '围绕网络安全行业需求，建立模型验证与应用机制：可信内测、专业验证与产品场景落地。',
+      title: '建立面向网络安全行业的验证与应用机制',
     },
   ],
   organisation: [

@@ -91,7 +91,7 @@ export default function JoinPage(): ReactElement {
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description="申请入口承接合作意向，后续协作以双方确认的目标与边界为准。"
+            description="提交申请即表达合作意向，后续协作以双方确认的目标与范围为准。"
             eyebrow="协作流程"
             title="参与流程"
           />

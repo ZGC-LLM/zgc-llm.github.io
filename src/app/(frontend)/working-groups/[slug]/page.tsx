@@ -110,7 +110,7 @@ export function WorkingGroupOverview({ group }: WorkingGroupOverviewProps): Reac
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description="仅公开已获授权具名的负责单位，其余按参与角色描述，不以未经确认的名称作为公开内容。"
+            description="已获授权的负责单位以具名方式展示，其余按参与角色说明；我们只公开经确认的信息。"
             eyebrow="负责人"
             title="统筹与共建单位"
           />
@@ -135,7 +135,7 @@ export function WorkingGroupOverview({ group }: WorkingGroupOverviewProps): Reac
           {group.outcomes.length === 0 ? (
             <div className="empty">
               <h3>成果整理中</h3>
-              <p>阶段性成果将在对外发布后陆续公开，我们不会以未经确认的成果填充页面。</p>
+              <p>阶段性成果将在正式发布后陆续公开；在此之前，我们不会展示未经确认的内容。</p>
             </div>
           ) : (
             <div className="grid-2">

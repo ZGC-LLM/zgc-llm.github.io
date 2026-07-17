@@ -14,8 +14,8 @@ test.describe('conversion and privacy pages', () => {
 
     const main = page.getByRole('main')
     await expect(main.getByRole('heading', { level: 1, name: '隐私说明' })).toBeVisible()
-    await expect(main).toContainText('官网不接收、代理或存储申请数据')
-    await expect(main).toContainText('飞书表单为外部服务')
-    await expect(main).toContainText('以表单内的隐私告知为准')
+    await expect(main).toContainText('官网本身不收集或存储您的申请信息')
+    await expect(main).toContainText('独立的外部服务')
+    await expect(main).toContainText('以表单内的隐私说明为准')
   })
 })
