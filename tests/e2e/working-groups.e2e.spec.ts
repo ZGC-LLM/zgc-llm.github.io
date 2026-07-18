@@ -29,7 +29,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByRole('heading', { level: 2, name: '对外发布的阶段性成果' })).toBeVisible()
 
     const membersLink = main.getByRole('link', { name: '查看工作组共建伙伴' })
-    const joinLink = main.getByRole('link', { name: '加入网络安全工作组' })
+    const joinLink = main.getByRole('link', { name: '了解如何加入' }).first()
     const ecosystemLink = main.getByRole('link', { name: '查看生态专题' })
 
     await expect(membersLink).toBeVisible()
@@ -129,7 +129,7 @@ test.describe('回归性冒烟检查', () => {
     await page.goto('/join')
     const main = page.getByRole('main')
 
-    await expect(main.getByText('加入工作组', { exact: false })).toBeVisible()
+    await expect(main.getByText('加入工作组', { exact: false }).first()).toBeVisible()
     await expect(
       main.getByText('/working-groups/cybersecurity/join', { exact: false }),
     ).toBeVisible()
