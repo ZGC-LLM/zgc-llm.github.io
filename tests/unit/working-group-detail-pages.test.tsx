@@ -7,6 +7,7 @@ vi.mock('next/navigation', () => ({
   }),
 }))
 
+import { resolveWorkingGroupApplicationUrl } from '@/config/site'
 import { getWorkingGroupBySlug, localizeWorkingGroup } from '@/content/working-groups'
 import { buildAlternates } from '@/i18n/routing'
 import type { WorkingGroupSummary } from '@/types/content'
@@ -161,8 +162,13 @@ describe('working-group join page', () => {
     expect(screen.getByText('能力验证')).toBeTruthy()
     expect(screen.getByText('提交合作申请')).toBeTruthy()
     expect(screen.getByRole('heading', { name: '专业用户是否包含机构？' })).toBeTruthy()
-    // 当前环境未配置 NEXT_PUBLIC_APPLICATION_URL，CTA 降级为不可用提示而非可点击链接。
-    expect(screen.getByText('申请通道准备中，请通过官网联系方式与联盟联系。')).toBeTruthy()
+    // NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY 未配置时回退到内置的网安工作组默认问卷链接，
+    // CTA 渲染为可点击的真实外链，不再降级为不可用提示。
+    const link = screen.getByRole('link', { name: /专业用户申请/ })
+    expect(link.getAttribute('href')).toBe(resolveWorkingGroupApplicationUrl(group))
+    expect(link.getAttribute('target')).toBe('_blank')
+    expect(link.getAttribute('rel')).toContain('noopener')
+    expect(screen.queryByText('申请通道准备中，请通过官网联系方式与联盟联系。')).toBeNull()
   })
 
   it('throws notFound for an unknown slug', async () => {

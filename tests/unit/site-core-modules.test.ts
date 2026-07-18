@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { generateStaticParams as generateJoinStaticParams } from '@/app/(frontend)/working-groups/[slug]/join/page'
 import { generateStaticParams as generateMembersStaticParams } from '@/app/(frontend)/working-groups/[slug]/members/page'
 import { generateStaticParams as generateOverviewStaticParams } from '@/app/(frontend)/working-groups/[slug]/page'
-import { PUBLIC_STATIC_ROUTES, resolveApplicationTarget } from '@/config/site'
+import { APPLICATION_TARGET, PUBLIC_STATIC_ROUTES, resolveApplicationTarget } from '@/config/site'
 import { MEMBERS } from '@/content/members'
 import { getWorkingGroupMembers, WORKING_GROUP_MEMBERS } from '@/content/working-group-members'
 import { getWorkingGroupBySlug, getWorkingGroupSlugs } from '@/content/working-groups'
@@ -18,8 +18,17 @@ describe('resolveApplicationTarget', () => {
     expect(target.href).toBe('https://example.feishu.cn/share/form/application')
   })
 
-  it.each([[undefined], ['http://example.feishu.cn/share/form/application'], ['not-a-url']])(
-    'falls back to unavailable when the configured URL is %s',
+  it('is available using the built-in default target when no configured URL is provided', () => {
+    // configuredUrl 缺省时，默认参数回退到 APPLICATION_TARGET.href（内置飞书问卷默认链接），
+    // 而不是保持不可用——这是新行为，不再需要显式 env 才能获得可用 CTA。
+    const target = resolveApplicationTarget()
+
+    expect(target.isAvailable).toBe(true)
+    expect(target.href).toBe(APPLICATION_TARGET.href)
+  })
+
+  it.each([[''], ['http://example.feishu.cn/share/form/application'], ['not-a-url']])(
+    'falls back to unavailable when an explicit configured URL is invalid (%s)',
     (configuredUrl) => {
       const target = resolveApplicationTarget(configuredUrl)
 

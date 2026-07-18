@@ -6,7 +6,11 @@ import EnJoinPage from '@/app/(en)/en/join/page'
 import JoinPage, { metadata as joinMetadata } from '@/app/(frontend)/join/page'
 import PrivacyPage, { metadata as privacyMetadata } from '@/app/(frontend)/privacy/page'
 import { WorkingGroupJoinView } from '@/app/(frontend)/working-groups/[slug]/join/page'
-import { APPLICATION_TARGET, PUBLIC_STATIC_ROUTES } from '@/config/site'
+import { APPLICATION_TARGET, PUBLIC_STATIC_ROUTES, resolveWorkingGroupApplicationUrl } from '@/config/site'
+import { getWorkingGroupBySlug } from '@/content/working-groups'
+
+const cybersecurityGroup = getWorkingGroupBySlug('cybersecurity')!
+const cybersecurityApplicationUrl = resolveWorkingGroupApplicationUrl(cybersecurityGroup)
 
 afterEach(cleanup)
 
@@ -30,47 +34,51 @@ describe('institution conversion page', () => {
 })
 
 describe('shared application target across entry points (zh)', () => {
-  it('falls back to the same unavailable message on the institutional entry when the URL is missing', () => {
+  it('renders a real external application link on the institutional entry using the default target', () => {
     render(<JoinPage />)
 
     const main = screen.getByRole('main')
-    expect(within(main).queryByRole('link', { name: /机构合作申请/ })).toBeNull()
-    expect(
-      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
-    ).toBe('true')
+    const link = within(main).getByRole('link', { name: /机构合作申请/ })
+    expect(link.getAttribute('href')).toBe(APPLICATION_TARGET.href)
+    expect(link.getAttribute('target')).toBe('_blank')
+    expect(link.getAttribute('rel')).toContain('noopener')
+    expect(within(main).queryByText(APPLICATION_TARGET.unavailableMessage)).toBeNull()
     expect(main.textContent).not.toMatch(/站内提交|材料上传|审核进度|进度查询/)
   })
 
-  it('falls back to the same unavailable message on the cybersecurity working-group entry', () => {
+  it('renders a real external application link on the cybersecurity working-group entry', () => {
     render(<WorkingGroupJoinView locale="zh" slug="cybersecurity" />)
 
     const main = screen.getByRole('main')
-    expect(within(main).queryByRole('link', { name: /专业用户申请/ })).toBeNull()
-    expect(
-      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
-    ).toBe('true')
+    const link = within(main).getByRole('link', { name: /专业用户申请/ })
+    expect(link.getAttribute('href')).toBe(cybersecurityApplicationUrl)
+    expect(link.getAttribute('target')).toBe('_blank')
+    expect(link.getAttribute('rel')).toContain('noopener')
+    expect(within(main).queryByText(APPLICATION_TARGET.unavailableMessage)).toBeNull()
   })
 })
 
 describe('shared application target across entry points (en)', () => {
-  it('falls back to the same unavailable message on the institutional entry', () => {
+  it('renders a real external application link on the institutional entry', () => {
     render(<EnJoinPage />)
 
     const main = screen.getByRole('main')
-    expect(within(main).queryByRole('link', { name: /Partner with Us/ })).toBeNull()
-    expect(
-      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
-    ).toBe('true')
+    const link = within(main).getByRole('link', { name: /Partner with Us/ })
+    expect(link.getAttribute('href')).toBe(APPLICATION_TARGET.href)
+    expect(link.getAttribute('target')).toBe('_blank')
+    expect(link.getAttribute('rel')).toContain('noopener')
+    expect(within(main).queryByText(APPLICATION_TARGET.unavailableMessage)).toBeNull()
   })
 
-  it('falls back to the same unavailable message on the cybersecurity working-group entry', () => {
+  it('renders a real external application link on the cybersecurity working-group entry', () => {
     render(<WorkingGroupJoinView locale="en" slug="cybersecurity" />)
 
     const main = screen.getByRole('main')
-    expect(within(main).queryByRole('link', { name: /Apply as a professional user/ })).toBeNull()
-    expect(
-      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
-    ).toBe('true')
+    const link = within(main).getByRole('link', { name: /professional user/ })
+    expect(link.getAttribute('href')).toBe(cybersecurityApplicationUrl)
+    expect(link.getAttribute('target')).toBe('_blank')
+    expect(link.getAttribute('rel')).toContain('noopener')
+    expect(within(main).queryByText(APPLICATION_TARGET.unavailableMessage)).toBeNull()
   })
 })
 

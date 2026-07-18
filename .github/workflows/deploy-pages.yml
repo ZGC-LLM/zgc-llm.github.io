@@ -25,8 +25,10 @@ jobs:
       NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
       # 统一合作/加入申请（/join 与网安组 join CTA 共用）的外部表单地址：在仓库 Settings → Secrets and variables → Actions
       # 中配置 Variable `NEXT_PUBLIC_APPLICATION_URL`（飞书问卷 https:// 链接，需外部/匿名可填）。
-      # 未配置时 CTA 会回退为「申请通道准备中」的禁用态。
+      # 未配置时 CTA 会回退为「申请通道准备中」的禁用态。同一处还可配置 Variable
+      # `NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY`（网络安全工作组专属飞书问卷），留空则回退通用变量。
       NEXT_PUBLIC_APPLICATION_URL: ${{ vars.NEXT_PUBLIC_APPLICATION_URL }}
+      NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: ${{ vars.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY }}
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6

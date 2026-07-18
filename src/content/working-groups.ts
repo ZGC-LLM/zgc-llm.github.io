@@ -3,6 +3,7 @@ import type { WorkingGroupSummary } from '@/types/content'
 
 export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
   {
+    applicationEnvKey: 'NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY',
     description:
       '汇聚可信的防御者与真实攻防需求，联合安全企业、高校实验室与一线研究人员，把专业用户、真实场景、深度数据与能力评测沉淀为持续运行的自主大模型网络安全生态，诚邀专业力量共建。',
     ecosystemHref: '/cybersecurity',

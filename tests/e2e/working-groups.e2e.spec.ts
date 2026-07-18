@@ -76,6 +76,24 @@ test.describe('工作组导航链路', () => {
     }
   })
 
+  test('加入工作组页含指向联盟机构入口的交叉引导（host 无关）', async ({ page }) => {
+    await page.goto('/working-groups/cybersecurity/join')
+    const main = page.locator('main#main-content')
+
+    await expect(main.getByText('机构生态共建', { exact: false })).toBeVisible()
+    await expect(main.getByText('/join', { exact: false })).toBeVisible()
+
+    const disabledEntry = main.locator('[aria-disabled="true"]', { hasText: '申请通道准备中' })
+    const externalLink = main.getByRole('link', { name: '专业用户申请' })
+
+    if (await disabledEntry.count()) {
+      await expect(disabledEntry.first()).toBeVisible()
+    } else {
+      await expect(externalLink).toBeVisible()
+      await expect(externalLink).toHaveAttribute('target', '_blank')
+    }
+  })
+
   test('网络安全生态专题页回链到工作组介绍页', async ({ page }) => {
     await page.goto('/cybersecurity')
     const main = page.locator('main#main-content')
@@ -101,7 +119,28 @@ test.describe('回归性冒烟检查', () => {
     const main = page.getByRole('main')
 
     await expect(main.getByRole('heading', { level: 1, name: '机构生态共建' })).toBeVisible()
-    await expect(main).toContainText('申请通道准备中，请通过官网联系方式与联盟联系。')
+
+    // 与「加入工作组页提供专业用户申请入口」用例一致：加入 CTA 现内置飞书问卷默认链接，
+    // dev server 无 env 时渲染真实外链而非降级提示，容忍两种渲染态。
+    const disabledEntry = main.locator('[aria-disabled="true"]', { hasText: '申请通道准备中' })
+    const externalLink = main.getByRole('link', { name: /机构合作申请/ })
+
+    if (await disabledEntry.count()) {
+      await expect(disabledEntry.first()).toBeVisible()
+    } else {
+      await expect(externalLink).toBeVisible()
+      await expect(externalLink).toHaveAttribute('target', '_blank')
+    }
+  })
+
+  test('联盟加入页含指向网络安全工作组入口的交叉引导（host 无关）', async ({ page }) => {
+    await page.goto('/join')
+    const main = page.getByRole('main')
+
+    await expect(main.getByText('加入工作组', { exact: false })).toBeVisible()
+    await expect(
+      main.getByText('/working-groups/cybersecurity/join', { exact: false }),
+    ).toBeVisible()
   })
 
   test('联盟介绍与新闻动态页保持可正常访问', async ({ page }) => {
