@@ -30,4 +30,4 @@
 - 修正 `CNAME` 与部署配置误用无连字符域名 `zgcllm.org.cn` 的问题，避免 Pages 自定义域名绑定失败及线上 canonical/sitemap 使用错误域名。
 - 修复 `next dev` 扫描 `.claude/` 目录导致的非法 CSS 解析失败。
 
-[未发布]: https://github.com/Clouditera/zgcllm/commits/main
+[未发布]: https://github.com/ZGC-LLM/zgc-llm.github.io/commits/main
