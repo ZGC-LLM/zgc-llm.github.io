@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 官方网站
+    url: https://www.zgc-llm.org.cn
+    about: 中关村自主大模型产业联盟官方网站
+  - name: 加入申请
+    url: https://www.zgc-llm.org.cn/join
+    about: 机构合作与专业用户申请入口（通过飞书表单收集，官网不落库）
