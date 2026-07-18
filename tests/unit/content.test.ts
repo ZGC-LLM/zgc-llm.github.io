@@ -38,9 +38,10 @@ describe('public website content', () => {
   })
 
   it('keeps a single authoritative division of labour in the working group leads', () => {
-    // 智谱 is the lead (not merely a supporter); Tsinghua is academic-only.
+    // 智谱 is a distinct named lead (model & technical); Tsinghua is academic-only.
     const zhipu = cyberGroup?.leads.find(({ name }) => name.includes('智谱'))
-    expect(zhipu?.role).toContain('牵引')
+    expect(zhipu?.named).toBe(true)
+    expect(zhipu?.role).toContain('模型')
     const tsinghua = cyberGroup?.leads.find(({ name }) => name.includes('清华'))
     expect(tsinghua?.role).toBe('学术指导')
 
