@@ -32,8 +32,9 @@ describe('home page', () => {
     )
     expect(screen.getByRole('main').id).toBe('main-content')
     expect(screen.getByRole('heading', { name: '清华大学' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: '查看成员伙伴' }).getAttribute('href')).toBe(
-      '/members',
+    expect(screen.getByRole('link', { name: '联盟成员' }).getAttribute('href')).toBe('/members')
+    expect(screen.getByRole('link', { name: '工作组成员' }).getAttribute('href')).toBe(
+      '/working-groups',
     )
     expect(
       screen.getByRole('link', { name: '联盟官方网站正式上线' }).getAttribute('href'),

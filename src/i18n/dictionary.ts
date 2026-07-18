@@ -12,6 +12,8 @@ export interface Dictionary {
     workingGroups: string
     cybersecurity: string
     members: string
+    allianceMembers: string
+    workingGroupMembers: string
     news: string
   }
   header: {
@@ -67,6 +69,8 @@ const zh: Dictionary = {
     alliance: '联盟介绍',
     cybersecurity: '网络安全生态',
     members: '成员伙伴',
+    allianceMembers: '联盟成员',
+    workingGroupMembers: '工作组成员',
     news: '新闻动态',
     workingGroups: '工作组',
   },
@@ -102,6 +106,8 @@ const en: Dictionary = {
     alliance: 'About',
     cybersecurity: 'Cybersecurity',
     members: 'Members',
+    allianceMembers: 'Alliance Members',
+    workingGroupMembers: 'Working Group Members',
     news: 'News',
     workingGroups: 'Working Groups',
   },

@@ -29,7 +29,15 @@ export const SITE_NAVIGATION: readonly NavigationItem[] = [
   { href: '/alliance', label: '联盟介绍' },
   { href: '/working-groups', label: '工作组' },
   { href: '/cybersecurity', label: '网络安全生态' },
-  { href: '/members', label: '成员伙伴' },
+  {
+    // 分组节点：无 href，仅承载 children（联盟成员 / 工作组成员）。
+    // 标签本地化由 site-header 按显式 dict 键解析（见 NAV_GROUP_* 映射）。
+    label: '成员伙伴',
+    children: [
+      { href: '/members', label: '联盟成员' },
+      { href: '/working-groups', label: '工作组成员' },
+    ],
+  },
   { href: '/news', label: '新闻动态' },
 ] as const
 

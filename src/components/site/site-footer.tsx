@@ -5,6 +5,7 @@ import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
+import type { NavigationItem } from '@/types/content'
 
 const NAV_LABEL_KEYS: Readonly<Record<string, keyof Dictionary['nav']>> = {
   '/alliance': 'alliance',
@@ -33,16 +34,18 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
           </div>
           <div>
             <h4>{f.sectionUnderstand}</h4>
-            {SITE_NAVIGATION.slice(0, 3).map((item, index) => {
-              const labelKey = NAV_LABEL_KEYS[item.href]
+            {SITE_NAVIGATION.slice(0, 3)
+              .filter((item): item is NavigationItem & { href: string } => Boolean(item.href))
+              .map((item, index) => {
+                const labelKey = NAV_LABEL_KEYS[item.href]
 
-              return (
-                <Link href={localizePath(item.href, locale)} key={item.href}>
-                  {labelKey ? nav[labelKey] : item.label}
-                  {index < 2 ? <br /> : null}
-                </Link>
-              )
-            })}
+                return (
+                  <Link href={localizePath(item.href, locale)} key={item.href}>
+                    {labelKey ? nav[labelKey] : item.label}
+                    {index < 2 ? <br /> : null}
+                  </Link>
+                )
+              })}
           </div>
           <div>
             <h4>{f.sectionParticipate}</h4>

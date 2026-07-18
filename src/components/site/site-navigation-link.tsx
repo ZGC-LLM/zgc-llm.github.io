@@ -8,10 +8,12 @@ import type { NavigationItem } from '@/types/content'
 
 export function SiteNavigationLink({ href, label }: NavigationItem): ReactElement {
   const pathname = usePathname()
-  const isCurrent = pathname === href || pathname.startsWith(`${href}/`)
+  // Leaf nodes (used by this component) always have href
+  const resolvedHref = href ?? '/'
+  const isCurrent = pathname === resolvedHref || pathname.startsWith(`${resolvedHref}/`)
 
   return (
-    <Link aria-current={isCurrent ? 'page' : undefined} className="site-nav-link" href={href}>
+    <Link aria-current={isCurrent ? 'page' : undefined} className="site-nav-link" href={resolvedHref}>
       {label}
     </Link>
   )

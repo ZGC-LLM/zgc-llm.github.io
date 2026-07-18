@@ -13,6 +13,8 @@ interface MembersStrings {
   heroEyebrow: string
   heroTitle: string
   heroDescription: string
+  relationNote: string
+  relationLinkLabel: string
   emptyTitle: string
   emptyBody: string
   emptyCta: string
@@ -48,8 +50,10 @@ const STRINGS: Record<Locale, MembersStrings> = {
     heroDescription:
       'The Alliance currently has 32 organisational members. The following are publicly announced council and supervisory member organisations; more members will be disclosed after authorization.',
     heroEyebrow: 'Ecosystem Partners',
-    heroTitle: 'Members',
+    heroTitle: 'Alliance Member Partners',
     logoAltSuffix: ' logo',
+    relationLinkLabel: 'View working groups',
+    relationNote: 'Some members also take part in working group co-building.',
     roleLabels: {
       监事长单位: 'Chief Supervisor unit',
       理事长单位: 'Chair unit',
@@ -69,8 +73,10 @@ const STRINGS: Record<Locale, MembersStrings> = {
     heroDescription:
       '联盟现有 32 家单位会员。以下为已公开的理事会与监事会成员单位，更多成员将在获得授权后陆续公开。',
     heroEyebrow: '生态伙伴',
-    heroTitle: '成员伙伴',
+    heroTitle: '联盟成员伙伴',
     logoAltSuffix: '标识',
+    relationLinkLabel: '查看工作组',
+    relationNote: '部分成员亦参与工作组共建，',
     roleLabels: {},
   },
 }
@@ -153,6 +159,16 @@ export function MembersView({ locale }: { locale: Locale }): ReactElement {
   return (
     <main id="main-content">
       <PageHero description={t.heroDescription} eyebrow={t.heroEyebrow} title={t.heroTitle} />
+      <section className="block">
+        <div className="site-container">
+          <p>
+            {t.relationNote}{' '}
+            <Link className="text-link" href={localizePath('/working-groups', locale)}>
+              {t.relationLinkLabel}
+            </Link>
+          </p>
+        </div>
+      </section>
       <MembersDirectory locale={locale} members={MEMBERS} />
     </main>
   )

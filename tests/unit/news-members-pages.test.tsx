@@ -51,10 +51,19 @@ describe('members page', () => {
     render(<MembersPage />)
 
     expect(screen.getByRole('main').getAttribute('id')).toBe('main-content')
-    expect(screen.getByRole('heading', { level: 1, name: '成员伙伴' })).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 1, name: '联盟成员伙伴' })).toBeTruthy()
     // MEMBERS 已收录已公开具名的理事会/监事会单位，渲染分组目录而非空态
     expect(screen.getByText('清华大学')).toBeTruthy()
     expect(screen.queryByText('成员信息整理中')).toBeNull()
+  })
+
+  it('test_members_page_relation_note_links_to_working_groups', () => {
+    render(<MembersPage />)
+
+    expect(screen.getByText('部分成员亦参与工作组共建', { exact: false })).toBeTruthy()
+    expect(screen.getByRole('link', { name: '查看工作组' }).getAttribute('href')).toBe(
+      '/working-groups',
+    )
   })
 
   it('test_members_directory_empty_members_renders_authorization_state', () => {
@@ -100,7 +109,7 @@ describe('members page', () => {
   })
 
   it('test_members_metadata_page_has_independent_title_and_canonical', () => {
-    expect(membersMetadata.title).toBe('成员伙伴')
+    expect(membersMetadata.title).toBe('联盟成员伙伴')
     expect(membersMetadata.description).toContain('公开授权')
     expect(membersMetadata.alternates).toEqual(buildAlternates('/members', 'zh'))
   })
