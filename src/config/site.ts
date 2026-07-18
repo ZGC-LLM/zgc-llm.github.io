@@ -68,9 +68,16 @@ const DEFAULT_APPLICATION_URL =
 const DEFAULT_APPLICATION_URL_CYBERSECURITY =
   'https://clouditera.feishu.cn/share/base/form/shrcnzfEuj5Wr8mdtX9aUxnP9LB'
 
-// 各工作组专属申请问卷的内置默认链接（env key → 默认 URL）。缺省环境变量（含 CI 注入空串）时用此默认值。
-const WORKING_GROUP_APPLICATION_URL_DEFAULTS: Record<string, string> = {
-  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: DEFAULT_APPLICATION_URL_CYBERSECURITY,
+// 已知工作组专属申请问卷：显式静态读取对应 NEXT_PUBLIC_* 变量（保证构建期可静态内联/审计，
+// 不用动态 process.env[key]）+ 内置默认链接兜底。新增工作组时在此登记一条。
+const WORKING_GROUP_APPLICATION_URLS: Record<
+  string,
+  { readonly read: () => string | undefined; readonly fallback: string }
+> = {
+  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: {
+    read: () => process.env.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY,
+    fallback: DEFAULT_APPLICATION_URL_CYBERSECURITY,
+  },
 }
 
 const configuredApplicationUrl = process.env.NEXT_PUBLIC_APPLICATION_URL
@@ -107,17 +114,16 @@ export function resolveApplicationTarget(
 /**
  * 解析某工作组加入 CTA 应使用的外部问卷 URL。
  * 优先级：专属环境变量（https）→ 该工作组内置默认链接 → 通用申请入口 APPLICATION_TARGET.href。
- * 内置默认保证未配置环境变量时仍开箱即用；仍由 ExternalApplicationLink 内部做一次 https 校验兜底。
- *
- * 仅在 Server Component 构建期调用；依赖 process.env 的动态 key 访问（构建期 Node 可用）。
+ * 专属变量经 WORKING_GROUP_APPLICATION_URLS 显式静态读取（非动态 process.env[key]），
+ * 保证 NEXT_PUBLIC_* 在构建期可静态内联与审计；仍由 ExternalApplicationLink 内部做一次 https 校验兜底。
  */
 export function resolveWorkingGroupApplicationUrl(
   group: Pick<WorkingGroupSummary, 'applicationEnvKey'>,
 ): string {
   const key = group.applicationEnvKey
-  const specific = key ? process.env[key] : undefined
-  if (isSafeExternalUrl(specific)) return specific
+  const entry = key ? WORKING_GROUP_APPLICATION_URLS[key] : undefined
+  const configured = entry?.read()
+  if (isSafeExternalUrl(configured)) return configured
 
-  const dedicatedDefault = key ? WORKING_GROUP_APPLICATION_URL_DEFAULTS[key] : undefined
-  return dedicatedDefault ?? APPLICATION_TARGET.href ?? DEFAULT_APPLICATION_URL
+  return entry?.fallback ?? APPLICATION_TARGET.href ?? DEFAULT_APPLICATION_URL
 }
