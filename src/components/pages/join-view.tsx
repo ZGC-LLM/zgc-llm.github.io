@@ -32,9 +32,9 @@ interface JoinStrings {
 
 const STRINGS: Record<Locale, JoinStrings> = {
   en: {
-    applyCta: 'Partner with Us',
+    applyCta: 'Apply to Partner with Us',
     description:
-      'Learn about the value, ways to participate, collaboration process and FAQs for institutions joining the Alliance ecosystem.',
+      'Learn about the value, ways to participate, collaboration process and FAQs for institutions joining the Alliance as a member. Submitting the form only establishes initial contact and does not itself constitute formal membership.',
     faq: [
       [
         'Which institutions can take part?',
@@ -46,7 +46,7 @@ const STRINGS: Record<Locale, JoinStrings> = {
       ],
       [
         'Can individuals join the Alliance?',
-        'Alliance members are all organisations; individuals cannot join directly, but individual professionals can participate through programmes open to professional users, such as the Cybersecurity Working Group.',
+        'Alliance members are all organisations; individuals cannot join directly. Individual professional users and researchers can instead take part through the Cybersecurity Working Group — see its “Join the working group” page (/working-groups/cybersecurity/join).',
       ],
     ],
     faqEyebrow: 'Answers',
@@ -110,12 +110,16 @@ const STRINGS: Record<Locale, JoinStrings> = {
     ],
   },
   zh: {
-    applyCta: '机构合作申请',
-    description: '了解机构参与联盟生态共建的合作价值、参与方式、协作流程与常见问题。',
+    applyCta: '提交机构合作申请',
+    description:
+      '了解机构以单位会员身份加入联盟的合作价值、参与方式、协作流程与常见问题；提交表单仅用于建立初步联系，不代表正式加入。',
     faq: [
       ['哪些机构可以参与？', '模型、芯片、算力、数据、平台及行业应用等产业伙伴，以及高校与科研机构，都欢迎与联盟洽谈合作。'],
       ['提交表单代表正式加入吗？', '不代表。表单仅用于与联盟建立初步联系，具体合作安排以双方后续沟通确认为准。'],
-      ['个人可以加入联盟吗？', '联盟会员均为单位会员，个人无法直接入盟；但个人专业用户可通过网络安全工作组等面向专业用户开放的计划参与。'],
+      [
+        '个人可以加入联盟吗？',
+        '联盟会员均为单位会员，个人无法直接入盟；个人专业用户及研究者可改为参与网络安全工作组，入口见其「加入工作组」页面（/working-groups/cybersecurity/join）。',
+      ],
     ],
     faqEyebrow: '问题解答',
     faqTitle: '常见问题',

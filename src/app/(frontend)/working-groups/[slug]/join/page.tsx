@@ -5,6 +5,7 @@ import type { ReactElement } from 'react'
 import { ExternalApplicationLink } from '@/components/site/external-application-link'
 import { PageHero } from '@/components/site/page-hero'
 import { SectionHeading } from '@/components/site/section-heading'
+import { resolveWorkingGroupApplicationUrl } from '@/config/site'
 import {
   getWorkingGroupBySlug,
   getWorkingGroupSlugs,
@@ -50,9 +51,9 @@ const STRINGS: Record<Locale, {
   faq: readonly Pair[]
 }> = {
   en: {
-    applyCta: 'Apply as a professional user',
+    applyCta: 'Apply now as a professional user',
     descriptionFor: (title) =>
-      `Open to security enterprises, universities, research labs and individual professionals — learn about the value, paths and cooperation process for joining the ${title}.`,
+      `Whether you are an individual professional or represent a security enterprise, university or research institution, you are welcome to take part — learn about the value, paths and application process for joining the ${title} as a working group co-building partner. Submitting an application does not itself constitute formal membership; specific arrangements follow confirmation by the working group.`,
     faq: [
       [
         'Who can apply — individuals or institutions?',
@@ -65,6 +66,10 @@ const STRINGS: Record<Locale, {
       [
         'What if the application channel is unavailable?',
         'If the channel is not yet open, the page will prompt you to contact the Alliance via the channels published on this site.',
+      ],
+      [
+        'Where should institutions apply for formal Alliance membership?',
+        'This page is for working group co-building partners. If your institution wants to formally join the Alliance as a member, please visit the Alliance’s “Institutional Ecosystem Co-building” join page (/join) instead.',
       ],
     ],
     faqEyebrow: 'Answers',
@@ -130,13 +135,17 @@ const STRINGS: Record<Locale, {
     valuesTitle: 'The value of joining',
   },
   zh: {
-    applyCta: '专业用户申请',
+    applyCta: '立即提交专业用户申请',
     descriptionFor: (title) =>
-      `面向安全企业、高校、科研机构与专业研究人员开放，了解加入${title}的合作价值、参与路径与申请流程。`,
+      `无论个人专业用户，还是安全企业、高校、科研机构等机构，均可参与——了解以工作组共建伙伴身份加入${title}的合作价值、参与路径与申请流程；提交申请不代表正式加入，以工作组后续确认为准。`,
     faq: [
       ['专业用户是否包含机构？', '是。既欢迎专业研究人员以个人身份参与，也欢迎安全企业、高校、实验室等机构表达合作意向。'],
       ['提交申请是否代表正式加入？', '不代表。表单用于建立联系，具体参与安排以工作组后续确认为准。'],
       ['申请通道暂不可用怎么办？', '若申请通道暂未开放，页面会提示您通过官网公布的联系方式与联盟联系。'],
+      [
+        '机构希望正式入盟，应前往哪里？',
+        '本页申请面向工作组共建伙伴；若机构希望以单位会员身份正式加入联盟，请前往联盟「机构生态共建」加入页（/join）提交合作申请。',
+      ],
     ],
     faqEyebrow: '问题解答',
     faqTitle: '常见问题',
@@ -216,12 +225,17 @@ export function WorkingGroupJoinView({
 
   const t = STRINGS[locale]
   const localized = localizeWorkingGroup(group, locale)
+  const configuredUrl = resolveWorkingGroupApplicationUrl(group)
 
   return (
     <main id="main-content">
       <PageHero
         actions={
-          <ExternalApplicationLink className="button-primary" label={t.applyCta}>
+          <ExternalApplicationLink
+            className="button-primary"
+            configuredUrl={configuredUrl}
+            label={t.applyCta}
+          >
             {t.applyCta}
           </ExternalApplicationLink>
         }

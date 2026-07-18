@@ -40,7 +40,8 @@ pnpm typecheck && pnpm lint && pnpm test && pnpm build
 - 默认 React Server Components，仅在需要浏览器交互时用 Client Components。
 - TypeScript 严格模式，不使用 `any`。
 - 公开内容集中在 `src/content/`，不在页面组件混入复杂逻辑。
-- 新增环境变量时同步更新 `.env.example`，不得提交真实密钥或表单链接。
+- 新增环境变量时同步更新 `.env.example`，**不得提交真实密钥/凭证**（API key、token、数据库口令等）。
+- 加入申请的飞书**公开问卷分享链接**不属于密钥：它们部署后本就出现在公开页面 HTML 中，允许作为默认值提交在 `src/config/site.ts`（`DEFAULT_APPLICATION_URL*`），生产可通过对应 `NEXT_PUBLIC_APPLICATION_URL*` 环境变量覆盖。
 
 ## 分支与协作流程
 

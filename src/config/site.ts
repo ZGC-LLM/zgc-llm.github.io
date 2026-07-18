@@ -3,6 +3,7 @@ import type {
   ExternalApplicationTarget,
   NavigationItem,
   ResolvedApplicationTarget,
+  WorkingGroupSummary,
 } from '@/types/content'
 
 export const SITE_NAME = '中关村自主大模型产业联盟'
@@ -60,8 +61,23 @@ export const PUBLIC_STATIC_ROUTES = [
   '/privacy',
 ] as const
 
+// 加入申请飞书问卷（公开分享链接，外部匿名可填）。这些链接部署后本就出现在公开页面 HTML 中，
+// 非机密；作为默认值提交以便开箱即用，生产/预览可通过对应 NEXT_PUBLIC_* 环境变量覆盖。
+const DEFAULT_APPLICATION_URL =
+  'https://clouditera.feishu.cn/share/base/form/shrcnlX5daUGxOitSbOOUc1tkBb'
+const DEFAULT_APPLICATION_URL_CYBERSECURITY =
+  'https://clouditera.feishu.cn/share/base/form/shrcnzfEuj5Wr8mdtX9aUxnP9LB'
+
+// 各工作组专属申请问卷的内置默认链接（env key → 默认 URL）。缺省环境变量（含 CI 注入空串）时用此默认值。
+const WORKING_GROUP_APPLICATION_URL_DEFAULTS: Record<string, string> = {
+  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: DEFAULT_APPLICATION_URL_CYBERSECURITY,
+}
+
+const configuredApplicationUrl = process.env.NEXT_PUBLIC_APPLICATION_URL
+
 export const APPLICATION_TARGET: ExternalApplicationTarget = {
-  href: process.env.NEXT_PUBLIC_APPLICATION_URL,
+  // 环境变量为合法 https 时优先使用；未设置或为空串（未配置的 GitHub Variable）时回退内置默认链接。
+  href: isSafeExternalUrl(configuredApplicationUrl) ? configuredApplicationUrl : DEFAULT_APPLICATION_URL,
   label: '合作申请',
   unavailableMessage: '申请通道准备中，请通过官网联系方式与联盟联系。',
 }
@@ -86,4 +102,22 @@ export function resolveApplicationTarget(
     href,
     isAvailable: Boolean(href),
   }
+}
+
+/**
+ * 解析某工作组加入 CTA 应使用的外部问卷 URL。
+ * 优先级：专属环境变量（https）→ 该工作组内置默认链接 → 通用申请入口 APPLICATION_TARGET.href。
+ * 内置默认保证未配置环境变量时仍开箱即用；仍由 ExternalApplicationLink 内部做一次 https 校验兜底。
+ *
+ * 仅在 Server Component 构建期调用；依赖 process.env 的动态 key 访问（构建期 Node 可用）。
+ */
+export function resolveWorkingGroupApplicationUrl(
+  group: Pick<WorkingGroupSummary, 'applicationEnvKey'>,
+): string {
+  const key = group.applicationEnvKey
+  const specific = key ? process.env[key] : undefined
+  if (isSafeExternalUrl(specific)) return specific
+
+  const dedicatedDefault = key ? WORKING_GROUP_APPLICATION_URL_DEFAULTS[key] : undefined
+  return dedicatedDefault ?? APPLICATION_TARGET.href ?? DEFAULT_APPLICATION_URL
 }

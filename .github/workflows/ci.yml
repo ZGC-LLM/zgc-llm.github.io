@@ -37,6 +37,9 @@ jobs:
     timeout-minutes: 10
     env:
       NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
+      # 未在仓库 Variables 中配置 NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY 时留空，
+      # 构建/单测按预期走通用 NEXT_PUBLIC_APPLICATION_URL 回退降级态，属正常行为。
+      NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: ${{ vars.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -76,6 +79,9 @@ jobs:
     timeout-minutes: 15
     env:
       NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
+      # 未在仓库 Variables 中配置 NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY 时留空，
+      # e2e 按预期走通用 NEXT_PUBLIC_APPLICATION_URL 回退降级态，属正常行为。
+      NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: ${{ vars.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7

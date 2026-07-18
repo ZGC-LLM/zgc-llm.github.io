@@ -36,6 +36,8 @@ export interface WorkingGroupLead {
 }
 
 export interface WorkingGroupSummary {
+  /** 该工作组专属申请问卷的环境变量名（非 URL 本身）；未设置则回退通用 NEXT_PUBLIC_APPLICATION_URL */
+  applicationEnvKey?: string
   description: string
   /** 互链业务专题页，如 '/cybersecurity' */
   ecosystemHref?: string
