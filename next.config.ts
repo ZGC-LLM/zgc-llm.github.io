@@ -11,6 +11,10 @@ const dirname = path.dirname(__filename)
 const isStaticExport = process.env.BUILD_TARGET === 'export'
 
 const nextConfig: NextConfig = {
+  // 开发期允许通过局域网 IP 访问（跨源 dev host）。Next 16 默认仅信任 localhost，
+  // 从 LAN IP 访问时会拦截 HMR/dev 资源，导致 Turbopack 客户端运行时引导失败、整页不水合
+  // （表现为导航下拉、语言切换等所有交互失效）。仅影响 next dev；生产 standalone/export 不使用。
+  allowedDevOrigins: ['192.168.0.111'],
   experimental: {
     globalNotFound: true,
   },
