@@ -42,7 +42,7 @@ const STRINGS: Record<Locale, CyberStrings> = {
       'From professional-user operations to validation and release, forming a long-term mechanism that is participatory, cumulative and reusable.',
     actionsEyebrow: 'Priority Actions',
     actionsTitle: 'Four priority actions',
-    applyCta: 'Partner with Us',
+    applyCta: 'Join the Alliance',
     contributionDescription:
       'No uniform data-delivery requirement and no mandatory delivery of raw data. Partners can take part through data, tasks, environments, experts, products, evaluation or scenarios.',
     contributionEyebrow: 'Ways to Participate',
@@ -75,7 +75,7 @@ const STRINGS: Record<Locale, CyberStrings> = {
     actionsDescription: '从专业用户运营到验证发布，形成可参与、可积累、可复用的长期机制。',
     actionsEyebrow: '重点行动',
     actionsTitle: '重点推进四项行动',
-    applyCta: '机构合作申请',
+    applyCta: '加入联盟',
     contributionDescription:
       '不设置统一的数据交付要求，也不强制交付原始数据。伙伴可通过数据、任务、环境、专家、产品、评测或场景参与共建。',
     contributionEyebrow: '参与方式',

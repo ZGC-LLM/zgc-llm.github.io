@@ -19,7 +19,7 @@ describe('CybersecurityView', () => {
     expect(screen.getByRole('main').getAttribute('id')).toBe('main-content')
     expect(screen.getByRole('heading', { level: 1, name: eco.title })).toBeTruthy()
     expect(
-      screen.getAllByRole('link', { name: '机构合作申请' })[0].getAttribute('href'),
+      screen.getAllByRole('link', { name: '加入联盟' })[0].getAttribute('href'),
     ).toBe('/join')
     expect(screen.getByRole('link', { name: '查看工作组组织信息' }).getAttribute('href')).toBe(
       '/working-groups/cybersecurity',
@@ -40,7 +40,7 @@ describe('CybersecurityView', () => {
     render(<CybersecurityView locale="en" />)
 
     expect(
-      screen.getAllByRole('link', { name: 'Partner with Us' })[0].getAttribute('href'),
+      screen.getAllByRole('link', { name: 'Join the Alliance' })[0].getAttribute('href'),
     ).toBe('/en/join')
     expect(
       screen.getByRole('link', { name: 'View working-group information' }).getAttribute('href'),

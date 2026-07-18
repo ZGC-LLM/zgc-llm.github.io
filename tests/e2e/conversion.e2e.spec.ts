@@ -8,7 +8,7 @@ test.describe('conversion and privacy pages', () => {
     await expect(institutionMain.getByRole('heading', { level: 2, name: '参与流程' })).toBeVisible()
 
     // 加入申请 CTA 内置飞书问卷默认链接（env 可覆盖），始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = institutionMain.getByRole('link', { name: /机构合作申请/ })
+    const externalLink = institutionMain.getByRole('link', { name: /提交入盟申请/ })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')

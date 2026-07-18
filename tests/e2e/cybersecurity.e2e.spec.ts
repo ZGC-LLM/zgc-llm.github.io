@@ -87,7 +87,7 @@ test.describe('网络安全生态专题', () => {
     ).toBeVisible()
     await expect(main.getByText('厂商中立', { exact: true })).toBeVisible()
 
-    const institutionCta = main.getByRole('link', { name: '机构合作申请' }).last()
+    const institutionCta = main.getByRole('link', { name: '加入联盟' }).last()
 
     await expect(institutionCta).toHaveAttribute('href', '/join')
     await expect(institutionCta).toHaveClass(/btn--primary/)

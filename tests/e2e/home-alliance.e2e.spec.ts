@@ -12,7 +12,7 @@ test.describe('home, alliance, and working groups', () => {
     ).toBeVisible()
     await expect(page.getByRole('main')).toHaveAttribute('id', 'main-content')
 
-    const institutionLink = page.getByRole('main').getByRole('link', { name: '机构合作申请' })
+    const institutionLink = page.getByRole('main').getByRole('link', { name: '加入联盟' })
 
     await expect(institutionLink).toHaveAttribute('href', '/join')
     await expect(institutionLink).toHaveClass(/btn--primary/)

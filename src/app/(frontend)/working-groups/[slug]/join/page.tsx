@@ -51,7 +51,7 @@ const STRINGS: Record<Locale, {
   faq: readonly Pair[]
 }> = {
   en: {
-    applyCta: 'Apply now as a professional user',
+    applyCta: 'Submit an application',
     descriptionFor: (title) =>
       `Whether you are an individual professional or represent a security enterprise, university or research institution, you are welcome to take part — learn about the value, paths and application process for joining the ${title} as a working group co-building partner. Submitting an application does not itself constitute formal membership; specific arrangements follow confirmation by the working group.`,
     faq: [
@@ -70,6 +70,14 @@ const STRINGS: Record<Locale, {
       [
         'Where should institutions apply for formal Alliance membership?',
         'This page is for working group co-building partners. If your institution wants to formally join the Alliance as a member, please visit the Alliance’s “Institutional Ecosystem Co-building” join page (/join) instead.',
+      ],
+      [
+        'Are there fees or thresholds to take part?',
+        'Taking part in the working group does not itself require any fee. We focus on your direction, capabilities and the ways you can contribute; specific tasks and roles are agreed with the working group.',
+      ],
+      [
+        'How are the data and tasks I contribute kept compliant?',
+        'All shared data and tasks proceed only after the necessary authorization and boundary confirmation, following the principles of vendor neutrality and compliant governance; we only use what has been authorized.',
       ],
     ],
     faqEyebrow: 'Answers',
@@ -135,7 +143,7 @@ const STRINGS: Record<Locale, {
     valuesTitle: 'The value of joining',
   },
   zh: {
-    applyCta: '立即提交专业用户申请',
+    applyCta: '提交加入工作组申请',
     descriptionFor: (title) =>
       `无论个人专业用户，还是安全企业、高校、科研机构等机构，均可参与——了解以工作组共建伙伴身份加入${title}的合作价值、参与路径与申请流程；提交申请不代表正式加入，以工作组后续确认为准。`,
     faq: [
@@ -145,6 +153,14 @@ const STRINGS: Record<Locale, {
       [
         '机构希望正式入盟，应前往哪里？',
         '本页申请面向工作组共建伙伴；若机构希望以单位会员身份正式加入联盟，请前往联盟「机构生态共建」加入页（/join）提交合作申请。',
+      ],
+      [
+        '参与工作组是否有费用或门槛？',
+        '参与工作组本身不收取费用。我们更关注您的方向、能力与可参与的方式；具体任务与角色以工作组沟通确认为准。',
+      ],
+      [
+        '我贡献的数据与任务如何保证合规？',
+        '所有共享的数据与任务均在完成必要授权和边界确认后开展，遵循厂商中立与合规治理原则，我们只使用经授权的内容。',
       ],
     ],
     faqEyebrow: '问题解答',

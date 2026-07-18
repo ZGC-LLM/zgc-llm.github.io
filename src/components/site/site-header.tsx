@@ -106,6 +106,9 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
         </nav>
 
         <div className="hidden items-center gap-3 min-[1024px]:flex">
+          <Link className="button-secondary" href={localizePath('/working-groups', locale)}>
+            {t.joinWorkingGroup}
+          </Link>
           <Link className="button-primary" href={localizePath('/join', locale)}>
             {t.institutionApply}
           </Link>
@@ -124,6 +127,12 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
                 <NavigationLinks locale={locale} variant="mobile" />
               </nav>
               <div className="mt-4 grid gap-3 border-t border-[var(--alliance-border)] pt-4">
+                <Link
+                  className="button-secondary justify-center"
+                  href={localizePath('/working-groups', locale)}
+                >
+                  {t.joinWorkingGroup}
+                </Link>
                 <Link
                   className="button-primary justify-center"
                   href={localizePath('/join', locale)}

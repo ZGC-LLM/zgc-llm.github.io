@@ -40,7 +40,7 @@ describe('working-group overview page', () => {
 
     expect(screen.getByRole('main').getAttribute('id')).toBe('main-content')
     expect(screen.getByRole('heading', { level: 1, name: group.title })).toBeTruthy()
-    expect(screen.getAllByRole('link', { name: '加入工作组' })[0].getAttribute('href')).toBe(
+    expect(screen.getAllByRole('link', { name: '了解如何加入' })[0].getAttribute('href')).toBe(
       '/working-groups/cybersecurity/join',
     )
     expect(
@@ -164,7 +164,7 @@ describe('working-group join page', () => {
     expect(screen.getByRole('heading', { name: '专业用户是否包含机构？' })).toBeTruthy()
     // NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY 未配置时回退到内置的网安工作组默认问卷链接，
     // CTA 渲染为可点击的真实外链，不再降级为不可用提示。
-    const link = screen.getByRole('link', { name: /专业用户申请/ })
+    const link = screen.getByRole('link', { name: /提交加入工作组申请/ })
     expect(link.getAttribute('href')).toBe(resolveWorkingGroupApplicationUrl(group))
     expect(link.getAttribute('target')).toBe('_blank')
     expect(link.getAttribute('rel')).toContain('noopener')

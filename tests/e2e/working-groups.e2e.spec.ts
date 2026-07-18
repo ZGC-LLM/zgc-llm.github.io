@@ -66,7 +66,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByRole('heading', { level: 1, name: '加入工作组' })).toBeVisible()
 
     // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = main.getByRole('link', { name: '专业用户申请' })
+    const externalLink = main.getByRole('link', { name: '提交加入工作组申请' })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')
@@ -82,7 +82,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByText('/join', { exact: false })).toBeVisible()
 
     // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = main.getByRole('link', { name: '专业用户申请' })
+    const externalLink = main.getByRole('link', { name: '提交加入工作组申请' })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')
@@ -117,7 +117,7 @@ test.describe('回归性冒烟检查', () => {
     await expect(main.getByRole('heading', { level: 1, name: '机构生态共建' })).toBeVisible()
 
     // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = main.getByRole('link', { name: /机构合作申请/ })
+    const externalLink = main.getByRole('link', { name: /提交入盟申请/ })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')

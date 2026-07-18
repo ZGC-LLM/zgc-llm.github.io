@@ -29,58 +29,63 @@ function renderGroup(variant: 'desktop' | 'mobile' = 'desktop') {
 }
 
 describe('NavGroup', () => {
-  it('renders the title as a navigable link to the parent target', () => {
+  it('renders the title as an expand trigger button on desktop (no navigation)', () => {
     renderGroup()
 
-    const link = screen.getByRole('link', { name: '成员伙伴' })
+    const trigger = screen.getByRole('button', { name: '成员伙伴' })
 
-    expect(link.getAttribute('href')).toBe('/members')
-  })
-
-  it('keeps the submenu collapsed by default (no hydration mismatch)', () => {
-    renderGroup()
-
-    const toggle = screen.getByRole('button', { name: '展开子菜单' })
-
-    expect(toggle.getAttribute('aria-expanded')).toBe('false')
-    expect(toggle.getAttribute('aria-controls')).toBeTruthy()
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    expect(trigger.getAttribute('aria-controls')).toBeTruthy()
+    expect(screen.queryByRole('link', { name: '成员伙伴' })).toBeNull()
     expect(screen.queryByRole('link', { name: '联盟成员' })).toBeNull()
   })
 
-  it('expands the submenu on caret click and reveals both child links', () => {
+  it('expands the submenu on title click and reveals both child links (desktop)', () => {
     renderGroup()
 
-    const toggle = screen.getByRole('button', { name: '展开子菜单' })
-    fireEvent.click(toggle)
+    const trigger = screen.getByRole('button', { name: '成员伙伴' })
+    fireEvent.click(trigger)
 
-    expect(toggle.getAttribute('aria-expanded')).toBe('true')
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
     expect(screen.getByRole('link', { name: '联盟成员' })).toBeTruthy()
     expect(screen.getByRole('link', { name: '工作组成员' })).toBeTruthy()
   })
 
-  it('closes on Escape and returns focus to the caret toggle', () => {
+  it('closes on Escape and returns focus to the title trigger (desktop)', () => {
     renderGroup()
 
-    const toggle = screen.getByRole('button', { name: '展开子菜单' })
-    fireEvent.click(toggle)
+    const trigger = screen.getByRole('button', { name: '成员伙伴' })
+    fireEvent.click(trigger)
     fireEvent.keyDown(document, { key: 'Escape' })
 
-    expect(toggle.getAttribute('aria-expanded')).toBe('false')
-    expect(document.activeElement).toBe(toggle)
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(trigger)
   })
 
-  it('marks the title link current when the parent route is active', () => {
+  it('marks the title trigger current when the parent route is active (desktop)', () => {
     mockPathname = '/members'
     renderGroup()
 
-    expect(screen.getByRole('link', { name: '成员伙伴' }).getAttribute('aria-current')).toBe('page')
+    expect(screen.getByRole('button', { name: '成员伙伴' }).getAttribute('aria-current')).toBe(
+      'page',
+    )
   })
 
   it('marks the title current on nested working-group routes (accepted overlap)', () => {
     mockPathname = '/working-groups/cybersecurity/members'
     renderGroup()
 
-    expect(screen.getByRole('link', { name: '成员伙伴' }).getAttribute('aria-current')).toBe('page')
+    expect(screen.getByRole('button', { name: '成员伙伴' }).getAttribute('aria-current')).toBe(
+      'page',
+    )
+  })
+
+  it('renders the title as a navigable link on mobile', () => {
+    renderGroup('mobile')
+
+    const link = screen.getByRole('link', { name: '成员伙伴' })
+
+    expect(link.getAttribute('href')).toBe('/members')
   })
 
   it('renders children inline for the mobile variant', () => {
