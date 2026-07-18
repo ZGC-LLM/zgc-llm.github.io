@@ -129,7 +129,7 @@ export function MembersDirectory({
               <SectionHeading description={group.description} title={group.label} />
               <div className="grid-3">
                 {groupMembers.map((member) => (
-                  <article className="card min-w-0" key={member.id}>
+                  <article className="card member-card min-w-0" key={member.id}>
                     {member.logo ? (
                       <div className="logo-tile">
                         <Image
@@ -158,17 +158,19 @@ export function MembersView({ locale }: { locale: Locale }): ReactElement {
 
   return (
     <main id="main-content">
-      <PageHero description={t.heroDescription} eyebrow={t.heroEyebrow} title={t.heroTitle} />
-      <section className="block">
-        <div className="site-container">
-          <p>
+      <PageHero
+        actions={
+          <p className="hero-note">
             {t.relationNote}{' '}
-            <Link className="text-link" href={localizePath('/working-groups', locale)}>
+            <Link className="hero-note__link" href={localizePath('/working-groups', locale)}>
               {t.relationLinkLabel}
             </Link>
           </p>
-        </div>
-      </section>
+        }
+        description={t.heroDescription}
+        eyebrow={t.heroEyebrow}
+        title={t.heroTitle}
+      />
       <MembersDirectory locale={locale} members={MEMBERS} />
     </main>
   )
