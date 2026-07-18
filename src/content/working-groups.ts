@@ -22,7 +22,7 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
           '支持新模型专项测试、发布与能力迭代；生态对不同基础模型厂商对等开放。',
         name: '智谱',
         named: true,
-        role: '模型与技术牵引',
+        role: '模型与技术支持',
       },
       {
         description:
@@ -43,7 +43,7 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
           '采集真实攻防数据，构建训练与测试场景，持续深化优化网络安全大模型，重点推动漏洞挖掘与渗透测试的场景落地。',
         name: '云起无垠',
         named: true,
-        role: '技术平台与项目运营',
+        role: '技术平台运营与数据、模型训练',
       },
       {
         description:
@@ -111,7 +111,7 @@ const WORKING_GROUPS_EN: Readonly<Record<string, WorkingGroupOverlay>> = {
           'Supports dedicated testing, release and capability iteration of new models; the ecosystem is equally open to different foundation-model vendors.',
         name: 'Zhipu',
         named: true,
-        role: 'Model and technical lead',
+        role: 'Model and technical support',
       },
       {
         description:
@@ -132,7 +132,7 @@ const WORKING_GROUPS_EN: Readonly<Record<string, WorkingGroupOverlay>> = {
           'Collects real offense-defense data and builds training and testing scenarios to continuously deepen and optimise the cybersecurity large model, focusing on scenario deployment for vulnerability discovery and penetration testing.',
         name: 'CloudInfinite',
         named: true,
-        role: 'Technology platform and project operations',
+        role: 'Platform operations, data and model training',
       },
       {
         description:
