@@ -36,18 +36,18 @@ test.describe('site integration', () => {
     expect(hasHorizontalOverflow).toBe(false)
   })
 
-  test('header collapses to the mobile menu below the 1280px breakpoint', async ({ page }) => {
-    // v2 断点为 1280px：完整控件（品牌名 + 5 个中文导航 + 机构合作申请 CTA + 主题/语言 toggle）
-    // 在窄于 1280 时收起为汉堡，避免 flex 挤压导致中文换行。
-    await page.setViewportSize({ width: 1024, height: 768 })
+  test('header collapses to the mobile menu below the 1024px breakpoint', async ({ page }) => {
+    // v2 断点为 1024px：完整控件（品牌名 + 5 个中文导航 + 机构合作申请 CTA + 主题/语言 toggle）
+    // 在窄于 1024 时收起为汉堡，避免 flex 挤压导致中文换行。
+    await page.setViewportSize({ width: 768, height: 1024 })
     await page.goto('/')
 
     await expect(page.getByRole('navigation', { name: '主导航' })).toBeHidden()
     const trigger = page.locator('header details.mobile-menu summary')
     await expect(trigger).toBeVisible()
 
-    // 断点下沿边界：1279px（恰低于 1280）仍应收起为汉堡
-    await page.setViewportSize({ width: 1279, height: 768 })
+    // 断点下沿边界：1023px（恰低于 1024）仍应收起为汉堡
+    await page.setViewportSize({ width: 1023, height: 768 })
     await expect(page.getByRole('navigation', { name: '主导航' })).toBeHidden()
     await expect(trigger).toBeVisible()
 
@@ -57,8 +57,8 @@ test.describe('site integration', () => {
     ).toBeVisible()
   })
 
-  test('desktop navigation is shown at the 1280px breakpoint', async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 })
+  test('desktop navigation is shown at the 1024px breakpoint', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 800 })
     await page.goto('/')
 
     await expect(
