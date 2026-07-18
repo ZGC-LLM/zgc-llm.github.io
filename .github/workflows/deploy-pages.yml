@@ -28,18 +28,18 @@ jobs:
       # 未配置时 CTA 会回退为「申请通道准备中」的禁用态。
       NEXT_PUBLIC_INSTITUTION_APPLICATION_URL: ${{ vars.NEXT_PUBLIC_INSTITUTION_APPLICATION_URL }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with:
           version: 11.2.2
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           cache: pnpm
           node-version: 22
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: ./out
 
@@ -51,4 +51,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
