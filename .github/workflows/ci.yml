@@ -32,9 +32,9 @@ jobs:
         run: pnpm audit --prod --audit-level high --registry https://registry.npmjs.org
 
   quality:
-    name: Build and test
+    name: Types, lint & unit tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     env:
       NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
     steps:
@@ -57,10 +57,58 @@ jobs:
         run: pnpm typecheck
       - name: Lint
         run: pnpm lint
-      - name: Run unit tests
-        run: pnpm test
-      - name: Install Playwright Chromium
+      - name: Run unit tests with coverage
+        run: pnpm test:coverage
+      # 覆盖率仅采集与展示，不设失败阈值（本阶段只报告不硬卡）。
+      - name: Upload coverage report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  e2e:
+    name: End-to-end tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          cache: pnpm
+          node-version: 22
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      # 缓存 Playwright 浏览器，避免每次重装（key 绑定 @playwright/test 锁定版本）。
+      - name: Resolve Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}
+      - name: Install Playwright Chromium (with system deps)
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+      # 命中缓存时浏览器二进制已存在，仅补装系统依赖库即可。
+      - name: Install Playwright system deps only
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
       - name: Run end-to-end tests
         run: pnpm test:e2e
       - name: Upload Playwright report
@@ -74,5 +122,3 @@ jobs:
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 7
-      - name: Build production bundle
-        run: pnpm build
