@@ -2,9 +2,11 @@ import { cleanup, render, screen, within } from '@testing-library/react'
 import { buildAlternates } from '@/i18n/routing'
 import { afterEach, describe, expect, it } from 'vitest'
 
+import EnJoinPage from '@/app/(en)/en/join/page'
 import JoinPage, { metadata as joinMetadata } from '@/app/(frontend)/join/page'
 import PrivacyPage, { metadata as privacyMetadata } from '@/app/(frontend)/privacy/page'
-import { APPLICATION_TARGETS } from '@/config/site'
+import { WorkingGroupJoinView } from '@/app/(frontend)/working-groups/[slug]/join/page'
+import { APPLICATION_TARGET, PUBLIC_STATIC_ROUTES } from '@/config/site'
 
 afterEach(cleanup)
 
@@ -20,19 +22,6 @@ describe('institution conversion page', () => {
     expect(screen.getByRole('main').id).toBe('main-content')
   })
 
-  it('uses the institution target and safely falls back when its URL is missing', () => {
-    render(<JoinPage />)
-
-    const main = screen.getByRole('main')
-    expect(within(main).queryByRole('link', { name: /机构合作申请/ })).toBeNull()
-    expect(
-      within(main)
-        .getByText(APPLICATION_TARGETS.institution.unavailableMessage)
-        .getAttribute('aria-disabled'),
-    ).toBe('true')
-    expect(main.textContent).not.toMatch(/站内提交|材料上传|审核进度|进度查询/)
-  })
-
   it('defines page-specific metadata', () => {
     expect(joinMetadata.title).toBe('机构生态共建')
     expect(joinMetadata.description).toMatch(/机构|生态共建/)
@@ -40,12 +29,56 @@ describe('institution conversion page', () => {
   })
 })
 
-describe('professional conversion page', () => {
-  it('is reintroduced as a working-group join target, not a standalone /professionals page', () => {
-    expect(APPLICATION_TARGETS).toHaveProperty('professional')
-    expect(APPLICATION_TARGETS.professional.internalHref).toBe('/working-groups/cybersecurity/join')
-    // 历史决策：professional 类型复活仅作为工作组加入入口，/professionals 独立页仍不存在
-    expect(APPLICATION_TARGETS.professional.internalHref).not.toMatch(/^\/professionals\b/)
+describe('shared application target across entry points (zh)', () => {
+  it('falls back to the same unavailable message on the institutional entry when the URL is missing', () => {
+    render(<JoinPage />)
+
+    const main = screen.getByRole('main')
+    expect(within(main).queryByRole('link', { name: /机构合作申请/ })).toBeNull()
+    expect(
+      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
+    ).toBe('true')
+    expect(main.textContent).not.toMatch(/站内提交|材料上传|审核进度|进度查询/)
+  })
+
+  it('falls back to the same unavailable message on the cybersecurity working-group entry', () => {
+    render(<WorkingGroupJoinView locale="zh" slug="cybersecurity" />)
+
+    const main = screen.getByRole('main')
+    expect(within(main).queryByRole('link', { name: /专业用户申请/ })).toBeNull()
+    expect(
+      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
+    ).toBe('true')
+  })
+})
+
+describe('shared application target across entry points (en)', () => {
+  it('falls back to the same unavailable message on the institutional entry', () => {
+    render(<EnJoinPage />)
+
+    const main = screen.getByRole('main')
+    expect(within(main).queryByRole('link', { name: /Partner with Us/ })).toBeNull()
+    expect(
+      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
+    ).toBe('true')
+  })
+
+  it('falls back to the same unavailable message on the cybersecurity working-group entry', () => {
+    render(<WorkingGroupJoinView locale="en" slug="cybersecurity" />)
+
+    const main = screen.getByRole('main')
+    expect(within(main).queryByRole('link', { name: /Apply as a professional user/ })).toBeNull()
+    expect(
+      within(main).getByText(APPLICATION_TARGET.unavailableMessage).getAttribute('aria-disabled'),
+    ).toBe('true')
+  })
+})
+
+describe('no standalone /professionals route', () => {
+  it('is not registered as a public static route; the working-group join entry is the only path', () => {
+    expect(PUBLIC_STATIC_ROUTES).not.toContain('/professionals')
+    expect(PUBLIC_STATIC_ROUTES.some((route) => route.startsWith('/professionals'))).toBe(false)
+    expect(PUBLIC_STATIC_ROUTES).toContain('/working-groups/cybersecurity/join')
   })
 })
 

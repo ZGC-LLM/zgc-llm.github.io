@@ -88,15 +88,14 @@ pnpm test:all        # 单元 + 端到端测试
 
 ## 环境变量
 
-两类飞书表单链接通过环境变量独立配置，**仅接受 HTTPS 地址**：
+统一合作/加入申请的飞书问卷链接通过单个环境变量配置，**仅接受 HTTPS 地址**（`/join` 机构入口与网安组 join 入口共用同一链接，问卷内以「意向类型 + 专家/机构身份」分支区分）：
 
 ```bash
-NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=https://example.feishu.cn/share/base/form/...
-NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/form/...
+NEXT_PUBLIC_APPLICATION_URL=https://example.feishu.cn/share/base/form/...
 NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn
 ```
 
-> ⚠️ 这些 `NEXT_PUBLIC_*` 变量会在 **Next.js 构建时**写入静态页面。未配置或地址非法时，页面会显示不可点击状态和联系回退，不会产生死链。申请数据由飞书表单及飞书多维表格承接，官网不接收或保存申请数据。
+> ⚠️ 这个 `NEXT_PUBLIC_*` 变量会在 **Next.js 构建时**写入静态页面。未配置或地址非法时，页面会显示不可点击状态和联系回退，不会产生死链。飞书问卷须设为**外部/匿名可填**，申请数据由飞书问卷及飞书多维表格承接，官网不接收或保存申请数据。
 >
 > 构建生产 Docker 镜像时必须通过 `--build-arg` 传入（见[部署说明](#部署说明)）；仅在容器启动时注入不会改变已静态生成的申请链接。
 
@@ -118,8 +117,8 @@ NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn
 /cybersecurity        网络安全专题
 /members              成员伙伴
 /news  ·  /news/[slug]  新闻动态与详情
-/join                 机构申请入口
-/professionals        专业用户申请入口
+/join                 机构合作/加入入口（→ 统一飞书问卷）
+/working-groups/cybersecurity/join   网安组参与/合作入口（→ 同一问卷）
 /privacy              隐私说明
 /sitemap.xml  ·  /robots.txt   SEO 基础
 ```
@@ -152,8 +151,7 @@ tests/
 
 ```bash
 docker build \
-  --build-arg NEXT_PUBLIC_INSTITUTION_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
-  --build-arg NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
+  --build-arg NEXT_PUBLIC_APPLICATION_URL=https://example.feishu.cn/share/base/form/... \
   --build-arg NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn \
   -t zgcllm-website .
 ```
@@ -164,7 +162,7 @@ docker build \
 - [ ] ICP 备案、HTTPS 证书、WAF、访问日志脱敏
 - [ ] 申请页隐私告知与合规文案（个人信息收集、同意与保留由飞书表单侧承担）
 - [ ] 正式联盟 Logo、成员名单、新闻材料及公开授权确认
-- [ ] 两份飞书表单 URL、联系人、ICP 备案号和合规文案
+- [ ] 统一合作/加入飞书问卷 URL（外部可填）、联系人、ICP 备案号和合规文案
 - [ ] 生产环境变量通过部署平台注入，不写入仓库
 
 ## 相关文档

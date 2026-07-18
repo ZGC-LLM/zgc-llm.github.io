@@ -13,7 +13,7 @@ describe('site application links', () => {
     render(
       <ExternalApplicationLink
         configuredUrl="https://example.feishu.cn/share/base/form/example"
-        kind="institution"
+        label="机构合作申请"
       />,
     )
 
@@ -25,10 +25,18 @@ describe('site application links', () => {
   })
 
   it('renders an unavailable state instead of an unsafe link', () => {
-    render(<ExternalApplicationLink configuredUrl="javascript:alert(1)" kind="institution" />)
+    render(<ExternalApplicationLink configuredUrl="javascript:alert(1)" label="机构合作申请" />)
 
     expect(screen.queryByRole('link')).toBeNull()
     expect(screen.getByText(/申请通道准备中/).getAttribute('aria-disabled')).toBe('true')
+  })
+
+  it('falls back to the default target label when no label prop is provided', () => {
+    render(
+      <ExternalApplicationLink configuredUrl="https://example.feishu.cn/share/base/form/example" />,
+    )
+
+    expect(screen.getByRole('link', { name: /合作申请.*外部表单/ })).toBeTruthy()
   })
 })
 

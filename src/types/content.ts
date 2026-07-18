@@ -3,11 +3,8 @@ export interface NavigationItem {
   label: string
 }
 
-export type ApplicationKind = 'institution' | 'professional'
-
 export interface ExternalApplicationTarget {
   href?: string
-  internalHref: string
   label: string
   unavailableMessage: string
 }

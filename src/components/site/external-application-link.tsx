@@ -1,22 +1,22 @@
 import type { ReactElement, ReactNode } from 'react'
 
 import { resolveApplicationTarget } from '@/config/site'
-import type { ApplicationKind } from '@/types/content'
 
 interface ExternalApplicationLinkProps {
   children?: ReactNode
   className?: string
   configuredUrl?: string
-  kind: ApplicationKind
+  label?: string
 }
 
 export function ExternalApplicationLink({
   children,
   className,
   configuredUrl,
-  kind,
+  label,
 }: ExternalApplicationLinkProps): ReactElement {
-  const target = resolveApplicationTarget(kind, configuredUrl)
+  const target = resolveApplicationTarget(configuredUrl)
+  const resolvedLabel = label ?? target.label
 
   if (!target.isAvailable || !target.href) {
     return (
@@ -28,13 +28,13 @@ export function ExternalApplicationLink({
 
   return (
     <a
-      aria-label={`${target.label}（打开外部表单）`}
+      aria-label={`${resolvedLabel}（打开外部表单）`}
       className={className}
       href={target.href}
       rel="noreferrer noopener"
       target="_blank"
     >
-      {children ?? target.label}
+      {children ?? resolvedLabel}
     </a>
   )
 }

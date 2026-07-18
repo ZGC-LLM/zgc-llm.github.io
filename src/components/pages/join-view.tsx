@@ -156,7 +156,7 @@ export function JoinView({ locale }: { locale: Locale }): ReactElement {
     <main id="main-content">
       <PageHero
         actions={
-          <ExternalApplicationLink className="button-primary" kind="institution">
+          <ExternalApplicationLink className="button-primary" label={t.applyCta}>
             {t.applyCta}
           </ExternalApplicationLink>
         }

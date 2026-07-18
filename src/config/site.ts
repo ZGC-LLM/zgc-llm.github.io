@@ -1,6 +1,5 @@
 import { WORKING_GROUPS } from '@/content/working-groups'
 import type {
-  ApplicationKind,
   ExternalApplicationTarget,
   NavigationItem,
   ResolvedApplicationTarget,
@@ -52,20 +51,11 @@ export const PUBLIC_STATIC_ROUTES = [
   '/privacy',
 ] as const
 
-export const APPLICATION_TARGETS: Readonly<Record<ApplicationKind, ExternalApplicationTarget>> = {
-  institution: {
-    href: process.env.NEXT_PUBLIC_INSTITUTION_APPLICATION_URL,
-    internalHref: '/join',
-    label: '机构合作申请',
-    unavailableMessage: '申请通道准备中，请通过官网联系方式与联盟联系。',
-  },
-  professional: {
-    href: process.env.NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL,
-    internalHref: '/working-groups/cybersecurity/join',
-    label: '专业用户申请',
-    unavailableMessage: '申请通道准备中，请通过官网联系方式与联盟联系。',
-  },
-} as const
+export const APPLICATION_TARGET: ExternalApplicationTarget = {
+  href: process.env.NEXT_PUBLIC_APPLICATION_URL,
+  label: '合作申请',
+  unavailableMessage: '申请通道准备中，请通过官网联系方式与联盟联系。',
+}
 
 export function isSafeExternalUrl(value?: string): value is string {
   if (!value) return false
@@ -78,14 +68,12 @@ export function isSafeExternalUrl(value?: string): value is string {
 }
 
 export function resolveApplicationTarget(
-  kind: ApplicationKind,
-  configuredUrl: string | undefined = APPLICATION_TARGETS[kind].href,
+  configuredUrl: string | undefined = APPLICATION_TARGET.href,
 ): ResolvedApplicationTarget {
-  const target = APPLICATION_TARGETS[kind]
   const href = isSafeExternalUrl(configuredUrl) ? configuredUrl : undefined
 
   return {
-    ...target,
+    ...APPLICATION_TARGET,
     href,
     isAvailable: Boolean(href),
   }

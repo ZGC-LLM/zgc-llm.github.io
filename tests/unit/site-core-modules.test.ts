@@ -10,22 +10,18 @@ import { getWorkingGroupMembers, WORKING_GROUP_MEMBERS } from '@/content/working
 import { getWorkingGroupBySlug, getWorkingGroupSlugs } from '@/content/working-groups'
 import { describe, expect, it } from 'vitest'
 
-describe('resolveApplicationTarget("professional")', () => {
+describe('resolveApplicationTarget', () => {
   it('is available when given a valid https URL', () => {
-    const target = resolveApplicationTarget(
-      'professional',
-      'https://example.feishu.cn/share/form/professional',
-    )
+    const target = resolveApplicationTarget('https://example.feishu.cn/share/form/application')
 
     expect(target.isAvailable).toBe(true)
-    expect(target.href).toBe('https://example.feishu.cn/share/form/professional')
-    expect(target.internalHref).toBe('/working-groups/cybersecurity/join')
+    expect(target.href).toBe('https://example.feishu.cn/share/form/application')
   })
 
-  it.each([[undefined], ['http://example.feishu.cn/share/form/professional'], ['not-a-url']])(
+  it.each([[undefined], ['http://example.feishu.cn/share/form/application'], ['not-a-url']])(
     'falls back to unavailable when the configured URL is %s',
     (configuredUrl) => {
-      const target = resolveApplicationTarget('professional', configuredUrl)
+      const target = resolveApplicationTarget(configuredUrl)
 
       expect(target.isAvailable).toBe(false)
       expect(target.href).toBeUndefined()

@@ -1,5 +1,5 @@
 import {
-  APPLICATION_TARGETS,
+  APPLICATION_TARGET,
   isSafeExternalUrl,
   PUBLIC_STATIC_ROUTES,
   resolveApplicationTarget,
@@ -34,14 +34,10 @@ describe('site configuration', () => {
     expect(PUBLIC_STATIC_ROUTES).toContain('/working-groups/cybersecurity/join')
   })
 
-  it('keeps institution and reintroduces professional as application targets', () => {
-    expect(APPLICATION_TARGETS.institution.internalHref).toBe('/join')
-    expect(APPLICATION_TARGETS.institution.label).toBe('机构合作申请')
-    expect(APPLICATION_TARGETS.professional.href).toBe(
-      process.env.NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL,
-    )
-    expect(APPLICATION_TARGETS.professional.internalHref).toBe('/working-groups/cybersecurity/join')
-    expect(APPLICATION_TARGETS.professional.label).toBe('专业用户申请')
+  it('exposes a single application target sourced from the shared env var', () => {
+    expect(APPLICATION_TARGET.href).toBe(process.env.NEXT_PUBLIC_APPLICATION_URL)
+    expect(APPLICATION_TARGET.label).toBeTruthy()
+    expect(APPLICATION_TARGET.unavailableMessage).toContain('联系')
   })
 
   it.each([
@@ -56,10 +52,17 @@ describe('site configuration', () => {
   })
 
   it('returns an unavailable state for a missing application URL', () => {
-    const target = resolveApplicationTarget('institution', undefined)
+    const target = resolveApplicationTarget(undefined)
 
     expect(target.href).toBeUndefined()
     expect(target.isAvailable).toBe(false)
     expect(target.unavailableMessage).toContain('联系')
+  })
+
+  it('returns an available state for a valid configured URL', () => {
+    const target = resolveApplicationTarget('https://example.feishu.cn/share/base/form/example')
+
+    expect(target.href).toBe('https://example.feishu.cn/share/base/form/example')
+    expect(target.isAvailable).toBe(true)
   })
 })

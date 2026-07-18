@@ -52,11 +52,11 @@ const STRINGS: Record<Locale, {
   en: {
     applyCta: 'Apply as a professional user',
     descriptionFor: (title) =>
-      `Open to professional users — learn about the value, paths and application process for joining the ${title}.`,
+      `Open to security enterprises, universities, research labs and individual professionals — learn about the value, paths and cooperation process for joining the ${title}.`,
     faq: [
       [
-        'Which professional users can apply?',
-        'Security enterprises, universities, labs and professional researchers are welcome to express interest as individuals.',
+        'Who can apply — individuals or institutions?',
+        'Both. Security enterprises, universities, labs and individual researchers are all welcome to express interest in cooperating with the working group.',
       ],
       [
         'Does applying mean formally joining?',
@@ -93,8 +93,8 @@ const STRINGS: Record<Locale, {
     pathsTitle: 'How to take part',
     process: [
       [
-        'Submit an individual application',
-        'Introduce your research direction, technical background and ways to participate via the professional-user Feishu form.',
+        'Submit a cooperation application',
+        'Introduce your (or your institution’s) research direction, technical background and ways to participate via the professional-user Feishu form.',
       ],
       [
         'Communicate & match',
@@ -131,9 +131,10 @@ const STRINGS: Record<Locale, {
   },
   zh: {
     applyCta: '专业用户申请',
-    descriptionFor: (title) => `面向专业用户开放，了解加入${title}的参与价值、路径与申请流程。`,
+    descriptionFor: (title) =>
+      `面向安全企业、高校、科研机构与专业研究人员开放，了解加入${title}的合作价值、参与路径与申请流程。`,
     faq: [
-      ['哪些专业用户可以申请？', '欢迎安全企业、高校、实验室及专业研究人员以个人身份表达参与意向。'],
+      ['专业用户是否包含机构？', '是。既欢迎专业研究人员以个人身份参与，也欢迎安全企业、高校、实验室等机构表达合作意向。'],
       ['提交申请是否代表正式加入？', '不代表。表单用于建立联系，具体参与安排以工作组后续确认为准。'],
       ['申请通道暂不可用怎么办？', '若申请通道暂未开放，页面会提示您通过官网公布的联系方式与联盟联系。'],
     ],
@@ -151,7 +152,7 @@ const STRINGS: Record<Locale, {
     pathsEyebrow: '参与路径',
     pathsTitle: '参与方式',
     process: [
-      ['提交个人申请', '通过专业用户飞书表单介绍研究方向、技术背景与可参与的方式。'],
+      ['提交合作申请', '通过专业用户飞书表单介绍您（或所在机构）的研究方向、技术背景与可参与的方式。'],
       ['沟通与匹配', '工作组根据公开方向与验证条件，确认适合的参与角色与任务。'],
       ['加入协作', '明确参与边界与授权范围后，正式加入工作组相关议题。'],
     ],
@@ -220,7 +221,7 @@ export function WorkingGroupJoinView({
     <main id="main-content">
       <PageHero
         actions={
-          <ExternalApplicationLink className="button-primary" kind="professional">
+          <ExternalApplicationLink className="button-primary" label={t.applyCta}>
             {t.applyCta}
           </ExternalApplicationLink>
         }
