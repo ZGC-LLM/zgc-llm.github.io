@@ -135,7 +135,7 @@ const STRINGS: Record<Locale, HomeStrings> = {
     membersEyebrow: '生态伙伴',
     membersTitle: '连接多元产业力量',
     newsAction: '查看新闻动态',
-    newsDescription: '发布联盟动态、活动通知、行业观察与经确认的阶段成果。',
+    newsDescription: '发布联盟动态、活动通知、行业观察与阶段成果。',
     newsEmptyBody: '经联盟确认的新闻、活动与成果将陆续在此更新，敬请关注。',
     newsEmptyTitle: '最新动态即将发布',
     newsEyebrow: '最新动态',

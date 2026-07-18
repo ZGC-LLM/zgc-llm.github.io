@@ -14,6 +14,12 @@ export const MEMBERS: readonly MemberSummary[] = [
     type: 'research',
   },
   {
+    description: '秘书长单位',
+    id: 'zhipu',
+    name: '北京智谱华章科技股份有限公司',
+    type: 'institution',
+  },
+  {
     id: 'baai',
     name: '北京智源人工智能研究院',
     type: 'research',
@@ -22,12 +28,6 @@ export const MEMBERS: readonly MemberSummary[] = [
     id: 'ict-cas',
     name: '中国科学院计算技术研究所',
     type: 'research',
-  },
-  {
-    description: '秘书长单位',
-    id: 'zhipu',
-    name: '北京智谱华章科技股份有限公司',
-    type: 'institution',
   },
   {
     id: 'didi',
