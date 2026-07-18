@@ -16,8 +16,10 @@ interface HomeStrings {
   heroCta: string
   glass1Key: string
   glass1Value: string
+  glass1Tags: string[]
   glass2Key: string
   glass2Value: string
+  glass2Tags: string[]
   valueEyebrow: string
   valueTitle: string
   valueDescription: string
@@ -70,9 +72,11 @@ const STRINGS: Record<Locale, HomeStrings> = {
     glass1Key: 'Positioning',
     glass1Value:
       'A self-reliant large-model industry ecosystem platform connecting models, chips, computing power, data, platforms and industry applications',
+    glass1Tags: ['Models', 'Chips', 'Compute', 'Data', 'Platforms', 'Applications'],
     glass2Key: 'Core Topics',
     glass2Value:
       'Technology innovation, industrial collaboration, real-world deployment and building secure, trustworthy capabilities',
+    glass2Tags: ['Tech Innovation', 'Collaboration', 'Deployment', 'Security & Trust'],
     heroCta: 'Partner with Us',
     heroLead:
       'The Alliance brings together universities, research institutions and industry partners to advance technology innovation, industrial collaboration, real-world deployment and international cooperation around self-reliant large models, while continually strengthening security-oriented large models, trustworthy agents and AI security governance.',
@@ -116,8 +120,10 @@ const STRINGS: Record<Locale, HomeStrings> = {
     endTitle: '共建自主大模型产业生态',
     glass1Key: '联盟定位',
     glass1Value: '连接模型、芯片、算力、数据、平台及行业应用的自主大模型产业生态平台',
+    glass1Tags: ['模型', '芯片', '算力', '数据', '平台', '行业应用'],
     glass2Key: '核心议题',
     glass2Value: '技术创新、产业协同、场景落地与安全可信能力建设',
+    glass2Tags: ['技术创新', '产业协同', '场景落地', '安全可信'],
     heroCta: '机构合作申请',
     heroLead:
       '联盟汇聚高校、科研机构与产业伙伴，围绕自主大模型推动技术创新、产业协同、场景落地与国际合作，持续强化安全大模型、可信智能体与人工智能安全治理能力。',
@@ -163,10 +169,24 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
             <div className="glass">
               <p className="glass__k">{t.glass1Key}</p>
               <p className="glass__v">{t.glass1Value}</p>
+              <ul className="glass__tags">
+                {t.glass1Tags.map((tag) => (
+                  <li className="glass__tag" key={tag}>
+                    {tag}
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="glass">
               <p className="glass__k">{t.glass2Key}</p>
               <p className="glass__v">{t.glass2Value}</p>
+              <ul className="glass__tags">
+                {t.glass2Tags.map((tag) => (
+                  <li className="glass__tag" key={tag}>
+                    {tag}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
