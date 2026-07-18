@@ -101,20 +101,20 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
           </span>
         </Link>
 
-        <nav aria-label={t.mainNav} className="hidden items-center gap-1 min-[1280px]:flex">
+        <nav aria-label={t.mainNav} className="hidden items-center gap-1 min-[1024px]:flex">
           <NavigationLinks locale={locale} variant="desktop" />
         </nav>
 
-        <div className="hidden items-center gap-3 min-[1280px]:flex">
+        <div className="hidden items-center gap-3 min-[1024px]:flex">
           <Link className="button-primary" href={localizePath('/join', locale)}>
             {t.institutionApply}
           </Link>
           <LanguageToggle locale={locale} />
         </div>
 
-        {/* 窄屏(<1280px)常驻控件簇：「菜单」按钮在任何宽度都伸手可点，
-            不再埋进折叠菜单里。桌面端(≥1280px)仍用上方的控件簇。 */}
-        <div className="flex items-center gap-2 min-[1280px]:hidden">
+        {/* 窄屏(<1024px)常驻控件簇：「菜单」按钮在任何宽度都伸手可点，
+            不再埋进折叠菜单里。桌面端(≥1024px)仍用上方的控件簇。 */}
+        <div className="flex items-center gap-2 min-[1024px]:hidden">
           <details className="mobile-menu">
             <summary aria-label={t.openNav} className="mobile-menu__trigger">
               <span aria-hidden="true">{t.menu}</span>
