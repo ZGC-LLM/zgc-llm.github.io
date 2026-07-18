@@ -170,7 +170,7 @@ export function WorkingGroupMembersView({
 
   const localized = localizeWorkingGroup(group, locale)
   const t = STRINGS[locale]
-  const members = getWorkingGroupMembers(slug)
+  const members = getWorkingGroupMembers(slug, locale)
 
   return (
     <main id="main-content">

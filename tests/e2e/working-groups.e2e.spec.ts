@@ -42,21 +42,17 @@ test.describe('工作组导航链路', () => {
     await expect(ecosystemLink).toHaveAttribute('href', '/cybersecurity')
   })
 
-  test('工作组共建伙伴页在未获授权数据时展示整理中的空态占位', async ({ page }) => {
+  test('工作组共建伙伴页展示已公开授权的首批单位', async ({ page }) => {
     await page.goto('/working-groups/cybersecurity/members')
     const main = page.locator('main#main-content')
 
     await expect(main.getByRole('heading', { level: 1, name: '工作组共建伙伴' })).toBeVisible()
-    await expect(
-      main.getByRole('heading', { level: 3, name: '工作组共建伙伴名单整理中' }),
-    ).toBeVisible()
-    await expect(
-      main.getByText('工作组共建伙伴名单将在获得公开授权后陆续公开', { exact: false }),
-    ).toBeVisible()
-    await expect(main.getByRole('link', { name: '申请加入本工作组' })).toHaveAttribute(
-      'href',
-      '/working-groups/cybersecurity/join',
-    )
+    await expect(main.getByRole('article')).toHaveCount(5)
+    await expect(main.getByRole('heading', { level: 3, name: '中关村自主大模型产业联盟' })).toBeVisible()
+    await expect(main.getByRole('heading', { level: 3, name: '智谱' })).toBeVisible()
+    await expect(main.getByRole('heading', { level: 3, name: '清华大学' })).toBeVisible()
+    await expect(main.getByRole('heading', { level: 3, name: '数说安全' })).toBeVisible()
+    await expect(main.getByRole('heading', { level: 3, name: '云起无垠' })).toBeVisible()
   })
 
   test('加入工作组页提供专业用户申请入口（按当前渲染状态断言）', async ({ page }) => {
