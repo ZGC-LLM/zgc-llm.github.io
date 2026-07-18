@@ -10,20 +10,48 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
     id: 'cybersecurity',
     kind: 'working-group',
     leads: [
-      { name: '中关村自主大模型产业联盟', named: true, role: '统筹协调与生态承载' },
-      { name: '智谱', named: true, role: '模型与技术支持' },
-      { name: '清华大学', named: true, role: '学术与技术指导' },
-      { name: '数说安全', named: true, role: '产业研究与生态连接' },
-      { name: '云起无垠', named: true, role: '技术平台与项目运营' },
       {
+        description:
+          '提供组织平台与行业公信力，协调各方资源，审议建设方向与成果发布，承担平台与统筹角色。',
+        name: '中关村自主大模型产业联盟',
+        named: true,
+        role: '统筹协调与生态承载',
+      },
+      {
+        description:
+          '作为发起与技术牵引方，支持新模型专项测试、发布与能力迭代；生态对不同基础模型厂商对等开放。',
+        name: '智谱',
+        named: true,
+        role: '模型与技术牵引',
+      },
+      {
+        description:
+          '指导技术方向与评测方法，推动技术规范、科研课题与人才培养，提升成果的专业性与中立性。',
+        name: '清华大学',
+        named: true,
+        role: '学术指导',
+      },
+      {
+        description: '承担产业研究、伙伴连接与用户运营等日常执行。',
+        name: '数说安全',
+        named: true,
+        role: '产业研究与生态连接',
+      },
+      {
+        description: '承担技术平台、数据任务与场景落地等日常执行。',
+        name: '云起无垠',
+        named: true,
+        role: '技术平台与项目运营',
+      },
+      {
+        description:
+          '安全企业、高校、实验室与专业研究人员按自身优势，通过数据、任务、专家、产品或场景参与共建。',
         name: '安全企业、高校、实验室与专业研究人员，按自身优势参与共建',
         named: false,
         role: '生态伙伴',
       },
     ],
-    outcomes: [
-      '持续运营“网络安全人员开放计划”，面向网络安全企业、科研机构、高校团队与专业研究人员开放受控访问，汇聚可信防御者与真实需求',
-    ],
+    outcomes: [],
     responsibilities: [
       '运营“网络安全人员开放计划”与生态共建计划，作为专业用户入口，连接安全企业、实验室、高校与专业研究人员',
       '建设可训练、可评测、可验证的网络安全深度数据与任务体系（真实攻防、赛事、网络测绘、动态靶场）',
@@ -70,23 +98,49 @@ const WORKING_GROUPS_EN: Readonly<Record<string, WorkingGroupOverlay>> = {
     ecosystemLabel: 'Cybersecurity Ecosystem · Priority Initiative',
     leads: [
       {
+        description:
+          'Provides the organisational platform and industry credibility, coordinates resources across parties, reviews build directions and result releases, and takes on the platform and coordination role.',
         name: 'ZGC Self-Reliant Large Model Industry Alliance',
         named: true,
         role: 'Coordination and ecosystem hosting',
       },
-      { name: 'Zhipu', named: true, role: 'Model and technical support' },
-      { name: 'Tsinghua University', named: true, role: 'Academic and technical guidance' },
-      { name: 'Datainsecurity', named: true, role: 'Industry research and ecosystem connection' },
-      { name: 'CloudInfinite', named: true, role: 'Technology platform and project operations' },
       {
+        description:
+          'As initiator and technical lead, supports dedicated testing, release and capability iteration of new models; the ecosystem is equally open to different foundation-model vendors.',
+        name: 'Zhipu',
+        named: true,
+        role: 'Model and technical lead',
+      },
+      {
+        description:
+          'Guides technical direction and evaluation methods, advances technical standards, research topics and talent development, and improves the professionalism and neutrality of results.',
+        name: 'Tsinghua University',
+        named: true,
+        role: 'Academic guidance',
+      },
+      {
+        description:
+          'Handles day-to-day execution such as industry research, partner connection and user operations.',
+        name: 'Datainsecurity',
+        named: true,
+        role: 'Industry research and ecosystem connection',
+      },
+      {
+        description:
+          'Handles day-to-day execution such as technology platforms, data tasks and scenario deployment.',
+        name: 'CloudInfinite',
+        named: true,
+        role: 'Technology platform and project operations',
+      },
+      {
+        description:
+          'Security enterprises, universities, labs and professional researchers contribute through data, tasks, experts, products or scenarios according to their strengths.',
         name: 'Security enterprises, universities, labs and professional researchers co-building according to their strengths',
         named: false,
         role: 'Ecosystem partners',
       },
     ],
-    outcomes: [
-      'Continuously operating the “Cybersecurity Professionals Open Program”, offering controlled access to cybersecurity enterprises, research institutions, university teams and professional researchers, and gathering trusted defenders and real needs.',
-    ],
+    outcomes: [],
     researchDirections: [
       'Code auditing and vulnerability discovery',
       'Secure development and penetration testing',
