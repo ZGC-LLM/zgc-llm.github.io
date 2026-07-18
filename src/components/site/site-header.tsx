@@ -3,7 +3,6 @@ import Link from 'next/link'
 import type { ReactElement } from 'react'
 
 import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
-import { LanguageToggle } from './language-toggle'
 import { SiteNavigationLink } from './site-navigation-link'
 
 function NavigationLinks(): ReactElement {
@@ -43,7 +42,6 @@ export function SiteHeader(): ReactElement {
           <Link className="button-primary" href="/join">
             机构合作申请
           </Link>
-          <LanguageToggle />
         </div>
 
         {/* 窄屏(<1280px)常驻控件簇：「菜单」按钮在任何宽度都伸手可点，
@@ -61,9 +59,6 @@ export function SiteHeader(): ReactElement {
                 <Link className="button-primary justify-center" href="/join">
                   机构合作申请
                 </Link>
-              </div>
-              <div className="mt-4 flex justify-center gap-3 border-t border-[var(--alliance-border)] pt-4">
-                <LanguageToggle />
               </div>
             </div>
           </details>

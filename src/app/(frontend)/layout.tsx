@@ -1,10 +1,30 @@
 import type { Metadata } from 'next'
 import React from 'react'
 
+import { JsonLd } from '@/components/site/json-ld'
 import { SiteFooter } from '@/components/site/site-footer'
 import { SiteHeader } from '@/components/site/site-header'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/config/site'
 import './styles.css'
+
+// 站级结构化数据：全站页面统一注入 Organization + WebSite，
+// 供搜索引擎理解官网主体与站点身份（Rich Results / 知识面板）。
+const siteStructuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    logo: new URL('/brand/llm-alliance-logo.png', SITE_URL).toString(),
+    name: SITE_NAME,
+    url: SITE_URL,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    inLanguage: 'zh-CN',
+    name: SITE_NAME,
+    url: SITE_URL,
+  },
+]
 
 export const metadata: Metadata = {
   alternates: {
@@ -46,6 +66,7 @@ export default function RootLayout(props: { children: React.ReactNode }): React.
         />
       </head>
       <body>
+        <JsonLd data={siteStructuredData} />
         <a className="skip-link" href="#main-content">
           跳到主要内容
         </a>

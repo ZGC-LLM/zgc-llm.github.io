@@ -3,8 +3,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
 
+import { JsonLd } from '@/components/site/json-ld'
 import { PageHero } from '@/components/site/page-hero'
-import { isSafeExternalUrl } from '@/config/site'
+import { isSafeExternalUrl, SITE_NAME, SITE_URL } from '@/config/site'
 import { getPublishedNews, getPublishedNewsBySlug, NEWS_ENTRIES } from '@/content/news'
 import type { ContentBlock, NewsEntry } from '@/types/content'
 
@@ -51,6 +52,24 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
   if (!entry) notFound()
 
   return createNewsMetadata(entry)
+}
+
+// 新闻详情结构化数据：帮助搜索引擎将其识别为文章并展示富媒体结果。
+export function createNewsArticleJsonLd(entry: NewsEntry): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    datePublished: entry.date,
+    description: entry.description,
+    headline: entry.title,
+    inLanguage: 'zh-CN',
+    mainEntityOfPage: new URL(`/news/${entry.slug}`, SITE_URL).toString(),
+    publisher: {
+      '@type': 'Organization',
+      logo: new URL('/brand/llm-alliance-logo.png', SITE_URL).toString(),
+      name: SITE_NAME,
+    },
+  }
 }
 
 function ContentBlockView({ block }: { block: ContentBlock }): ReactElement {
@@ -115,6 +134,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps): P
 
   return (
     <main id="main-content">
+      <JsonLd data={createNewsArticleJsonLd(entry)} />
       <NewsArticle entry={entry} />
     </main>
   )
