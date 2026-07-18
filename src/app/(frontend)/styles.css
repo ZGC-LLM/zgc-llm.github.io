@@ -1,13 +1,11 @@
-@import 'tailwindcss';
-
-/* 排除 docs/ 目录：设计文档中出现的示意性工具类字面量会被 Tailwind
-   源扫描误当成真实类并生成非法 CSS，导致 next dev(Turbopack) 解析失败。
-   文档不应驱动样式生成，故显式排除。
-   注意：此注释内不要写出该类字面量本身——styles.css 自身也会被扫描。 */
-@source not "../../../docs";
-/* 同时排除 .claude/（含工具创建的 git worktree 副本，其中的 docs/ 会带入
-   示意性工具类字面量，触发同样的非法 CSS 生成）。 */
-@source not "../../../.claude";
+/* Tailwind 源扫描显式锚定到 src/（相对本文件为 ../../）。
+   不再用脆弱的负向 @source not：自动探测会走到项目根并扫到
+   - docs/ 的示意性工具类字面量 → 生成非法 CSS，next dev(Turbopack) 解析失败；
+   - .claude/（主仓库下含约 1.5GB 的 git worktree 副本）→ Tailwind/Turbopack
+     扫描空转、dev server 占满 CPU。相对路径的负向排除在 worktree 内会解析到
+     worktree 自己的 .claude 而失效，故根治为「正向锚定到 src/」。
+   src/ 之外仅有 tests/（不产出运行时 UI，其断言的 class 均来自 src），无需扫描。 */
+@import 'tailwindcss' source('../../');
 
 /* ============================================================
    ZGCLLM Design Language v2 — application stylesheet
@@ -386,6 +384,16 @@ summary:focus-visible {
   z-index: 20;
 }
 
+/* 透明桥接条：填满触发项与面板间的 8px 间隙，避免鼠标下移途中触发 onMouseLeave 使面板过早收起 */
+.nav-group--desktop .nav-group__panel::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
 .nav-group--mobile .nav-group__panel {
   display: grid;
   gap: 2px;
@@ -668,6 +676,25 @@ summary:focus-visible {
   gap: 12px;
 }
 
+/* 成员页 hero 内的工作组导流小注（深色底） */
+.hero-note {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-inverse-muted);
+}
+
+.hero-note__link {
+  color: var(--accent-soft);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hero-note__link:hover {
+  color: var(--text-inverse);
+}
+
 /* hero variant with side cards (home) */
 .hero__inner {
   display: grid;
@@ -865,16 +892,6 @@ section.block {
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   padding: 26px;
-  transition:
-    transform 0.18s,
-    border-color 0.18s,
-    box-shadow 0.18s;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-pop);
 }
 
 .card__num {
@@ -904,6 +921,18 @@ section.block {
 
 .card .eyebrow {
   margin-bottom: 10px;
+}
+
+/* 成员卡片：同组等高，角色标注固定卡片底部，落单卡片不再被截短 */
+.member-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 120px;
+}
+
+.member-card > p:not(.eyebrow) {
+  margin-top: auto;
+  padding-top: 14px;
 }
 
 .grid-2 {
