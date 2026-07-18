@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { buildAlternates } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
@@ -7,7 +6,14 @@ import type { ReactElement } from 'react'
 import { JsonLd } from '@/components/site/json-ld'
 import { PageHero } from '@/components/site/page-hero'
 import { isSafeExternalUrl, SITE_NAME, SITE_URL } from '@/config/site'
-import { getPublishedNews, getPublishedNewsBySlug, NEWS_ENTRIES } from '@/content/news'
+import {
+  getPublishedNews,
+  getPublishedNewsBySlug,
+  localizeNewsEntry,
+  NEWS_ENTRIES,
+} from '@/content/news'
+import { HTML_LANG, type Locale } from '@/i18n/locales'
+import { buildAlternates, localizePath } from '@/i18n/routing'
 import type { ContentBlock, NewsEntry } from '@/types/content'
 
 interface NewsDetailPageProps {
@@ -15,16 +21,19 @@ interface NewsDetailPageProps {
 }
 
 // 仅预渲染 generateStaticParams 返回的 slug；未知 slug 一律 404。
-// 静态导出（output: export）要求路由无运行时渲染需求，新闻为空时也能正常导出。
 export const dynamicParams = false
 
 interface NewsArticleProps {
   entry: NewsEntry
+  locale?: Locale
 }
 
-export function createNewsStaticParams(
-  entries: readonly NewsEntry[],
-): { slug: string }[] {
+const DETAIL_STRINGS: Record<Locale, { publishedLabel: string; back: string }> = {
+  en: { back: '← Back to news', publishedLabel: 'Published: ' },
+  zh: { back: '← 返回新闻中心', publishedLabel: '发布日期：' },
+}
+
+export function createNewsStaticParams(entries: readonly NewsEntry[]): { slug: string }[] {
   return getPublishedNews(entries).map((entry) => ({ slug: entry.slug }))
 }
 
@@ -32,17 +41,19 @@ export function generateStaticParams(): { slug: string }[] {
   return createNewsStaticParams(NEWS_ENTRIES)
 }
 
-export function createNewsMetadata(entry: NewsEntry): Metadata {
+export function createNewsMetadata(entry: NewsEntry, locale: Locale = 'zh'): Metadata {
+  const localized = localizeNewsEntry(entry, locale)
+
   return {
-    alternates: buildAlternates(`/news/${entry.slug}`, 'zh'),
-    description: entry.description,
+    alternates: buildAlternates(`/news/${entry.slug}`, locale),
+    description: localized.description,
     openGraph: {
-      description: entry.description,
-      title: entry.title,
+      description: localized.description,
+      title: localized.title,
       type: 'article',
-      url: `/news/${entry.slug}`,
+      url: localizePath(`/news/${entry.slug}`, locale),
     },
-    title: entry.title,
+    title: localized.title,
   }
 }
 
@@ -56,15 +67,20 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
 }
 
 // 新闻详情结构化数据：帮助搜索引擎将其识别为文章并展示富媒体结果。
-export function createNewsArticleJsonLd(entry: NewsEntry): Record<string, unknown> {
+export function createNewsArticleJsonLd(
+  entry: NewsEntry,
+  locale: Locale = 'zh',
+): Record<string, unknown> {
+  const localized = localizeNewsEntry(entry, locale)
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     datePublished: entry.date,
-    description: entry.description,
-    headline: entry.title,
-    inLanguage: 'zh-CN',
-    mainEntityOfPage: new URL(`/news/${entry.slug}`, SITE_URL).toString(),
+    description: localized.description,
+    headline: localized.title,
+    inLanguage: HTML_LANG[locale],
+    mainEntityOfPage: new URL(localizePath(`/news/${entry.slug}`, locale), SITE_URL).toString(),
     publisher: {
       '@type': 'Organization',
       logo: new URL('/brand/llm-alliance-logo.png', SITE_URL).toString(),
@@ -90,7 +106,10 @@ function ContentBlockView({ block }: { block: ContentBlock }): ReactElement {
   }
 }
 
-export function NewsArticle({ entry }: NewsArticleProps): ReactElement {
+export function NewsArticle({ entry: raw, locale = 'zh' }: NewsArticleProps): ReactElement {
+  const entry = localizeNewsEntry(raw, locale)
+  const t = DETAIL_STRINGS[locale]
+
   return (
     <>
       <PageHero description={entry.description} eyebrow={entry.category} title={entry.title} />
@@ -98,7 +117,8 @@ export function NewsArticle({ entry }: NewsArticleProps): ReactElement {
         <div className="site-container">
           <article className="prose">
             <p className="meta">
-              发布日期：<time dateTime={entry.date}>{entry.date}</time>
+              {t.publishedLabel}
+              <time dateTime={entry.date}>{entry.date}</time>
             </p>
             {entry.body.map((block, index) => (
               <ContentBlockView block={block} key={`${block.type}-${index}`} />
@@ -116,8 +136,8 @@ export function NewsArticle({ entry }: NewsArticleProps): ReactElement {
               </p>
             ) : null}
             <div className="back">
-              <Link className="btn btn--ghost" href="/news">
-                ← 返回新闻中心
+              <Link className="btn btn--ghost" href={localizePath('/news', locale)}>
+                {t.back}
               </Link>
             </div>
           </article>
@@ -127,16 +147,26 @@ export function NewsArticle({ entry }: NewsArticleProps): ReactElement {
   )
 }
 
+export function NewsDetailView({
+  entry,
+  locale,
+}: {
+  entry: NewsEntry
+  locale: Locale
+}): ReactElement {
+  return (
+    <main id="main-content">
+      <JsonLd data={createNewsArticleJsonLd(entry, locale)} />
+      <NewsArticle entry={entry} locale={locale} />
+    </main>
+  )
+}
+
 export default async function NewsDetailPage({ params }: NewsDetailPageProps): Promise<ReactElement> {
   const { slug } = await params
   const entry = getPublishedNewsBySlug(slug)
 
   if (!entry) notFound()
 
-  return (
-    <main id="main-content">
-      <JsonLd data={createNewsArticleJsonLd(entry)} />
-      <NewsArticle entry={entry} />
-    </main>
-  )
+  return <NewsDetailView entry={entry} locale="zh" />
 }

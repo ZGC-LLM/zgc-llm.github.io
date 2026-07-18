@@ -1,24 +1,36 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import type { ReactElement } from 'react'
 
-import { generateMetadata as zhGenerateMetadata } from '@/app/(frontend)/news/[slug]/page'
-import { buildAlternates } from '@/i18n/routing'
+import {
+  createNewsMetadata,
+  generateStaticParams,
+  NewsDetailView,
+} from '@/app/(frontend)/news/[slug]/page'
+import { getPublishedNewsBySlug } from '@/content/news'
 
-interface EnPageProps {
+interface EnNewsDetailProps {
   params: Promise<{ slug: string }>
 }
 
-// dynamicParams 为路由段配置值，须静态声明（不可 re-export）。
 export const dynamicParams = false
 
-export { default, generateStaticParams } from '@/app/(frontend)/news/[slug]/page'
+export { generateStaticParams }
 
-// 复用中文页元数据构建，仅把 canonical/hreflang 覆写为 en 对应 URL。
-export async function generateMetadata(props: EnPageProps): Promise<Metadata> {
-  const base = await zhGenerateMetadata(props)
-  const { slug } = await props.params
+export async function generateMetadata({ params }: EnNewsDetailProps): Promise<Metadata> {
+  const { slug } = await params
+  const entry = getPublishedNewsBySlug(slug)
 
-  return {
-    ...base,
-    alternates: buildAlternates(`/news/${slug}`, 'en'),
-  }
+  if (!entry) notFound()
+
+  return createNewsMetadata(entry, 'en')
+}
+
+export default async function EnNewsDetailPage({ params }: EnNewsDetailProps): Promise<ReactElement> {
+  const { slug } = await params
+  const entry = getPublishedNewsBySlug(slug)
+
+  if (!entry) notFound()
+
+  return <NewsDetailView entry={entry} locale="en" />
 }

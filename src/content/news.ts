@@ -1,4 +1,5 @@
 import type { NewsEntry } from '@/types/content'
+import type { Locale } from '@/i18n/locales'
 
 // 只发布已经联盟确认的公开内容，不使用示例新闻填充正式页面。
 export const NEWS_ENTRIES: readonly NewsEntry[] = [
@@ -99,4 +100,97 @@ export function getPublishedNews(entries: readonly NewsEntry[] = NEWS_ENTRIES): 
 
 export function getPublishedNewsBySlug(slug: string): NewsEntry | undefined {
   return getPublishedNews().find((entry) => entry.slug === slug)
+}
+
+// 英文初稿覆盖层（enDraft，待人工校对）：按 slug 覆写 title/description/body/ctaLabel。
+// 中文常量保持权威；缺失 slug 时 localizeNewsEntry 回退中文。
+type NewsOverlay = Partial<Pick<NewsEntry, 'title' | 'description' | 'body' | 'ctaLabel'>>
+
+const NEWS_EN: Readonly<Record<string, NewsOverlay>> = {
+  'alliance-website-launch': {
+    body: [
+      {
+        text: 'The official website of the Zhongguancun Self-Reliant Large Model Industry Alliance is now live. Centered on the Alliance positioning of “uniting the strength of self-reliant large models to build an open, secure and collaborative industry ecosystem”, the site presents the Alliance introduction, working groups, cybersecurity ecosystem, members and latest updates.',
+        type: 'paragraph',
+      },
+      { text: 'What the site provides', type: 'heading' },
+      {
+        items: [
+          'Alliance introduction and development positioning',
+          'Priority directions of the working groups and the cybersecurity ecosystem',
+          'An entry for institution-facing ecosystem co-building and cooperation',
+          'Ongoing releases of Alliance updates and stage progress',
+        ],
+        type: 'list',
+      },
+      {
+        text: 'The Alliance continues to publish information confirmed for public release; member and stage-result content will be updated gradually after public authorization is completed.',
+        type: 'paragraph',
+      },
+      {
+        text: 'Relevant institutions are welcome to learn about ways to participate via the website’s “Institutional Partnership” entry, and to build the self-reliant large-model industry ecosystem together with the Alliance.',
+        type: 'paragraph',
+      },
+    ],
+    description:
+      'The official website of the Zhongguancun Self-Reliant Large Model Industry Alliance is now live, presenting the Alliance positioning, priority work, cybersecurity ecosystem and institutional cooperation entry.',
+    title: 'The Alliance official website is now live',
+  },
+  'cybersecurity-open-program': {
+    body: [
+      {
+        text: 'Effective immediately, the Zhongguancun Self-Reliant Large Model Industry Alliance officially launches the “Cybersecurity Professionals Open Program”, offering trusted security partners invited, controlled access to the capabilities of self-reliant large models in cybersecurity scenarios. The program follows the principles of lawful authorization, defense-first and auditable processes; it is not open to the public, but provides a controlled access mechanism to trusted defenders.',
+        type: 'paragraph',
+      },
+      {
+        text: 'The Alliance hopes to help trusted security partners — under the premises of lawful authorization and defense-first — improve efficiency in vulnerability discovery, code auditing, patch validation, security testing, code repair and secure development, putting advanced large-model capabilities to work for cyber-defense. Alliance member model vendors provide model capabilities and technical support, while Alliance partners are responsible for compliant use scenarios, target authorization, result review and vulnerability handling.',
+        type: 'paragraph',
+      },
+      { text: 'Who it is open to', type: 'heading' },
+      {
+        items: [
+          'Relevant cybersecurity departments and supporting units',
+          'Security research institutions, key laboratories and university security teams',
+          'Cybersecurity enterprises, software-security service providers and infrastructure-security teams',
+          'Security researchers and open-source infrastructure maintainers approved by the Alliance',
+        ],
+        type: 'list',
+      },
+      { text: 'Partner benefits', type: 'heading' },
+      {
+        items: [
+          'Access to self-reliant large-model capabilities and enterprise-grade technical support, including quota and concurrency guarantees, integration and scenario adaptation',
+          'Closed-door exchange, joint evaluation and scenario co-creation opportunities within the Alliance',
+          'Joint release and industry dissemination support for outstanding results',
+        ],
+        type: 'list',
+      },
+      { text: 'Admission principles', type: 'heading' },
+      {
+        items: [
+          'Invitation and verification: submit a defensive use-scenario description; access is granted after Alliance review',
+          'Lawful authorization, defense-first: use is limited to authorized scenarios; abnormal calls and suspected violations are governed through auditing and access control',
+          'Human review: model output is expert assistance rather than a final conclusion, and must undergo human review and engineering validation before use in production handling or external disclosure; vulnerabilities follow a responsible-disclosure process',
+        ],
+        type: 'list',
+      },
+      {
+        text: 'Interested enterprises, institutions or individuals can submit applications and defensive use-scenario descriptions via the form below. Submissions enter a manual review process, usually completed within 3 business days, with results notified by email.',
+        type: 'paragraph',
+      },
+    ],
+    ctaLabel: 'Submit application',
+    description:
+      'The Zhongguancun Self-Reliant Large Model Industry Alliance launches the “Cybersecurity Professionals Open Program”, giving trusted defenders controlled access to self-reliant large-model capabilities in cybersecurity scenarios, upholding lawful authorization, defense-first and auditable processes.',
+    title: 'Alliance launches the “Cybersecurity Professionals Open Program”',
+  },
+}
+
+/** 按 locale 解析新闻条目：en 覆盖存在则替换文本字段，否则回退中文。 */
+export function localizeNewsEntry(entry: NewsEntry, locale: Locale): NewsEntry {
+  if (locale === 'zh') return entry
+
+  const overlay = NEWS_EN[entry.slug]
+
+  return overlay ? { ...entry, ...overlay } : entry
 }
