@@ -549,25 +549,32 @@ summary:focus-visible {
   color: var(--brand-primary);
 }
 
+.toggle__globe {
+  flex: none;
+  margin-right: 2px;
+  color: var(--text-muted);
+  transition: color 0.16s;
+}
+
+.toggle:hover .toggle__globe {
+  color: var(--brand-primary);
+}
+
 .toggle--seg span {
-  padding: 3px 6px;
+  padding: 3px 7px;
   border-radius: 6px;
+  color: var(--text-muted);
+  font-weight: 600;
+  transition:
+    background 0.16s,
+    color 0.16s;
 }
 
 .toggle--seg .on {
   background: var(--brand-primary);
   color: #fff;
-}
-
-/* 语言 toggle：单按钮，地球图标 + 目标语言文字 */
-.toggle--lang {
-  gap: 6px;
-  text-decoration: none;
-}
-
-.toggle__globe {
-  flex: 0 0 auto;
-  opacity: 0.85;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 12%);
 }
 
 /* 语言 toggle 的“即将支持”反馈：可见小气泡 + role=status/aria-live 供读屏播报 */
