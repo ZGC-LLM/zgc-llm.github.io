@@ -10,7 +10,9 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+# 注意：需一并 COPY pnpm-workspace.yaml，其 allowBuilds 授权 sharp/esbuild 等的构建脚本，
+# 否则 pnpm i 会因 ERR_PNPM_IGNORED_BUILDS 失败。
+COPY package.json pnpm-workspace.yaml* yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \

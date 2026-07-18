@@ -1,0 +1,26 @@
+name: 内容 / 功能建议 Content or feature request
+description: 建议新增或修改公开内容（src/content/）或站点功能
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: 类型
+      options:
+        - 内容更新（联盟介绍 / 新闻 / 成员 / 工作组等）
+        - 新功能 / 新页面
+        - 体验 / 样式优化
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 需求描述
+      description: 希望新增/修改什么？如涉及具体文案或数据，请一并给出。
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: 背景 / 目的
+      description: 为什么需要这个改动？解决什么问题？
