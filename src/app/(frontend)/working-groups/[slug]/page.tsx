@@ -106,7 +106,7 @@ const STRINGS: Record<Locale, {
     respEyebrow: 'Responsibilities',
     respTitle: 'Core responsibilities advanced continuously',
     viewEcosystem: 'View cybersecurity ecosystem',
-    viewMembers: 'View member list',
+    viewMembers: 'View Working Group Partners',
     viewTopic: 'View ecosystem topic',
   },
   zh: {
@@ -133,7 +133,7 @@ const STRINGS: Record<Locale, {
     respEyebrow: '工作职责',
     respTitle: '持续推进的核心职责',
     viewEcosystem: '查看网络安全生态',
-    viewMembers: '查看成员名单',
+    viewMembers: '查看工作组共建伙伴',
     viewTopic: '查看生态专题',
   },
 }

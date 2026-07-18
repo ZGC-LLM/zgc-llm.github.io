@@ -43,7 +43,7 @@ describe('working-group overview page', () => {
       '/working-groups/cybersecurity/join',
     )
     expect(
-      screen.getAllByRole('link', { name: '查看成员名单' })[0].getAttribute('href'),
+      screen.getAllByRole('link', { name: '查看工作组共建伙伴' })[0].getAttribute('href'),
     ).toBe('/working-groups/cybersecurity/members')
   })
 

@@ -28,7 +28,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByRole('heading', { level: 2, name: '统筹与共建单位' })).toBeVisible()
     await expect(main.getByRole('heading', { level: 2, name: '对外发布的阶段性成果' })).toBeVisible()
 
-    const membersLink = main.getByRole('link', { name: '查看成员名单' })
+    const membersLink = main.getByRole('link', { name: '查看工作组共建伙伴' })
     const joinLink = main.getByRole('link', { name: '加入网络安全工作组' })
     const ecosystemLink = main.getByRole('link', { name: '查看生态专题' })
 
@@ -42,14 +42,16 @@ test.describe('工作组导航链路', () => {
     await expect(ecosystemLink).toHaveAttribute('href', '/cybersecurity')
   })
 
-  test('成员名单页在未获授权数据时展示整理中的空态占位', async ({ page }) => {
+  test('工作组共建伙伴页在未获授权数据时展示整理中的空态占位', async ({ page }) => {
     await page.goto('/working-groups/cybersecurity/members')
     const main = page.locator('main#main-content')
 
-    await expect(main.getByRole('heading', { level: 1, name: '成员名单' })).toBeVisible()
-    await expect(main.getByRole('heading', { level: 3, name: '成员名单整理中' })).toBeVisible()
+    await expect(main.getByRole('heading', { level: 1, name: '工作组共建伙伴' })).toBeVisible()
     await expect(
-      main.getByText('成员名单将在获得公开授权后陆续公开', { exact: false }),
+      main.getByRole('heading', { level: 3, name: '工作组共建伙伴名单整理中' }),
+    ).toBeVisible()
+    await expect(
+      main.getByText('工作组共建伙伴名单将在获得公开授权后陆续公开', { exact: false }),
     ).toBeVisible()
     await expect(main.getByRole('link', { name: '申请加入本工作组' })).toHaveAttribute(
       'href',
