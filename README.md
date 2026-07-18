@@ -65,6 +65,8 @@
 > **环境要求**：Node.js 22 · pnpm 11
 
 ```bash
+git clone git@github.com:ZGC-LLM/zgc-llm.github.io.git
+cd zgc-llm.github.io
 cp .env.example .env   # 准备环境变量
 pnpm install           # 安装依赖
 pnpm dev               # 启动开发服务器
@@ -148,7 +150,9 @@ tests/
 
 ## 部署说明
 
-生产部署使用 Docker 构建 Next.js standalone 镜像。构建时必须传入公开环境变量：
+生产环境部署在 **GitHub Pages**（仓库 [`ZGC-LLM/zgc-llm.github.io`](https://github.com/ZGC-LLM/zgc-llm.github.io)）。push 到 `main` 触发 GitHub Actions 工作流（`.github/workflows/deploy-pages.yml`）做 Next.js 静态导出并发布，默认地址 <https://zgc-llm.github.io/>，正式主域名为 `www.zgc-llm.org.cn`。飞书表单地址通过仓库 Settings → Secrets and variables → Actions 的 Variables 注入。自定义域名与 DNS 配置见 [`docs/deploy-pages-dns.md`](./docs/deploy-pages-dns.md)。
+
+如需绕开 Pages 自主部署，本站也支持 **Docker standalone SSR**（详见 [`docs/deploy-docker.md`](./docs/deploy-docker.md)）。构建时必须传入公开环境变量：
 
 ```bash
 docker build \
