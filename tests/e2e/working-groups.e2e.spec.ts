@@ -65,15 +65,13 @@ test.describe('工作组导航链路', () => {
 
     await expect(main.getByRole('heading', { level: 1, name: '加入工作组' })).toBeVisible()
 
-    const disabledEntry = main.locator('[aria-disabled="true"]', { hasText: '申请通道准备中' })
+    // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
     const externalLink = main.getByRole('link', { name: '专业用户申请' })
 
-    if (await disabledEntry.count()) {
-      await expect(disabledEntry.first()).toBeVisible()
-    } else {
-      await expect(externalLink).toBeVisible()
-      await expect(externalLink).toHaveAttribute('target', '_blank')
-    }
+    await expect(externalLink).toBeVisible()
+    await expect(externalLink).toHaveAttribute('target', '_blank')
+    await expect(externalLink).toHaveAttribute('rel', /noopener/)
+    await expect(externalLink).toHaveAttribute('href', /^https:\/\//)
   })
 
   test('加入工作组页含指向联盟机构入口的交叉引导（host 无关）', async ({ page }) => {
@@ -83,15 +81,13 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByText('机构生态共建', { exact: false })).toBeVisible()
     await expect(main.getByText('/join', { exact: false })).toBeVisible()
 
-    const disabledEntry = main.locator('[aria-disabled="true"]', { hasText: '申请通道准备中' })
+    // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
     const externalLink = main.getByRole('link', { name: '专业用户申请' })
 
-    if (await disabledEntry.count()) {
-      await expect(disabledEntry.first()).toBeVisible()
-    } else {
-      await expect(externalLink).toBeVisible()
-      await expect(externalLink).toHaveAttribute('target', '_blank')
-    }
+    await expect(externalLink).toBeVisible()
+    await expect(externalLink).toHaveAttribute('target', '_blank')
+    await expect(externalLink).toHaveAttribute('rel', /noopener/)
+    await expect(externalLink).toHaveAttribute('href', /^https:\/\//)
   })
 
   test('网络安全生态专题页回链到工作组介绍页', async ({ page }) => {
@@ -120,17 +116,13 @@ test.describe('回归性冒烟检查', () => {
 
     await expect(main.getByRole('heading', { level: 1, name: '机构生态共建' })).toBeVisible()
 
-    // 与「加入工作组页提供专业用户申请入口」用例一致：加入 CTA 现内置飞书问卷默认链接，
-    // dev server 无 env 时渲染真实外链而非降级提示，容忍两种渲染态。
-    const disabledEntry = main.locator('[aria-disabled="true"]', { hasText: '申请通道准备中' })
+    // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
     const externalLink = main.getByRole('link', { name: /机构合作申请/ })
 
-    if (await disabledEntry.count()) {
-      await expect(disabledEntry.first()).toBeVisible()
-    } else {
-      await expect(externalLink).toBeVisible()
-      await expect(externalLink).toHaveAttribute('target', '_blank')
-    }
+    await expect(externalLink).toBeVisible()
+    await expect(externalLink).toHaveAttribute('target', '_blank')
+    await expect(externalLink).toHaveAttribute('rel', /noopener/)
+    await expect(externalLink).toHaveAttribute('href', /^https:\/\//)
   })
 
   test('联盟加入页含指向网络安全工作组入口的交叉引导（host 无关）', async ({ page }) => {
