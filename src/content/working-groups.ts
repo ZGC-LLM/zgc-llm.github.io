@@ -19,10 +19,10 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
       },
       {
         description:
-          '作为发起与技术牵引方，支持新模型专项测试、发布与能力迭代；生态对不同基础模型厂商对等开放。',
+          '支持新模型专项测试、发布与能力迭代；生态对不同基础模型厂商对等开放。',
         name: '智谱',
         named: true,
-        role: '模型与技术牵引',
+        role: '模型与技术支持',
       },
       {
         description:
@@ -32,21 +32,23 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
         role: '学术指导',
       },
       {
-        description: '承担产业研究、伙伴连接与用户运营等日常执行。',
+        description:
+          '跟踪产业趋势与需求，对接安全企业与专业伙伴，运营网络安全人员开放计划，沉淀优秀案例并推动成果传播。',
         name: '数说安全',
         named: true,
         role: '产业研究与生态连接',
       },
       {
-        description: '承担技术平台、数据任务与场景落地等日常执行。',
+        description:
+          '采集真实攻防数据，构建训练与测试场景，持续深化优化网络安全大模型，重点推动漏洞挖掘与渗透测试的场景落地。',
         name: '云起无垠',
         named: true,
-        role: '技术平台与项目运营',
+        role: '技术平台运营与数据、模型训练',
       },
       {
         description:
           '安全企业、高校、实验室与专业研究人员按自身优势，通过数据、任务、专家、产品或场景参与共建。',
-        name: '安全企业、高校、实验室与专业研究人员，按自身优势参与共建',
+        name: '生态共建伙伴',
         named: false,
         role: '生态伙伴',
       },
@@ -106,10 +108,10 @@ const WORKING_GROUPS_EN: Readonly<Record<string, WorkingGroupOverlay>> = {
       },
       {
         description:
-          'As initiator and technical lead, supports dedicated testing, release and capability iteration of new models; the ecosystem is equally open to different foundation-model vendors.',
+          'Supports dedicated testing, release and capability iteration of new models; the ecosystem is equally open to different foundation-model vendors.',
         name: 'Zhipu',
         named: true,
-        role: 'Model and technical lead',
+        role: 'Model and technical support',
       },
       {
         description:
@@ -120,22 +122,22 @@ const WORKING_GROUPS_EN: Readonly<Record<string, WorkingGroupOverlay>> = {
       },
       {
         description:
-          'Handles day-to-day execution such as industry research, partner connection and user operations.',
+          'Tracks industry trends and needs, connects security enterprises and professional partners, runs the Cybersecurity Professionals Open Program, and accumulates outstanding cases to promote outreach of results.',
         name: 'Datainsecurity',
         named: true,
         role: 'Industry research and ecosystem connection',
       },
       {
         description:
-          'Handles day-to-day execution such as technology platforms, data tasks and scenario deployment.',
+          'Collects real offense-defense data and builds training and testing scenarios to continuously deepen and optimise the cybersecurity large model, focusing on scenario deployment for vulnerability discovery and penetration testing.',
         name: 'CloudInfinite',
         named: true,
-        role: 'Technology platform and project operations',
+        role: 'Platform operations, data and model training',
       },
       {
         description:
           'Security enterprises, universities, labs and professional researchers contribute through data, tasks, experts, products or scenarios according to their strengths.',
-        name: 'Security enterprises, universities, labs and professional researchers co-building according to their strengths',
+        name: 'Ecosystem co-building partners',
         named: false,
         role: 'Ecosystem partners',
       },

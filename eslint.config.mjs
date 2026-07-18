@@ -25,6 +25,8 @@ export default defineConfig([
     },
   },
   globalIgnores([
+    '.claude/**',
+    '.codex/**',
     '.next/**',
     '.worktree/**',
     'coverage/**',
