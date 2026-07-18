@@ -102,24 +102,43 @@ export function NavGroup({
       ref={containerRef}
     >
       <div className="nav-group__header">
-        <Link
-          aria-current={isCurrent ? 'page' : undefined}
-          className="site-nav-link nav-group__link"
-          href={href}
-        >
-          {label}
-        </Link>
-        <button
-          aria-controls={panelId}
-          aria-expanded={open}
-          aria-label={expandLabel}
-          className="nav-group__toggle"
-          onClick={() => setOpen((value) => !value)}
-          ref={toggleRef}
-          type="button"
-        >
-          <span aria-hidden="true" className="nav-group__caret" />
-        </button>
+        {isDesktop ? (
+          // 桌面：标题即展开触发器，点击切换下拉（不跳转），hover 也展开。
+          // 去掉「父级跳 /members 而首个子项也是 /members」的父子重复与 hover 不可靠问题。
+          <button
+            aria-controls={panelId}
+            aria-current={isCurrent ? 'page' : undefined}
+            aria-expanded={open}
+            className="site-nav-link nav-group__link nav-group__trigger"
+            onClick={() => setOpen((value) => !value)}
+            ref={toggleRef}
+            type="button"
+          >
+            {label}
+            <span aria-hidden="true" className="nav-group__caret" />
+          </button>
+        ) : (
+          <>
+            <Link
+              aria-current={isCurrent ? 'page' : undefined}
+              className="site-nav-link nav-group__link"
+              href={href}
+            >
+              {label}
+            </Link>
+            <button
+              aria-controls={panelId}
+              aria-expanded={open}
+              aria-label={expandLabel}
+              className="nav-group__toggle"
+              onClick={() => setOpen((value) => !value)}
+              ref={toggleRef}
+              type="button"
+            >
+              <span aria-hidden="true" className="nav-group__caret" />
+            </button>
+          </>
+        )}
       </div>
       <ul className="nav-group__panel" hidden={!open} id={panelId}>
         {items.map((item) => (

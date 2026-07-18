@@ -44,7 +44,7 @@ export const WORKING_GROUPS: readonly WorkingGroupSummary[] = [
           '采集真实攻防数据，构建训练与测试场景，持续深化优化网络安全大模型，重点推动漏洞挖掘与渗透测试的场景落地。',
         name: '云起无垠',
         named: true,
-        role: '技术平台运营与数据、模型训练',
+        role: '技术运营与数据、模型训练',
       },
       {
         description:

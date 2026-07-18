@@ -22,6 +22,7 @@ export interface Dictionary {
     openNav: string
     menu: string
     institutionApply: string
+    joinWorkingGroup: string
     expandSubmenu: string
   }
   languageToggle: {
@@ -55,7 +56,8 @@ const zh: Dictionary = {
     tagline: '汇聚自主大模型产业创新力量，连接技术、场景、人才与生态资源。',
   },
   header: {
-    institutionApply: '机构合作申请',
+    institutionApply: '加入联盟',
+    joinWorkingGroup: '加入工作组',
     mainNav: '主导航',
     menu: '菜单',
     mobileNav: '移动导航',
@@ -65,7 +67,7 @@ const zh: Dictionary = {
   languageToggle: {
     en: 'EN',
     label: '切换语言 / Switch language',
-    zh: '中',
+    zh: '中文',
   },
   nav: {
     alliance: '联盟介绍',
@@ -93,7 +95,8 @@ const en: Dictionary = {
       'Bringing together innovation in the self-reliant large-model industry, connecting technology, scenarios, talent and ecosystem resources.',
   },
   header: {
-    institutionApply: 'Partner with Us',
+    institutionApply: 'Join the Alliance',
+    joinWorkingGroup: 'Join a working group',
     mainNav: 'Main navigation',
     menu: 'Menu',
     mobileNav: 'Mobile navigation',
@@ -103,7 +106,7 @@ const en: Dictionary = {
   languageToggle: {
     en: 'EN',
     label: '切换语言 / Switch language',
-    zh: '中',
+    zh: '中文',
   },
   nav: {
     alliance: 'About',

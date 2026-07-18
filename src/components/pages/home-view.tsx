@@ -78,7 +78,7 @@ const STRINGS: Record<Locale, HomeStrings> = {
     glass2Value:
       'Technology innovation, industrial collaboration, real-world deployment and building secure, trustworthy capabilities',
     glass2Tags: ['Tech Innovation', 'Collaboration', 'Deployment', 'Security & Trust'],
-    heroCta: 'Partner with Us',
+    heroCta: 'Join the Alliance',
     heroLead:
       'The Alliance brings together universities, research institutions and industry partners to advance technology innovation, industrial collaboration, real-world deployment and international cooperation around self-reliant large models, while continually strengthening security-oriented large models, trustworthy agents and AI security governance.',
     heroTitle:
@@ -126,7 +126,7 @@ const STRINGS: Record<Locale, HomeStrings> = {
     glass2Key: '核心议题',
     glass2Value: '技术创新、产业协同、场景落地与安全可信能力建设',
     glass2Tags: ['技术创新', '产业协同', '场景落地', '安全可信'],
-    heroCta: '机构合作申请',
+    heroCta: '加入联盟',
     heroLead:
       '联盟汇聚高校、科研机构与产业伙伴，围绕自主大模型推动技术创新、产业协同、场景落地与国际合作，持续强化安全大模型、可信智能体与人工智能安全治理能力。',
     heroTitle: '汇聚自主大模型力量，共建开放、安全、协同的产业生态',

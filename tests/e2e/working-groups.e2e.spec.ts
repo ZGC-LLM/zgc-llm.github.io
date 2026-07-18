@@ -29,7 +29,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByRole('heading', { level: 2, name: '对外发布的阶段性成果' })).toBeVisible()
 
     const membersLink = main.getByRole('link', { name: '查看工作组共建伙伴' })
-    const joinLink = main.getByRole('link', { name: '加入网络安全工作组' })
+    const joinLink = main.getByRole('link', { name: '了解如何加入' }).first()
     const ecosystemLink = main.getByRole('link', { name: '查看生态专题' })
 
     await expect(membersLink).toBeVisible()
@@ -66,7 +66,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByRole('heading', { level: 1, name: '加入工作组' })).toBeVisible()
 
     // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = main.getByRole('link', { name: '专业用户申请' })
+    const externalLink = main.getByRole('link', { name: '提交加入工作组申请' })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')
@@ -82,7 +82,7 @@ test.describe('工作组导航链路', () => {
     await expect(main.getByText('/join', { exact: false })).toBeVisible()
 
     // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = main.getByRole('link', { name: '专业用户申请' })
+    const externalLink = main.getByRole('link', { name: '提交加入工作组申请' })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')
@@ -117,7 +117,7 @@ test.describe('回归性冒烟检查', () => {
     await expect(main.getByRole('heading', { level: 1, name: '机构生态共建' })).toBeVisible()
 
     // 加入 CTA 内置飞书问卷默认链接，始终渲染可用外链（不再容忍禁用态）。
-    const externalLink = main.getByRole('link', { name: /机构合作申请/ })
+    const externalLink = main.getByRole('link', { name: /提交入盟申请/ })
 
     await expect(externalLink).toBeVisible()
     await expect(externalLink).toHaveAttribute('target', '_blank')
@@ -129,7 +129,7 @@ test.describe('回归性冒烟检查', () => {
     await page.goto('/join')
     const main = page.getByRole('main')
 
-    await expect(main.getByText('加入工作组', { exact: false })).toBeVisible()
+    await expect(main.getByText('加入工作组', { exact: false }).first()).toBeVisible()
     await expect(
       main.getByText('/working-groups/cybersecurity/join', { exact: false }),
     ).toBeVisible()

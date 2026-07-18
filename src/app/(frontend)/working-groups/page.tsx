@@ -24,6 +24,7 @@ const STRINGS: Record<Locale, {
   initiativeLabel: string
   groupLabel: string
   viewPrefix: string
+  joinPrefix: string
   emptyTitle: string
   emptyBody: string
   emptyCta: string
@@ -43,6 +44,7 @@ const STRINGS: Record<Locale, {
     sectionEyebrow: 'Public Working Groups',
     sectionTitle: 'Focusing on real topics for sustained collaboration',
     viewPrefix: 'View ',
+    joinPrefix: 'Join ',
   },
   zh: {
     emptyBody: '其余工作组将在筹备成熟后公开，我们只发布已确认的方向、负责单位与成果。',
@@ -57,6 +59,7 @@ const STRINGS: Record<Locale, {
     sectionEyebrow: '公开工作组',
     sectionTitle: '聚焦真实议题，形成持续协作',
     viewPrefix: '查看',
+    joinPrefix: '加入',
   },
 }
 
@@ -86,12 +89,19 @@ export function WorkingGroupsListView({ locale }: { locale: Locale }): ReactElem
                   </p>
                   <h3 style={{ fontSize: '24px' }}>{group.title}</h3>
                   <p>{group.description}</p>
-                  <div style={{ marginTop: '24px' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '24px' }}>
                     <Link
                       className="button-primary"
                       href={localizePath(`/working-groups/${group.slug}`, locale)}
                     >
                       {t.viewPrefix}
+                      {group.title}
+                    </Link>
+                    <Link
+                      className="button-secondary"
+                      href={localizePath(`/working-groups/${group.slug}/join`, locale)}
+                    >
+                      {t.joinPrefix}
                       {group.title}
                     </Link>
                   </div>

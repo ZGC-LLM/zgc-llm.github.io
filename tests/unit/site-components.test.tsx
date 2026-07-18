@@ -46,7 +46,7 @@ describe('site header', () => {
 
     expect(screen.getAllByText('中关村自主大模型产业联盟').length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: '网络安全生态' }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: '机构合作申请' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: '加入联盟' }).length).toBeGreaterThan(0)
     expect(screen.queryByRole('link', { name: '个人专业用户加入' })).toBeNull()
     // 「成员伙伴」是可跳转的分组标题链接，并另有一个「展开子菜单」按钮显示二级子项。
     expect(screen.getAllByRole('link', { name: '成员伙伴' }).length).toBeGreaterThan(0)

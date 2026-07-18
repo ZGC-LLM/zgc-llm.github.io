@@ -1,9 +1,11 @@
+import Link from 'next/link'
 import type { ReactElement } from 'react'
 
 import { ExternalApplicationLink } from '@/components/site/external-application-link'
 import { PageHero } from '@/components/site/page-hero'
 import { SectionHeading } from '@/components/site/section-heading'
 import type { Locale } from '@/i18n/locales'
+import { localizePath } from '@/i18n/routing'
 
 type Pair = readonly [string, string]
 
@@ -12,6 +14,7 @@ interface JoinStrings {
   heroEyebrow: string
   heroTitle: string
   applyCta: string
+  joinWorkingGroupCta: string
   valuesEyebrow: string
   valuesTitle: string
   valuesDescription: string
@@ -32,7 +35,8 @@ interface JoinStrings {
 
 const STRINGS: Record<Locale, JoinStrings> = {
   en: {
-    applyCta: 'Apply to Partner with Us',
+    applyCta: 'Submit Alliance Application',
+    joinWorkingGroupCta: 'Join a working group',
     description:
       'Learn about the value, ways to participate, collaboration process and FAQs for institutions joining the Alliance as a member. Submitting the form only establishes initial contact and does not itself constitute formal membership.',
     faq: [
@@ -110,7 +114,8 @@ const STRINGS: Record<Locale, JoinStrings> = {
     ],
   },
   zh: {
-    applyCta: '提交机构合作申请',
+    applyCta: '提交入盟申请',
+    joinWorkingGroupCta: '加入工作组',
     description:
       '了解机构以单位会员身份加入联盟的合作价值、参与方式、协作流程与常见问题；提交表单仅用于建立初步联系，不代表正式加入。',
     faq: [
@@ -160,9 +165,14 @@ export function JoinView({ locale }: { locale: Locale }): ReactElement {
     <main id="main-content">
       <PageHero
         actions={
-          <ExternalApplicationLink className="button-primary" label={t.applyCta}>
-            {t.applyCta}
-          </ExternalApplicationLink>
+          <>
+            <ExternalApplicationLink className="button-primary" label={t.applyCta}>
+              {t.applyCta}
+            </ExternalApplicationLink>
+            <Link className="btn btn--ghost" href={localizePath('/working-groups', locale)}>
+              {t.joinWorkingGroupCta}
+            </Link>
+          </>
         }
         description={t.description}
         eyebrow={t.heroEyebrow}

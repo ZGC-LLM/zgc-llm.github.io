@@ -3,8 +3,10 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
 
+import { ExternalApplicationLink } from '@/components/site/external-application-link'
 import { PageHero } from '@/components/site/page-hero'
 import { SectionHeading } from '@/components/site/section-heading'
+import { resolveWorkingGroupApplicationUrl } from '@/config/site'
 import {
   getWorkingGroupBySlug,
   getWorkingGroupSlugs,
@@ -56,6 +58,8 @@ const STRINGS: Record<Locale, {
   initiativeLabel: string
   groupLabel: string
   join: string
+  applyNow: string
+  learnJoin: string
   viewEcosystem: string
   respEyebrow: string
   respTitle: string
@@ -91,6 +95,8 @@ const STRINGS: Record<Locale, {
     initiativeLabel: 'Priority Initiative',
     join: 'Join the working group',
     joinPrefix: 'Join ',
+    applyNow: 'Submit an application',
+    learnJoin: 'Learn how to join',
     leadsDescription:
       'Authorized responsible units are shown by name; others are described by participation role. We only disclose confirmed information.',
     leadsEyebrow: 'Leads',
@@ -121,6 +127,8 @@ const STRINGS: Record<Locale, {
     initiativeLabel: '重点专项',
     join: '加入工作组',
     joinPrefix: '加入',
+    applyNow: '提交加入申请',
+    learnJoin: '了解如何加入',
     leadsDescription: '已获授权的负责单位以具名方式展示，其余按参与角色说明；我们只公开经确认的信息。',
     leadsEyebrow: '负责人',
     leadsTitle: '统筹与共建单位',
@@ -151,6 +159,7 @@ export function WorkingGroupOverview({
   const t = STRINGS[locale]
   const eyebrow = group.kind === 'initiative' ? t.initiativeLabel : t.groupLabel
   const joinHref = localizePath(`/working-groups/${group.slug}/join`, locale)
+  const applicationUrl = resolveWorkingGroupApplicationUrl(raw)
   const ecosystemHref = group.ecosystemHref ? localizePath(group.ecosystemHref, locale) : undefined
 
   return (
@@ -158,8 +167,15 @@ export function WorkingGroupOverview({
       <PageHero
         actions={
           <>
-            <Link className="btn btn--primary" href={joinHref}>
-              {t.join}
+            <ExternalApplicationLink
+              className="btn btn--primary"
+              configuredUrl={applicationUrl}
+              label={t.applyNow}
+            >
+              {t.applyNow}
+            </ExternalApplicationLink>
+            <Link className="btn btn--ghost" href={joinHref}>
+              {t.learnJoin}
             </Link>
             {ecosystemHref ? (
               <Link className="btn btn--ghost" href={ecosystemHref}>
@@ -261,9 +277,15 @@ export function WorkingGroupOverview({
               <p>{t.ctaBody}</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Link className="btn btn--primary" href={joinHref}>
-                {t.joinPrefix}
-                {group.title}
+              <ExternalApplicationLink
+                className="btn btn--primary"
+                configuredUrl={applicationUrl}
+                label={t.applyNow}
+              >
+                {t.applyNow}
+              </ExternalApplicationLink>
+              <Link className="btn btn--ghost" href={joinHref}>
+                {t.learnJoin}
               </Link>
               <Link
                 className="btn btn--ghost"

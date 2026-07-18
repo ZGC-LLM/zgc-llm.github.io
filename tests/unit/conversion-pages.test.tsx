@@ -38,7 +38,7 @@ describe('shared application target across entry points (zh)', () => {
     render(<JoinPage />)
 
     const main = screen.getByRole('main')
-    const link = within(main).getByRole('link', { name: /机构合作申请/ })
+    const link = within(main).getByRole('link', { name: /提交入盟申请/ })
     expect(link.getAttribute('href')).toBe(APPLICATION_TARGET.href)
     expect(link.getAttribute('target')).toBe('_blank')
     expect(link.getAttribute('rel')).toContain('noopener')
@@ -50,7 +50,7 @@ describe('shared application target across entry points (zh)', () => {
     render(<WorkingGroupJoinView locale="zh" slug="cybersecurity" />)
 
     const main = screen.getByRole('main')
-    const link = within(main).getByRole('link', { name: /专业用户申请/ })
+    const link = within(main).getByRole('link', { name: /提交加入工作组申请/ })
     expect(link.getAttribute('href')).toBe(cybersecurityApplicationUrl)
     expect(link.getAttribute('target')).toBe('_blank')
     expect(link.getAttribute('rel')).toContain('noopener')
@@ -63,7 +63,7 @@ describe('shared application target across entry points (en)', () => {
     render(<EnJoinPage />)
 
     const main = screen.getByRole('main')
-    const link = within(main).getByRole('link', { name: /Partner with Us/ })
+    const link = within(main).getByRole('link', { name: /Submit Alliance Application/ })
     expect(link.getAttribute('href')).toBe(APPLICATION_TARGET.href)
     expect(link.getAttribute('target')).toBe('_blank')
     expect(link.getAttribute('rel')).toContain('noopener')
@@ -74,7 +74,7 @@ describe('shared application target across entry points (en)', () => {
     render(<WorkingGroupJoinView locale="en" slug="cybersecurity" />)
 
     const main = screen.getByRole('main')
-    const link = within(main).getByRole('link', { name: /professional user/ })
+    const link = within(main).getByRole('link', { name: /Submit an application/ })
     expect(link.getAttribute('href')).toBe(cybersecurityApplicationUrl)
     expect(link.getAttribute('target')).toBe('_blank')
     expect(link.getAttribute('rel')).toContain('noopener')

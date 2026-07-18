@@ -21,7 +21,7 @@ describe('home page', () => {
       }),
     ).toBeTruthy()
 
-    const institutionLink = screen.getByRole('link', { name: '机构合作申请' })
+    const institutionLink = screen.getByRole('link', { name: '加入联盟' })
 
     expect(institutionLink.getAttribute('href')).toBe('/join')
     expect(institutionLink.className).toContain('btn--primary')
