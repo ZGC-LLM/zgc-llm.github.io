@@ -63,7 +63,7 @@ test.describe('网络安全生态专题', () => {
       await expect(main.getByText(lead, { exact: false }).first()).toBeVisible()
     }
 
-    // 组织机制卡片恰好 6 张（联盟统筹 / 智谱 / 清华 / 数说安全·云起无垠 / 生态伙伴 / 监管）
+    // 组织机制卡片恰好 6 张（渲染工作组分工 leads：联盟 / 智谱 / 清华 / 数说安全 / 云起无垠 / 生态伙伴）
     const organisationSection = main.locator('section.block', { hasText: '组织机制' }).first()
     await expect(organisationSection.locator('.card')).toHaveCount(6)
 

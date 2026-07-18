@@ -31,6 +31,8 @@ export interface WorkingGroupLead {
   name: string
   /** true=已公开授权具名；false=按角色描述（治理边界） */
   named: boolean
+  /** 该单位在分工中的职责说明；分工唯一权威源，生态页组织机制复用 */
+  description?: string
 }
 
 export interface WorkingGroupSummary {
@@ -107,7 +109,7 @@ export interface ParticipationPath {
 
 /**
  * Generic titled card used across the cybersecurity ecosystem page
- * (resources, priority actions and the named governance/operations bodies).
+ * (resources and priority actions).
  */
 export interface CybersecurityCard {
   description: string
@@ -121,11 +123,6 @@ export interface CybersecurityEcosystem {
   resources: readonly CybersecurityCard[]
   /** Four priority actions the ecosystem drives. */
   actions: readonly CybersecurityCard[]
-  /**
-   * How the ecosystem is run — only authorised leads are named; every other
-   * participant is described by role, never by name.
-   */
-  organisation: readonly CybersecurityCard[]
   /** Pill badges for the many ways partners can contribute. */
   contribution: readonly string[]
   /** Responsible-governance boundaries (no mandatory raw-data delivery). */

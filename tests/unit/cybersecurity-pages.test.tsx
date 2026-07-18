@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 
 import { CybersecurityView } from '@/components/pages/cybersecurity-view'
 import { getCybersecurityEcosystem } from '@/content/cybersecurity'
+import { getWorkingGroupBySlug, localizeWorkingGroup } from '@/content/working-groups'
 import { buildAlternates } from '@/i18n/routing'
 
 import CybersecurityPage, { metadata as zhMetadata } from '@/app/(frontend)/cybersecurity/page'
@@ -27,7 +28,10 @@ describe('CybersecurityView', () => {
     expect(screen.getByText(eco.resources[0].title)).toBeTruthy()
     expect(screen.getByText(eco.actions[0].title)).toBeTruthy()
     expect(screen.getByText(eco.contribution[0])).toBeTruthy()
-    expect(screen.getByText(eco.organisation[0].title)).toBeTruthy()
+    // 组织机制区块复用工作组分工 leads（分工单一数据源）。
+    const cyberGroup = getWorkingGroupBySlug('cybersecurity')
+    const leads = cyberGroup ? localizeWorkingGroup(cyberGroup, 'zh').leads : []
+    expect(screen.getByText(leads[1].role)).toBeTruthy()
     expect(screen.getByText(eco.governanceBoundaries[0])).toBeTruthy()
     expect(screen.getByLabelText('生态治理原则').textContent).toContain(eco.openPrinciples[0])
   })

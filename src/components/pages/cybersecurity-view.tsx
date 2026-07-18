@@ -4,6 +4,7 @@ import type { ReactElement } from 'react'
 import { PageHero } from '@/components/site/page-hero'
 import { SectionHeading } from '@/components/site/section-heading'
 import { getCybersecurityEcosystem } from '@/content/cybersecurity'
+import { getWorkingGroupBySlug, localizeWorkingGroup } from '@/content/working-groups'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
 
@@ -61,7 +62,7 @@ const STRINGS: Record<Locale, CyberStrings> = {
     openPrinciplesLabel: 'Ecosystem governance principles',
     openTitle: 'Different foundation-model vendors and technical ecosystems are welcome',
     orgDescription:
-      'Adopting “alliance coordination, model-vendor lead, academic guidance, joint operations, partner co-building and regulatory coordination” — without building a complex new organisation, advancing through dedicated projects and joint actions.',
+      'Adopting “alliance coordination, model-vendor lead, academic guidance and partner co-building” — without building a complex new organisation, advancing through dedicated projects and joint actions.',
     orgEyebrow: 'Operating Mechanism',
     orgTitle: 'Organisation mechanism',
     resourcesDescription:
@@ -94,7 +95,7 @@ const STRINGS: Record<Locale, CyberStrings> = {
     openPrinciplesLabel: '生态治理原则',
     openTitle: '欢迎不同基础模型厂商与技术生态参与',
     orgDescription:
-      '采用「联盟统筹、模型厂商牵引、高校指导、联合运营、伙伴共建、监管协同」，不新设复杂组织，以专项项目与联合行动方式推进。',
+      '采用「联盟统筹、模型厂商牵引、高校指导、伙伴共建」的协作方式，不新设复杂组织，以专项项目与联合行动方式推进。',
     orgEyebrow: '运行机制',
     orgTitle: '组织机制',
     resourcesDescription:
@@ -108,6 +109,9 @@ const STRINGS: Record<Locale, CyberStrings> = {
 export function CybersecurityView({ locale }: { locale: Locale }): ReactElement {
   const t = STRINGS[locale]
   const eco = getCybersecurityEcosystem(locale)
+  // 分工单一权威源：组织机制复用工作组 leads，避免两页各自维护导致漂移。
+  const workingGroup = getWorkingGroupBySlug('cybersecurity')
+  const leads = workingGroup ? localizeWorkingGroup(workingGroup, locale).leads : []
 
   return (
     <main id="main-content">
@@ -205,10 +209,11 @@ export function CybersecurityView({ locale }: { locale: Locale }): ReactElement 
         <div className="site-container">
           <SectionHeading description={t.orgDescription} eyebrow={t.orgEyebrow} title={t.orgTitle} />
           <div className="grid-2">
-            {eco.organisation.map((body) => (
-              <article className="card" key={body.title}>
-                <h3>{body.title}</h3>
-                <p>{body.description}</p>
+            {leads.map((lead) => (
+              <article className="card" key={`${lead.role}-${lead.name}`}>
+                <p className="eyebrow">{lead.role}</p>
+                {lead.named ? <h3>{lead.name}</h3> : <p>{lead.name}</p>}
+                {lead.description ? <p>{lead.description}</p> : null}
               </article>
             ))}
           </div>

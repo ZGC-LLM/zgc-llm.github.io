@@ -52,38 +52,6 @@ const ECOSYSTEM: Localized<CybersecurityEcosystem> = {
       'Data compliance and public release of results require governance review and authorization confirmation.',
     ],
     openPrinciples: ['Vendor-neutral', 'Equal participation', 'Governable security', 'Continuous evolution'],
-    organisation: [
-      {
-        description:
-          'Provides the organisational platform and industry credibility, coordinates resources across parties, reviews build directions and result releases, and takes on the platform and coordination role.',
-        title: 'ZGC Self-Reliant LLM Industry Alliance · Coordination',
-      },
-      {
-        description:
-          'As initiator and technical supporter, supports dedicated testing, release and capability iteration of new models; the ecosystem is equally open to different foundation-model vendors.',
-        title: 'Zhipu · Model and technical lead',
-      },
-      {
-        description:
-          'Guides technical direction and evaluation methods, advances technical standards, research topics and talent development, and improves the professionalism and neutrality of results.',
-        title: 'Tsinghua University · Academic guidance',
-      },
-      {
-        description:
-          'Jointly handle day-to-day execution such as industry research, partner connection, user operations, technology platforms, data tasks and scenario deployment.',
-        title: 'Datainsecurity · CloudInfinite · Joint operations',
-      },
-      {
-        description:
-          'Security enterprises, universities, labs and professional researchers contribute through data, tasks, experts, products or scenarios according to their strengths.',
-        title: 'Ecosystem partners · Co-building',
-      },
-      {
-        description:
-          'On matters such as data compliance, high-risk capabilities and management of offense-defense results, proactively accept guidance from relevant authorities and experts.',
-        title: 'Regulation · Coordination',
-      },
-    ],
     resources: [
       {
         description:
@@ -164,32 +132,6 @@ const ECOSYSTEM: Localized<CybersecurityEcosystem> = {
       {
         description: '围绕网络安全行业需求，建立模型验证与应用机制：可信内测、专业验证与产品场景落地。',
         title: '建立面向网络安全行业的验证与应用机制',
-      },
-    ],
-    organisation: [
-      {
-        description: '提供组织平台与行业公信力，协调各方资源，审议建设方向与成果发布，承担平台与统筹角色。',
-        title: '中关村自主大模型产业联盟 · 统筹',
-      },
-      {
-        description: '作为发起与技术支持方，支持新模型专项测试、发布与能力迭代；生态对不同基础模型厂商对等开放。',
-        title: '智谱 · 模型与技术牵引',
-      },
-      {
-        description: '指导技术方向与评测方法，推动技术规范、科研课题与人才培养，提升成果的专业性与中立性。',
-        title: '清华大学 · 学术指导',
-      },
-      {
-        description: '共同承担产业研究、伙伴连接、用户运营、技术平台、数据任务与场景落地等日常执行。',
-        title: '数说安全 · 云起无垠 · 联合运营',
-      },
-      {
-        description: '安全企业、高校、实验室与专业研究人员按自身优势，通过数据、任务、专家、产品或场景参与共建。',
-        title: '生态伙伴 · 共建',
-      },
-      {
-        description: '在数据合规、高风险能力与攻防成果管理等事项上，主动接受有关部门与专家指导。',
-        title: '监管 · 协同',
       },
     ],
     contribution: [
