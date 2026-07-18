@@ -1,0 +1,45 @@
+name: 缺陷报告 Bug report
+description: 报告官网的功能缺陷、显示异常或链接问题
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请尽量提供可复现步骤、页面地址与环境信息，便于定位。
+        （本仓库为纯静态展示官网，不涉及任何申请人个人信息，请勿在此提交敏感信息。）
+  - type: textarea
+    id: what
+    attributes:
+      label: 问题描述
+      description: 发生了什么？你期望的正确表现是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开 ……
+        2. 点击 ……
+        3. 观察到 ……
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: 相关页面 URL / 路由
+      placeholder: 例如 /news 或 https://www.zgc-llm.org.cn/join
+  - type: dropdown
+    id: env
+    attributes:
+      label: 环境
+      options:
+        - 桌面浏览器
+        - 移动端浏览器
+        - 其它
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: 截图 / 控制台日志（可选）
