@@ -312,6 +312,95 @@ summary:focus-visible {
   top: calc(100% + 12px);
 }
 
+.nav-group {
+  display: inline-flex;
+  position: relative;
+}
+
+.nav-group--mobile {
+  display: block;
+}
+
+.nav-group__header {
+  align-items: center;
+  display: inline-flex;
+}
+
+.nav-group--mobile .nav-group__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-group__link {
+  flex: 0 1 auto;
+}
+
+.nav-group__toggle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text-body);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.nav-group__toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--brand-primary);
+}
+
+.nav-group__caret {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  display: inline-block;
+  height: 7px;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform 160ms ease;
+  width: 7px;
+}
+
+.nav-group__toggle[aria-expanded='true'] .nav-group__caret {
+  transform: rotate(-135deg) translate(-2px, -2px);
+}
+
+.nav-group__panel {
+  list-style: none;
+  margin: 0;
+}
+
+.nav-group--desktop .nav-group__panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-pop);
+  display: grid;
+  gap: 2px;
+  left: 0;
+  min-width: 200px;
+  padding: 8px;
+  position: absolute;
+  top: calc(100% + 8px);
+  z-index: 20;
+}
+
+.nav-group--mobile .nav-group__panel {
+  display: grid;
+  gap: 2px;
+  padding: 4px 0 4px 12px;
+}
+
+.nav-group__panel .site-nav-link {
+  display: block;
+}
+
+/* 覆盖 UA hidden 与上面的 display:grid，保证收起时不可见 */
+.nav-group__panel[hidden] {
+  display: none;
+}
+
 .site-footer {
   background: var(--bg-hero);
   color: var(--text-inverse);

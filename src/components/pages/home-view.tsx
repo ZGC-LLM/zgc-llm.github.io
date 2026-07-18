@@ -36,7 +36,8 @@ interface HomeStrings {
   membersEyebrow: string
   membersTitle: string
   membersDescription: string
-  membersAction: string
+  membersAllianceAction: string
+  membersWorkingGroupAction: string
   membersEmptyTitle: string
   membersEmptyBody: string
   newsEyebrow: string
@@ -82,7 +83,7 @@ const STRINGS: Record<Locale, HomeStrings> = {
       'The Alliance brings together universities, research institutions and industry partners to advance technology innovation, industrial collaboration, real-world deployment and international cooperation around self-reliant large models, while continually strengthening security-oriented large models, trustworthy agents and AI security governance.',
     heroTitle:
       'Uniting self-reliant large-model strength to build an open, secure and collaborative industry ecosystem',
-    membersAction: 'View members',
+    membersAllianceAction: 'Alliance Members',
     membersDescription:
       'The Alliance works with all parties to build an open and collaborative industry ecosystem.',
     membersEmptyBody:
@@ -90,6 +91,7 @@ const STRINGS: Record<Locale, HomeStrings> = {
     membersEmptyTitle: 'Member information is being prepared',
     membersEyebrow: 'Ecosystem Partners',
     membersTitle: 'Connecting diverse industry strengths',
+    membersWorkingGroupAction: 'Working Group Members',
     newsAction: 'View news',
     newsDescription:
       'Publishing Alliance updates, event notices, industry observations and confirmed stage results.',
@@ -128,12 +130,13 @@ const STRINGS: Record<Locale, HomeStrings> = {
     heroLead:
       '联盟汇聚高校、科研机构与产业伙伴，围绕自主大模型推动技术创新、产业协同、场景落地与国际合作，持续强化安全大模型、可信智能体与人工智能安全治理能力。',
     heroTitle: '汇聚自主大模型力量，共建开放、安全、协同的产业生态',
-    membersAction: '查看成员伙伴',
+    membersAllianceAction: '联盟成员',
     membersDescription: '联盟携手各方共建开放、协同的产业生态。',
     membersEmptyBody: '成员信息将在完成公开授权后陆续发布，敬请关注。',
     membersEmptyTitle: '成员信息整理中',
     membersEyebrow: '生态伙伴',
     membersTitle: '连接多元产业力量',
+    membersWorkingGroupAction: '工作组成员',
     newsAction: '查看新闻动态',
     newsDescription: '发布联盟动态、活动通知、行业观察与阶段成果。',
     newsEmptyBody: '经联盟确认的新闻、活动与成果将陆续在此更新，敬请关注。',
@@ -265,9 +268,14 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
         <div className="container">
           <SectionHeading
             action={
-              <Link className="text-link" href={localizePath('/members', locale)}>
-                {t.membersAction}
-              </Link>
+              <div className="flex gap-4">
+                <Link className="text-link" href={localizePath('/members', locale)}>
+                  {t.membersAllianceAction}
+                </Link>
+                <Link className="text-link" href={localizePath('/working-groups', locale)}>
+                  {t.membersWorkingGroupAction}
+                </Link>
+              </div>
             }
             description={t.membersDescription}
             eyebrow={t.membersEyebrow}

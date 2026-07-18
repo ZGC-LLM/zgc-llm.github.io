@@ -33,24 +33,35 @@ const STRINGS: Record<Locale, {
   emptyBody: string
   emptyCta: string
   logoAltSuffix: string
+  relationNotePrefix: string
+  relationLinkLabel: string
+  relationNoteSuffix: string
 }> = {
   en: {
-    descriptionFor: (title) => `View the publicly authorized member list of the ${title}.`,
-    emptyBody: 'More members will be disclosed after public authorization. Please stay tuned.',
+    descriptionFor: (title) =>
+      `View the publicly authorized Working Group Partners list of the ${title}.`,
+    emptyBody:
+      'More Working Group Partners will be disclosed after public authorization. Please stay tuned.',
     emptyCta: 'Apply to join this working group',
-    emptyTitle: 'Member list is being prepared',
+    emptyTitle: 'Working Group Partners list is being prepared',
     logoAltSuffix: ' logo',
-    ogTitleSuffix: ' · Member List',
-    pageTitle: 'Member List',
+    ogTitleSuffix: ' · Working Group Partners',
+    pageTitle: 'Working Group Partners',
+    relationLinkLabel: 'Alliance Members',
+    relationNotePrefix: 'Organisations on this list are mostly also alliance members. Visit ',
+    relationNoteSuffix: ' for the full list.',
   },
   zh: {
-    descriptionFor: (title) => `查看${title}的公开授权成员名单。`,
-    emptyBody: '更多成员名单将在获得公开授权后陆续公开，敬请关注。',
+    descriptionFor: (title) => `查看${title}公开授权的工作组共建伙伴名单。`,
+    emptyBody: '更多工作组共建伙伴名单将在获得公开授权后陆续公开，敬请关注。',
     emptyCta: '申请加入本工作组',
-    emptyTitle: '成员名单整理中',
+    emptyTitle: '工作组共建伙伴名单整理中',
     logoAltSuffix: '标识',
-    ogTitleSuffix: ' · 成员名单',
-    pageTitle: '成员名单',
+    ogTitleSuffix: ' · 工作组共建伙伴',
+    pageTitle: '工作组共建伙伴',
+    relationLinkLabel: '联盟成员',
+    relationNotePrefix: '名单单位多为联盟会员，可前往',
+    relationNoteSuffix: '页查看完整名单。',
   },
 }
 
@@ -168,6 +179,15 @@ export function WorkingGroupMembersView({
         eyebrow={localized.title}
         title={t.pageTitle}
       />
+      <section className="block block--subtle">
+        <div className="site-container">
+          <p>
+            {t.relationNotePrefix}
+            <Link href={localizePath('/members', locale)}>{t.relationLinkLabel}</Link>
+            {t.relationNoteSuffix}
+          </p>
+        </div>
+      </section>
       <WorkingGroupMembersDirectory group={group} locale={locale} members={members} />
     </main>
   )

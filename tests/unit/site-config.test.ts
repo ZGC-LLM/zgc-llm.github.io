@@ -18,11 +18,17 @@ describe('site configuration', () => {
     expect(resolveSiteUrl('javascript:alert(1)')).toBe('https://www.zgc-llm.org.cn')
   })
 
-  it('defines unique public navigation destinations', () => {
-    const destinations = SITE_NAVIGATION.map(({ href }) => href)
+  it('defines unique public navigation destinations with a members group', () => {
+    const leaves = SITE_NAVIGATION.filter((item) => !item.children).map(({ href }) => href)
 
-    expect(destinations).toContain('/cybersecurity')
-    expect(new Set(destinations).size).toBe(destinations.length)
+    expect(leaves).toContain('/cybersecurity')
+    expect(new Set(leaves).size).toBe(leaves.length)
+
+    const group = SITE_NAVIGATION.find((item) => item.children)
+
+    expect(group?.href).toBe('/members')
+    expect(group?.children?.map((child) => child.href)).toEqual(['/members', '/working-groups'])
+
     expect(PUBLIC_STATIC_ROUTES).toContain('/privacy')
     expect(PUBLIC_STATIC_ROUTES).not.toContain('/admin')
     expect(PUBLIC_STATIC_ROUTES).not.toContain('/professionals')

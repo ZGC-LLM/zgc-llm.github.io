@@ -1,6 +1,17 @@
+/**
+ * Navigation item: a leaf (href, no children) or a group (children, with an
+ * optional `href` landing target for the group label itself).
+ *
+ * Invariant:
+ * - Leaf node: must have `href`, must not have `children`
+ * - Group node: must have `children`; `href` optional (parent link target)
+ */
 export interface NavigationItem {
-  href: string
+  /** Target route for leaf nodes, or the group label's landing target */
+  href?: string
   label: string
+  /** Child items; presence indicates this is a group node */
+  children?: readonly NavigationItem[]
 }
 
 export interface ExternalApplicationTarget {
