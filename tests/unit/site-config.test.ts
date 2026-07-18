@@ -26,7 +26,7 @@ describe('site configuration', () => {
 
     const group = SITE_NAVIGATION.find((item) => item.children)
 
-    expect(group?.href).toBeUndefined()
+    expect(group?.href).toBe('/members')
     expect(group?.children?.map((child) => child.href)).toEqual(['/members', '/working-groups'])
 
     expect(PUBLIC_STATIC_ROUTES).toContain('/privacy')

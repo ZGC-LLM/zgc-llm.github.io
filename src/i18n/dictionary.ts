@@ -22,6 +22,7 @@ export interface Dictionary {
     openNav: string
     menu: string
     institutionApply: string
+    expandSubmenu: string
   }
   languageToggle: {
     label: string
@@ -59,6 +60,7 @@ const zh: Dictionary = {
     menu: '菜单',
     mobileNav: '移动导航',
     openNav: '打开网站导航',
+    expandSubmenu: '展开子菜单',
   },
   languageToggle: {
     en: 'EN',
@@ -96,6 +98,7 @@ const en: Dictionary = {
     menu: 'Menu',
     mobileNav: 'Mobile navigation',
     openNav: 'Open site navigation',
+    expandSubmenu: 'Expand submenu',
   },
   languageToggle: {
     en: 'EN',

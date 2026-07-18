@@ -30,8 +30,9 @@ export const SITE_NAVIGATION: readonly NavigationItem[] = [
   { href: '/working-groups', label: '工作组' },
   { href: '/cybersecurity', label: '网络安全生态' },
   {
-    // 分组节点：无 href，仅承载 children（联盟成员 / 工作组成员）。
+    // 分组节点：href 为父级落点（点击可跳转 /members），children 为二级子项。
     // 标签本地化由 site-header 按显式 dict 键解析（见 NAV_GROUP_* 映射）。
+    href: '/members',
     label: '成员伙伴',
     children: [
       { href: '/members', label: '联盟成员' },

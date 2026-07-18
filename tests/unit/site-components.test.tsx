@@ -48,9 +48,9 @@ describe('site header', () => {
     expect(screen.getAllByRole('link', { name: '网络安全生态' }).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: '机构合作申请' }).length).toBeGreaterThan(0)
     expect(screen.queryByRole('link', { name: '个人专业用户加入' })).toBeNull()
-    // 「成员伙伴」渲染为二级分组触发器（桌面 + 移动各一个），而非扁平链接。
-    expect(screen.getAllByRole('button', { name: '成员伙伴' }).length).toBeGreaterThan(0)
-    expect(screen.queryByRole('link', { name: '成员伙伴' })).toBeNull()
+    // 「成员伙伴」是可跳转的分组标题链接，并另有一个「展开子菜单」按钮显示二级子项。
+    expect(screen.getAllByRole('link', { name: '成员伙伴' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('button', { name: '展开子菜单' }).length).toBeGreaterThan(0)
     expect(screen.getByRole('navigation', { name: '主导航' })).toBeTruthy()
     expect(
       screen.getByRole('navigation', { name: '主导航' }).querySelector('[aria-current="page"]')

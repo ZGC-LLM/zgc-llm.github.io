@@ -1,13 +1,13 @@
 /**
- * Navigation item that can be either a leaf node (with href, no children)
- * or a group node (with children, no href).
+ * Navigation item: a leaf (href, no children) or a group (children, with an
+ * optional `href` landing target for the group label itself).
  *
  * Invariant:
  * - Leaf node: must have `href`, must not have `children`
- * - Group node: must have `children`, must not have `href`
+ * - Group node: must have `children`; `href` optional (parent link target)
  */
 export interface NavigationItem {
-  /** Target route for leaf nodes; group nodes (with children) may omit this */
+  /** Target route for leaf nodes, or the group label's landing target */
   href?: string
   label: string
   /** Child items; presence indicates this is a group node */

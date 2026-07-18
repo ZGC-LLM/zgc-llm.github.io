@@ -321,11 +321,49 @@ summary:focus-visible {
   display: block;
 }
 
-.nav-group__trigger {
+.nav-group__header {
+  align-items: center;
+  display: inline-flex;
+}
+
+.nav-group--mobile .nav-group__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-group__link {
+  flex: 0 1 auto;
+}
+
+.nav-group__toggle {
+  align-items: center;
   background: transparent;
   border: 0;
+  border-radius: 8px;
+  color: var(--text-body);
   cursor: pointer;
-  font-family: inherit;
+  display: inline-flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.nav-group__toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--brand-primary);
+}
+
+.nav-group__caret {
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  display: inline-block;
+  height: 7px;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform 160ms ease;
+  width: 7px;
+}
+
+.nav-group__toggle[aria-expanded='true'] .nav-group__caret {
+  transform: rotate(-135deg) translate(-2px, -2px);
 }
 
 .nav-group__panel {

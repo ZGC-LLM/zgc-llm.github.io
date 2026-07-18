@@ -39,6 +39,7 @@ function NavigationLinks({
   variant: 'desktop' | 'mobile'
 }): ReactElement {
   const nav = dict(locale).nav
+  const { expandSubmenu } = dict(locale).header
 
   return (
     <>
@@ -48,6 +49,8 @@ function NavigationLinks({
 
           return (
             <NavGroup
+              expandLabel={expandSubmenu}
+              href={localizePath(item.href ?? '/', locale)}
               items={item.children.map((child) => {
                 const childKey = child.href ? NAV_GROUP_CHILD_LABEL_KEYS[child.href] : undefined
 
