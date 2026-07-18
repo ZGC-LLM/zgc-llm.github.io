@@ -54,8 +54,24 @@ describe('working group lookup helpers', () => {
 })
 
 describe('getWorkingGroupMembers', () => {
-  it('returns an empty list before any member is publicly authorised', () => {
-    expect(getWorkingGroupMembers('cybersecurity')).toEqual([])
+  it('returns the publicly authorised cybersecurity partners in governance order', () => {
+    expect(getWorkingGroupMembers('cybersecurity').map(({ name }) => name)).toEqual([
+      '中关村自主大模型产业联盟',
+      '智谱',
+      '清华大学',
+      '数说安全',
+      '云起无垠',
+    ])
+  })
+
+  it('localizes the publicly authorised cybersecurity partners', () => {
+    expect(getWorkingGroupMembers('cybersecurity', 'en').map(({ name }) => name)).toEqual([
+      'ZGC Self-Reliant Large Model Industry Alliance',
+      'Zhipu',
+      'Tsinghua University',
+      'Datainsecurity',
+      'CloudInfinite',
+    ])
   })
 
   it('returns an empty list for an unknown slug', () => {

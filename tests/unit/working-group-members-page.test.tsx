@@ -16,12 +16,14 @@ describe('working group members page', () => {
     render(<WorkingGroupMembersView locale="zh" slug="cybersecurity" />)
 
     expect(screen.getByRole('heading', { level: 1, name: '工作组共建伙伴' })).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 3, name: '云起无垠' })).toBeTruthy()
   })
 
   it('test_wg_members_page_en_uses_partner_terminology_in_title', () => {
     render(<WorkingGroupMembersView locale="en" slug="cybersecurity" />)
 
     expect(screen.getByRole('heading', { level: 1, name: 'Working Group Partners' })).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 3, name: 'CloudInfinite' })).toBeTruthy()
   })
 
   it('test_wg_members_page_zh_links_to_alliance_members_page', () => {
@@ -40,11 +42,10 @@ describe('working group members page', () => {
     expect(link.getAttribute('href')).toBe('/en/members')
   })
 
-  it('test_wg_members_page_empty_members_still_renders_authorization_state', () => {
+  it('test_wg_members_page_renders_all_publicly_authorised_members', () => {
     render(<WorkingGroupMembersView locale="zh" slug="cybersecurity" />)
 
-    // 当前 cybersecurity 工作组名单为空数据，空态文案应正常渲染，不回归
-    expect(screen.getByText('工作组共建伙伴名单整理中')).toBeTruthy()
-    expect(screen.getByRole('link', { name: '申请加入本工作组' })).toBeTruthy()
+    expect(screen.getAllByRole('article')).toHaveLength(5)
+    expect(screen.queryByText('工作组共建伙伴名单整理中')).toBeNull()
   })
 })

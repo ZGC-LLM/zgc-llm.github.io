@@ -96,15 +96,22 @@ describe('working-group overview page', () => {
 })
 
 describe('working-group members page', () => {
-  it('renders the public empty-authorization state for the cybersecurity group', async () => {
+  it('renders the public partner directory for the cybersecurity group', async () => {
     render(await WorkingGroupMembersPage({ params: Promise.resolve({ slug: 'cybersecurity' }) }))
 
     expect(screen.getByRole('main').getAttribute('id')).toBe('main-content')
+    expect(screen.getByRole('heading', { name: '中关村自主大模型产业联盟' })).toBeTruthy()
+    expect(screen.getByRole('heading', { name: '云起无垠' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: '联盟成员' }).getAttribute('href')).toBe('/members')
+  })
+
+  it('keeps the authorization empty state available for groups without public members', () => {
+    render(<WorkingGroupMembersDirectory group={group} locale="zh" members={[]} />)
+
     expect(screen.getByText('工作组共建伙伴名单整理中')).toBeTruthy()
     expect(screen.getByRole('link', { name: '申请加入本工作组' }).getAttribute('href')).toBe(
       '/working-groups/cybersecurity/join',
     )
-    expect(screen.getByRole('link', { name: '联盟成员' }).getAttribute('href')).toBe('/members')
   })
 
   it('renders a member directory grid when members are authorized', () => {
