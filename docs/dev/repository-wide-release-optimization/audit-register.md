@@ -187,3 +187,131 @@ status: open
 ## 8. T-012 复验回填规则
 
 每个条目的“复验位”必须由命令输出、导出产物、测试报告或人工检查记录替换为日期化证据。关闭条目时保留原始问题与修复 commit；不得删除行来降低计数。例外只能记录用户原话、日期、范围和到期条件。最终要求：P0=0、未批准 P1=0；事实登记中所有 `阻塞` 项已核实或已从公开页面中性化/移除；之后才可生成“可发布”结论。
+
+## 9. T-012 closure appendix（2026-07-19）
+
+### 9.1 闭环口径与候选锚点
+
+本附录保留 §4 的原始 47 条问题和 T-001 初始计数，不通过删除或改写原行降低问题数量。状态分为两个相互独立的维度：
+
+- `repo=closed`：仓库可控的源码、配置、测试或文档整改已完成；不代表外部系统或人工发布门通过。
+- `repo=partial`：已降低主要风险，但仍有明确且可定位的仓库债务；本附录给出恢复任务。
+- `external/manual=passed`：所需外部或人工复验已有本轮证据。
+- `external/manual=blocked`：依赖外部事实、权限、配置或可用性，当前不能完成。
+- `external/manual=not-run`：已有检查模板或自动覆盖，但本轮尚无真实操作人/远端运行记录；不得由自动测试代填。
+
+| 项目         | T-012 口径                                                                                                                                                                              |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 初始审计锚点 | `a37e9a388caf52ce0959dfddb440d0c864a7676e`                                                                                                                                              |
+| 运行时候选   | `368ff5269bfe18fd694c79257635f959a4f4a7ed`（`368ff52`）                                                                                                                                 |
+| 文档提交边界 | `8ca8107` 起的 CHANGELOG 与本附录提交只更新文档证据，不改变上述运行时候选的源码、构建、测试、Docker 或浏览器结果                                                                        |
+| 自动证据口径 | 354 个 Vitest 测试；coverage statements 99.57%、branches 96.19%、functions 99.29%、lines 99.77%；Playwright 49 tests / 8 projects / 0 retry；24 个可索引 HTML 与 26 个页面/SEO endpoint |
+| 例外批准     | 无。用户批准按最高标准执行，不等于批准跳过外部、人工或 P1 发布门                                                                                                                        |
+
+通过删除或中性化事实断言关闭的条目只对当前公开输出成立，不构成恢复原名称、关系、承诺、资格、Logo、官方英文全称或外链的授权。任一正式发布门为 `blocked` 或 `not-run` 时，总结论仍为 **不可正式发布**。
+
+### 9.2 P0 闭环（10）
+
+| ID     | Repo     | External / manual                  | 修复提交与当前证据                                                                                                                 | 残余风险与恢复条件                                                                                                     |
+| ------ | -------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| P0-001 | `closed` | `blocked`                          | `b591f91`；`site-footer.tsx` 与单测已移除占位 ICP，源码/导出不再展示 `2025000000`                                                  | 适用备案仍待运营/法务确认；只有可追溯的真实备案记录才能恢复展示                                                        |
+| P0-002 | `closed` | `blocked`                          | `db8700f`、`1eff7fb`；canonical、workflow、Docker、CNAME 与部署文档统一为正式主域；全量 metadata crawl 已通过                      | 2026-07-19 复验仍为 DNS 无记录、canonical curl exit 6、Pages `cname:null`；须完成正式域/apex/5 个备用域 TLS 与精确 301 |
+| P0-003 | `closed` | `blocked`                          | `7f9f59c`、`8ec1fab`；三个 target 独立且默认 fail closed；application integration 与 smoke E2E 验证无已核验 endpoint 时不可点击    | 三表 GET 200，但本轮均为 `enableAnonymousSubmit:false`；匿名、对象、隐私、字段和回执逐表通过前保持变量为空             |
+| P0-004 | `closed` | `blocked`（仅恢复联盟申请时）      | `c4f5574`；`src/content/join.ts` 不再断言“个人不能入会”，联盟申请默认关闭，参与路径测试覆盖                                        | 恢复联盟申请前须取得章程/产品唯一资格规则并同步中文、英文和目标表单                                                    |
+| P0-005 | `closed` | `blocked`（仅恢复具名主体时）      | `c4f5574`；工作组 leads 全部 `named:false`，公开伙伴列表为空；事实校验负例验证 source/reviewer/scope                               | 未来恢复名称或角色必须登记独立来源、复核人、日期和公开范围                                                             |
+| P0-006 | `closed` | `blocked`（恢复稿件或计划 CTA 时） | `faf7725`；“正式上线”稿件改为 `published:false`，计划新闻改为有日期来源且 CTA 默认关闭；news unit、dynamic route 与 404 E2E 通过   | 上线稿只可在域名门通过后恢复；计划 CTA 只可在对应表单门通过后恢复                                                      |
+| P0-007 | `closed` | `blocked`（仅恢复官方英文全称时）  | `8ec1fab`、`663850c`、`c4f5574`、`faf7725`；英文公开面使用 `ZGCLLM` / `the Alliance`；24 页 metadata/正文路径受测试保护            | 权利人批准 glossary 前不得恢复任何冲突译名                                                                             |
+| P0-008 | `closed` | `not-run`                          | `db8700f`；Pages deploy 只接收成功 main push CI 的同一 SHA；manual dispatch 反查成功 CI；权限按 job 收敛                           | 当前运行时候选尚无远端同 SHA 成功/失败门演练；须证明失败质量门不启动 deploy、成功 CI 只部署同一 SHA                    |
+| P0-009 | `closed` | `passed`                           | `e24f2ee`；Vitest 硬阈值 statements/lines/functions 90%、branches 85%；本轮 99.57/99.77/99.29/96.19，354 tests                     | 发布候选继续使用 Node 22.23.1 复跑，阈值不得下调                                                                       |
+| P0-010 | `closed` | `not-run`（人工键盘/辅助技术）     | `0d5d398`、`f5fab15`；49 个 Playwright tests 覆盖 Chromium/Firefox/WebKit/mobile、24 HTML/26 endpoint、Axe、Lighthouse、链接和 SEO | `manual-keyboard-evidence.md` 仍为 `Not run`；必须由真人完成键盘、200% zoom 与屏幕阅读器检查并签字                     |
+
+### 9.3 P1 闭环（25）
+
+| ID     | Repo                 | External / manual                 | 修复提交与当前证据                                                                                                                                    | 残余风险与恢复条件                                                                                       |
+| ------ | -------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| P1-001 | `closed`             | `not-run`（人工视觉）             | `b591f91`、`f5fab15`；桌面 header 仅在 `>=1280px` 展开；responsive E2E 覆盖 1024/1279/1280/1440                                                       | 自动 bbox/overflow 已通过；200% zoom 与人工视觉并入 P0-010 签字                                          |
+| P1-002 | `closed`             | `not-run`（人工键盘）             | `b591f91`、`0d5d398`、`f5fab15`；route、Escape、outside、focus-out、breakpoint 均关闭菜单并恢复焦点；unit 与 keyboard/mobile E2E 通过                 | 真人纯键盘仍未签字                                                                                       |
+| P1-003 | `closed`             | `not-run`（辅助技术）             | `b591f91`；current 样式与 `NavGroup` 路径裁决已修复；`nav-group.test.tsx` 验证嵌套路由唯一 current                                                    | 屏幕阅读器“唯一 current”仍待人工确认                                                                     |
+| P1-004 | `closed`             | `not-run`（真实触屏）             | `b591f91`、`f5fab15`；统一 `--control-min-size:44px`；mobile E2E 逐交互读取 bbox 并断言 ≥44×44                                                        | 真实触屏与误触间距未人工验                                                                               |
+| P1-005 | `closed`             | `not-run`（人工视觉）             | `b591f91`、`f5fab15`；暗色 token 调整；28 次 Axe 扫描 serious/critical 为 0，Lighthouse accessibility 为 100                                          | dark 全页面/状态的人工视觉与对比度仍未签字                                                               |
+| P1-006 | `closed`             | `not-run`（人工主题观察）         | `b591f91`、`8ec1fab`；明确 system-only、OS live change，404 复用同一 ThemeScript；theme unit 与 smoke E2E 通过                                        | 人工首帧、禁 JS 与系统切换观察仍未签字；不得再把三态 toggle 写成现行契约                                 |
+| P1-007 | `closed`             | `not-run`（辅助技术）             | `b591f91`、`c4f5574`、`faf7725`；共享外链组件提供本地化 accessible name、可见离站与处理边界；unit/journeys 通过                                       | 新窗口与处理方说明仍待真人读屏确认                                                                       |
+| P1-008 | `partial`            | `blocked`                         | `b591f91`、`8ec1fab`；missing/invalid/unapproved/unconfigured 均渲染非按钮说明；site-config、external-link unit 与 fail-closed E2E 通过               | 无已核验邮箱或官方联系动作，仅提示稍后查看官网；须核验公开渠道后补可执行 fallback，或由用户逐项接受该 P1 |
+| P1-009 | `closed`             | `passed`                          | `8ec1fab`、`faf7725`、`f5fab15`；global/local 404 本地化，无 `/en/_not-found/`；dynamic/SEO integration 与 noindex/canonical-free E2E 通过            | 新动态路由必须继续纳入 404 crawl                                                                         |
+| P1-010 | `closed`             | `passed`                          | `8ec1fab`、`f5fab15`；共享 localized metadata 与动态社交图；SEO integration 和 24 页 quality crawl 通过                                               | 新页面必须加入公开路由与 metadata contract                                                               |
+| P1-011 | `closed`             | `passed`                          | `8ec1fab`、`c4f5574`；WG zh/en metadata 使用统一路径生成；dynamic WG integration 与 quality crawl 通过                                                | 新 WG slug 必须使用同一契约                                                                              |
+| P1-012 | `closed`             | `passed`                          | `663850c`、`faf7725`；成员专名保留中文并标记范围，新闻使用显式英文 overlay/fallback；members/news tests 通过                                          | 官方机构英文名获批前继续保留中文，不自行翻译                                                             |
+| P1-013 | `closed`             | `passed`                          | `8ec1fab`、`faf7725`；FactReference/source/reviewer/reviewedAt/scope schema；成员页展示来源；facts/members tests 通过                                 | 来源须按复核日期维护，不得外推 Logo、英文名或其他关系                                                    |
+| P1-014 | `closed`             | `passed`（中性化）                | `663850c`、`c4f5574`；删除既有主管部门背书，改为依法依规/按需确认；内容测试保护                                                                       | 恢复主管部门表述必须有权威文件和授权范围                                                                 |
+| P1-015 | `closed`             | `passed`（中性化）                | `c4f5574`；删除免费、第一手、完全授权和“多数会员”，明确联盟成员与工作组参与名单独立；WG tests 通过                                                    | 恢复费用、SLA、关系或成果必须有运营/法务批准事实                                                         |
+| P1-016 | `closed`             | `passed`                          | `8ec1fab`；canonical 固定精确 origin，表单固定 Feishu origin 与精确 path；site-config 表驱动负例通过                                                  | 新 target 必须原子同步 allowlist、env、tests 和 docs                                                     |
+| P1-017 | `closed`             | `passed`                          | `8ec1fab`、`e24f2ee`；JSON-LD serializer 转义 `<`、U+2028/2029；hostile unit fixture 与 quality crawl 可解析                                          | 所有 JSON-LD 继续只经共享 serializer 输出                                                                |
+| P1-018 | `closed`             | `passed`（本地容器）              | `db8700f`、`7f9f59c`、`d19907c`、`1eff7fb`；三 env 在 compose/Docker/Actions/docs 一致；本轮 Docker build、health、endpoint 与 canonical/SEO 验证通过 | GitHub 仍保留两个无代码消费者的旧 Actions Variables；确认无外部消费者后清理，不得误判为新 target 已配置  |
+| P1-019 | `closed`             | `not-run`（当前候选远端 Actions） | `db8700f`、`368ff52`；Actions 固定 SHA、checkout 无凭证、job 权限、Node 22.23.1/pnpm 11.2.2 与 formatting gate 已进入源码                             | 当前运行时候选尚无 GitHub Actions 实跑；须由 PR/main run 证明固定 action、缓存与失败传播                 |
+| P1-020 | `closed`             | `passed`                          | `e24f2ee`、`f5fab15`；unit/integration 分层，E2E 使用 production export、retries=0、workers=1；354 Vitest + 49 Playwright                             | 候选提交继续重复完整矩阵，不得恢复 dev server/retry 掩盖                                                 |
+| P1-021 | `closed`             | `passed`                          | `8ec1fab`、`e24f2ee`；覆盖真实日期、kebab、空项、重复、locale、fact/source/form env 不变量；records/facts 负例表通过                                  | `validateAllContent()` 对生产源必须持续为 0 error                                                        |
+| P1-022 | `closed`             | `passed`                          | `c4f5574`、`faf7725`；join/privacy 迁入 `src/content/`，WG/member/news 事实单源，动态 route shell 变薄；validation tests 通过                         | View 可保留纯呈现 copy，但不得重新写入事实规则                                                           |
+| P1-023 | `closed`             | `passed`                          | `1eff7fb`、`368ff52`；README → docs 单入口，版本、26 endpoint、system theme、三 target 与双部署口径一致；format gate 已启用                           | 维护时继续执行 link/path/command 与 format 检查                                                          |
+| P1-024 | `closed`             | `passed`                          | `1eff7fb`；`docs/dev/README.md` 覆盖全部 feature 并裁决 active/completed/partial/superseded/trace                                                     | 新增或替代 feature 时须在同一 PR 更新索引                                                                |
+| P1-025 | `closed`（门禁配置） | `blocked`                         | 外部复验：strict 三检查、1 approval、dismiss stale、last-push、conversation resolution 与 admin enforcement 已启用；Pages environment 仅允许 main     | 仓库仅一名 collaborator，无法完成独立批准；须新增第二名合格 reviewer，不得降低保护                       |
+
+### 9.4 P2 闭环（12）
+
+| ID     | Repo                     | External / manual             | 修复提交与当前证据                                                                                                                                                          | 残余风险与恢复条件                                                                                  |
+| ------ | ------------------------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| P2-001 | `closed`                 | `passed`                      | `faf7725`、`e24f2ee`；新闻列表与详情统一使用 localized `categoryLabels`；news tests 通过                                                                                    | 新分类必须补齐 zh/en 映射                                                                           |
+| P2-002 | `partial`                | `not-run`（人工视觉）         | `b591f91`；`button-*` 与 `btn--*` 已合并到同一 CSS variant 规则，focus 与 min-size 一致；responsive/Axe 通过                                                                | DOM 仍使用两套 class 别名且无单一 LinkButton；后续机械迁移并删除兼容别名，完成视觉回归              |
+| P2-003 | `closed`                 | `passed`                      | `8ec1fab`、`e24f2ee`、`f5fab15`；sitemap 复用 `buildAlternates`；integration/unit 与 XML crawl 验证 x-default                                                               | 新 locale/route 继续使用同一生成器                                                                  |
+| P2-004 | `closed`（删除错误承诺） | `blocked`（仅恢复联系动作时） | `faf7725`；Privacy 不再声称“联系联盟”，改为可执行 `/join` 参与状态路径；privacy/static-page tests 通过                                                                      | 已核验公开邮箱仍缺；恢复“联系”动作前须完成发/收验证，P1-008 承接 unavailable fallback 缺口          |
+| P2-005 | `closed`                 | `not-run`（人工视觉）         | `663850c`；首页 Hero 已有主 CTA“参与方式”与次 CTA“了解联盟”；home content 与 responsive E2E 覆盖                                                                            | 主次视觉层级仍待人工签字                                                                            |
+| P2-006 | `partial`                | `not-run`（人工视觉）         | `b591f91`、`663850c`、`c4f5574`、`faf7725`；页面 inline `style=` 扫描为 0，跨页 E2E 通过                                                                                    | `styles.css` 仍约 1512 行并含 transitional `--alliance-*` 兼容层；后续按组件迁移并删除 alias/legacy |
+| P2-007 | `closed`                 | `passed`                      | `8ec1fab`、`e24f2ee`；global 404 复用 ThemeScript；theme unit 与 404 smoke 通过                                                                                             | 保持单一首帧主题实现                                                                                |
+| P2-008 | `closed`                 | `passed`                      | `8ec1fab`、`f5fab15`；types 已写六类 resources，旧 E2E 与旧 toggle 注释删除，当前 specs 使用 system-theme 契约                                                              | stale-term scan 继续纳入收口检查                                                                    |
+| P2-009 | `closed`                 | `passed`                      | `db8700f`、`1eff7fb`；package engines 为 Node `>=22.19 <23` / pnpm 11，CI/Docker 精确为 22.23.1 / 11.2.2，文档同步                                                          | 升级必须原子同步 package、CI、Docker 和 docs                                                        |
+| P2-010 | `closed`                 | `passed`                      | `8ec1fab`、`e24f2ee`；robots 仅 allow `/` 并声明 canonical host/sitemap；SEO integration/E2E 通过                                                                           | 静态架构改变时重新评估 disallow                                                                     |
+| P2-011 | `closed`                 | `passed`                      | `db8700f`、`1eff7fb`；`.env.example`、README 与 docs 已登记 `NEXT_PUBLIC_DEV_ORIGIN` 及用途                                                                                 | 新环境变量须同步公开变量清单                                                                        |
+| P2-012 | `closed`                 | `passed`                      | 本轮镜像 `sha256:ab7e27cf...`，208,694,794 bytes，运行用户 `nextjs`，health=`healthy`；`127.0.0.1:3300` 代表 endpoint 200，canonical、robots、sitemap 正确；容器/镜像已清理 | Docker 是备选部署；后续 Dockerfile/依赖变化必须重跑 build、health、HTTP、signal 与体积检查          |
+
+### 9.5 统计：仓库闭环与正式发布阻断分开
+
+| 级别 | Repo closed | Repo partial | Repo open | 仍关联正式发布阻断的审计 ID                                                                                  |
+| ---- | ----------: | -----------: | --------: | ------------------------------------------------------------------------------------------------------------ |
+| P0   |          10 |            0 |         0 | 5：P0-001（适用备案判定）、P0-002（域名）、P0-003（三表）、P0-008（远端 CI/部署证据）、P0-010（人工键盘/AT） |
+| P1   |          24 |            1 |         0 | 3：P1-008（已核验联系替代）、P1-019（当前候选 Actions 实跑）、P1-025（第二 reviewer）                        |
+| P2   |          10 |            2 |         0 | 0；P2-002/P2-006 为已记录的非阻断维护债务                                                                    |
+| 合计 |          44 |            3 |         0 | 8 个审计 ID，归并为下述 7 类独立发布门；P0-008 与 P1-019 共用“远端 CI/部署证据”一门                          |
+
+`Repo closed` 不能回填成“初始 P0/P1 已全部正式关闭”。当前只证明仓库可控整改已收口；外部或人工证据未通过的行仍保留原优先级和发布约束。
+
+### 9.6 七类正式发布门与恢复任务
+
+| 发布门                          | 当前状态  | 直接证据                                                                                                                    | 恢复任务与通过条件                                                                                                           |
+| ------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 1. 适用备案与运营合规判定       | `blocked` | 占位 ICP 已移除；尚无适用性判断或真实备案来源                                                                               | 由运营/法务确认托管与服务范围下的备案要求；需要备案时提供官方可追溯记录，不需要时保留书面裁决                                |
+| 2. 正式域名、TLS 与六个跳转入口 | `blocked` | DNS 无记录、canonical curl exit 6、Pages `cname:null`；apex、2 个保护域、3 个无连字符防御域无完整证据                       | 配置 Pages custom domain、DNS 与证书；正式域 200；apex 与五个备用域各自有效 TLS，并一次 301 到 `https://www.zgc-llm.org.cn/` |
+| 3. 三个 Feishu 申请流程         | `blocked` | 三个分享 URL GET 200，但均 `enableAnonymousSubmit:false`；三个新 Actions Variables 不存在                                   | 在全新无登录浏览器逐表核对 title、对象、字段最小化、信息处理说明、匿名提交与回执；通过后只配置对应变量，不得串用             |
+| 4. 当前候选远端 CI/部署证据     | `not-run` | workflow 源码已加固，运行时候选 `368ff52` 尚无 GitHub Actions 同 SHA 运行                                                   | 推送候选并通过 strict 三检查；构造失败质量门证明 deploy 不启动；成功路径证明只 checkout/build/deploy 获批同一 SHA            |
+| 5. 人工键盘、缩放与辅助技术     | `not-run` | 自动 keyboard/Axe/Lighthouse 已通过，人工模板仍全部 `Not run`                                                               | 由记录身份的操作人填写浏览器、系统、屏幕阅读器、日期、URL/commit 和逐项结果；阻断项修复后重新签字                            |
+| 6. 已核验公开联系替代           | `blocked` | 未验证邮箱已从 footer 与关键恢复路径移除；不可用 CTA 目前只提示稍后查看官网                                                 | 核验获准公开的联系渠道并完成实际收发/到达测试；随后为 unavailable 状态补本地化、键盘可达的可执行 fallback                    |
+| 7. 独立 reviewer 与受保护合并   | `blocked` | main 已要求 strict 三检查、1 approval、stale dismissal、last-push、conversation resolution、admin enforcement；仅一名协作者 | 增加第二名具备评审权限且与最后推送者不同的 reviewer，通过受保护 PR 完成独立批准；不得降低分支保护                            |
+
+外部配置补充：GitHub Actions 仍保留两个已无代码消费者的旧变量 `NEXT_PUBLIC_INSTITUTION_APPLICATION_URL` 与 `NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL`。它们不会启用当前三个 target，但属于配置残留；确认没有外部 workflow 消费后再由有权限者删除。
+
+### 9.7 已中性化事实的恢复边界
+
+以下事实未取得新授权，但当前源码已删除相应断言、关闭入口或换为中性表达，因此不额外增加当前静态候选的发布门。恢复原表述或功能时必须重新打开对应审计项。
+
+| 审计 / 事实范围                                 | 当前安全处理                                             | 恢复边界                                                                         |
+| ----------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| P0-004 / FACT-033 会员资格                      | 不再断言个人不能入会；联盟申请默认关闭                   | 章程/产品 owner 批准唯一资格规则，并同步 zh/en、表单、FAQ 与测试                 |
+| P0-005 / FACT-021～026 工作组具名主体与成员关系 | leads 改为中性角色，公开伙伴列表为空，名录关系明确独立   | 每个名称与角色具备 source、reviewer、reviewedAt、授权范围；成员关系单独登记      |
+| P0-006 / FACT-030～034 上线稿、计划和时效       | 上线稿撤回；计划只作有来源、有日期的历史记录，CTA 关闭   | 域名与对应表单通过；运营 owner 确认当前有效期、对象、权益、SLA 与发布范围        |
+| P0-007 / FACT-002 官方英文全称                  | 英文只使用 `ZGCLLM` / `the Alliance`                     | 权利人批准唯一 glossary，并全量更新正文、metadata、JSON-LD、图片与文档           |
+| P1-014 / FACT-027/028 主管部门或政策指导        | 改为依法依规、按需确认的意向表达                         | 提供权威来源、具体部门、适用范围、复核日期和公开授权                             |
+| P1-015 / FACT-031/032/040 费用、授权、SLA、关系 | 删除绝对承诺，区分不同参与路径和名录                     | 运营/法务批准具体项目、有效期、责任边界和可公开文本                              |
+| P2-004 / FACT-005 联系邮箱                      | 删除未经验证的 mailto 与“联系联盟”承诺，改为参与状态路径 | 完成 owner 授权与实际收发测试；同步 footer、privacy、unavailable fallback 和文档 |
+| FACT-007 正式 Logo 与品牌资产                   | 删除未授权 PNG，使用中性文字/程序化图形                  | 记录权利人、使用范围、文件版本和日期；再进行全引用、清晰度、体积与无障碍复验     |
+
+### 9.8 T-012 closure 结论
+
+仓库可控的 P0 已全部完成，P1 仅 P1-008 保留明确 partial，P2 的两项结构债务已记录恢复条件；完整自动测试、双构建和本地 Docker 证据可支持“运行时候选已形成”。但是七类正式发布门尚未全部通过，尤其是域名、三张表单、远端同 SHA 发布链、人工辅助技术证据、公开联系替代和独立 reviewer。因此本附录的发布结论是：**仓库内候选基本闭环，但不可正式发布**。
