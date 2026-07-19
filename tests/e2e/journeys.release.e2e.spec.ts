@@ -85,6 +85,44 @@ test.describe('cross-browser release journeys', () => {
         { exact: false },
       ),
     ).toBeVisible()
+    for (const heading of [
+      'Alliance cooperation and membership enquiries',
+      'Professional-user program (dated notice)',
+      'Institutional ecosystem collaboration',
+      'Working-group participation',
+    ]) {
+      await expect(page.getByRole('heading', { level: 3, name: heading })).toBeVisible()
+    }
+
+    const professionalProgramLink = page.getByRole('link', {
+      name: 'View the dated notice and status',
+    })
+    await expect(professionalProgramLink).toHaveAttribute(
+      'href',
+      /\/en\/news\/cybersecurity-open-program\/?$/u,
+    )
+    await professionalProgramLink.click()
+    await expect(page).toHaveURL(/\/en\/news\/cybersecurity-open-program\/$/u)
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: 'Cybersecurity access program: July 2026 public notice',
+      }),
+    ).toBeVisible()
+    await expectApplicationChannelsUnavailable(page)
+
+    await gotoRoute(page, '/en/join')
+    const ecosystemLink = page.getByRole('link', { name: 'Review the ecosystem framework' })
+    await expect(ecosystemLink).toHaveAttribute('href', /\/en\/cybersecurity\/?$/u)
+    await ecosystemLink.click()
+    await expect(page).toHaveURL(/\/en\/cybersecurity\/$/u)
+    await expectSingleH1(page, '/en/cybersecurity')
+
+    await gotoRoute(page, '/en/join')
+    await expect(page.getByRole('link', { name: 'Explore working groups' })).toHaveAttribute(
+      'href',
+      /\/en\/working-groups\/?$/u,
+    )
 
     const privacyLink = page
       .getByRole('contentinfo')

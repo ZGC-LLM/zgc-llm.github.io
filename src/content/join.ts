@@ -95,7 +95,7 @@ const ALLIANCE_JOIN_CONTENT: Localized<AllianceJoinContent> = {
     heroEyebrow: 'Cooperation and Membership Enquiries',
     heroTitle: 'Work with the Alliance',
     metadataDescription:
-      'Choose the right path for Alliance enquiries, working-group participation or public initiatives, with guidance before you open the external form.',
+      'Choose among Alliance enquiries, the dated professional-user program, institutional ecosystem collaboration and working-group participation.',
     metadataTitle: 'Work with the Alliance',
     paths: {
       description:
@@ -109,20 +109,28 @@ const ALLIANCE_JOIN_CONTENT: Localized<AllianceJoinContent> = {
           title: 'Alliance cooperation and membership enquiries',
         },
         {
+          cta: 'View the dated notice and status',
+          description:
+            'For cybersecurity organizations and individual professionals described in the July 2026 public notice. This is dated information; the application route is currently unavailable, and this site does not present the program as ongoing.',
+          href: '/news/cybersecurity-open-program',
+          id: 'professional-program',
+          title: 'Professional-user program (dated notice)',
+        },
+        {
+          cta: 'Review the ecosystem framework',
+          description:
+            "For organizations that may contribute technology, research, evaluation, tasks, scenarios or engineering resources. Review the cybersecurity topic's collaboration framework and governance boundaries before choosing a working-group path.",
+          href: '/cybersecurity',
+          id: 'institutional-ecosystem',
+          title: 'Institutional ecosystem collaboration',
+        },
+        {
           cta: 'Explore working groups',
           description:
             'For organizations and individual professionals who want to contribute to a specific topic. Working-group participation is not an application for Alliance membership.',
           href: '/working-groups',
           id: 'working-groups',
           title: 'Working-group participation',
-        },
-        {
-          cta: 'View news and initiatives',
-          description:
-            'Use the news section to review published initiatives, activities and their own participation instructions. Each initiative has a separate scope and entry point.',
-          href: '/news',
-          id: 'initiatives',
-          title: 'Public initiatives and activities',
         },
       ],
       title: 'Choose the appropriate path',
@@ -134,7 +142,7 @@ const ALLIANCE_JOIN_CONTENT: Localized<AllianceJoinContent> = {
       items: [
         {
           description:
-            'Decide whether your enquiry concerns Alliance cooperation, a working group or a specific public initiative, then review that page.',
+            'Decide whether your enquiry concerns Alliance cooperation, the dated professional-user program, institutional ecosystem collaboration or a working group, then review that page.',
           id: 'choose',
           title: 'Choose a path',
         },
@@ -226,7 +234,7 @@ const ALLIANCE_JOIN_CONTENT: Localized<AllianceJoinContent> = {
     heroEyebrow: '合作与入盟意向',
     heroTitle: '参与联盟协作',
     metadataDescription:
-      '了解联盟合作与入盟意向、工作组参与和公开计划的适用路径，以及外部表单与信息处理边界。',
+      '了解联盟合作与入盟意向、专业用户计划、机构生态共建和工作组参与四类路径，以及各自的当前状态与信息边界。',
     metadataTitle: '参与联盟协作',
     paths: {
       description: '不同入口对应不同对象和后续流程。请先确认目标，再提交必要信息。',
@@ -239,20 +247,28 @@ const ALLIANCE_JOIN_CONTENT: Localized<AllianceJoinContent> = {
           title: '联盟合作与入盟意向',
         },
         {
+          cta: '查看计划与当前状态',
+          description:
+            '面向 2026 年 7 月公开信息所列的网络安全相关机构与个人专业人士。该计划为有日期的历史信息，申请入口当前不可用，本站不将其表述为持续开放的计划。',
+          href: '/news/cybersecurity-open-program',
+          id: 'professional-program',
+          title: '专业用户计划（时点信息）',
+        },
+        {
+          cta: '查看生态共建框架',
+          description:
+            '面向可提供技术、研究、评测、任务、场景或工程资源的机构。请先查看网络安全专题的协作框架与治理边界，再选择具体工作组参与方式。',
+          href: '/cybersecurity',
+          id: 'institutional-ecosystem',
+          title: '机构生态共建',
+        },
+        {
           cta: '查看工作组',
           description:
             '适合希望以机构能力或个人专业经验参与具体议题的访客；参与工作组不等同于申请联盟会员资格。',
           href: '/working-groups',
           id: 'working-groups',
           title: '工作组议题参与',
-        },
-        {
-          cta: '查看新闻与计划',
-          description:
-            '通过新闻动态了解已公开计划、活动与各自的参与说明；不同计划的入口和条件分别适用。',
-          href: '/news',
-          id: 'initiatives',
-          title: '公开计划与活动',
         },
       ],
       title: '选择适合的参与路径',
@@ -262,7 +278,8 @@ const ALLIANCE_JOIN_CONTENT: Localized<AllianceJoinContent> = {
       eyebrow: '参与流程',
       items: [
         {
-          description: '判断是联盟合作、工作组参与还是具体公开计划，并查看对应页面说明。',
+          description:
+            '判断是联盟合作、专业用户计划、机构生态共建还是工作组参与，并查看对应页面说明。',
           id: 'choose',
           title: '确认参与路径',
         },

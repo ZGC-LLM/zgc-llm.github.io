@@ -115,7 +115,7 @@ export const MEMBERS_PAGE_COPY: Readonly<Record<Locale, MembersPageCopy>> = {
     relationAction: 'View working groups',
     relationNote: 'Working-group participants are reviewed under a separate publication scope.',
     roleLabels: {
-      监事长单位: 'Chief Supervisor organization',
+      监事长单位: 'Supervisory board chair organization',
       理事长单位: 'Chair organization',
       秘书长单位: 'Secretary-General organization',
     },

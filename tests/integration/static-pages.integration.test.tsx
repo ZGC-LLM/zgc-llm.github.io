@@ -112,12 +112,57 @@ describe('static locale route composition', () => {
     expect(screen.queryByText(/联盟官方网站正式上线/u)).toBeNull()
   })
 
-  it('keeps the default Alliance application entry visibly unavailable', () => {
-    const { container } = render(<JoinPage />)
+  it('publishes four distinct participation paths while keeping the application unavailable', () => {
+    const cases = [
+      {
+        component: JoinPage,
+        headings: [
+          '联盟合作与入盟意向',
+          '专业用户计划（时点信息）',
+          '机构生态共建',
+          '工作组议题参与',
+        ],
+        links: [
+          ['查看计划与当前状态', '/news/cybersecurity-open-program'],
+          ['查看生态共建框架', '/cybersecurity'],
+          ['查看工作组', '/working-groups'],
+        ],
+        unavailablePattern: /当前不可用/u,
+      },
+      {
+        component: EnJoinPage,
+        headings: [
+          'Alliance cooperation and membership enquiries',
+          'Professional-user program (dated notice)',
+          'Institutional ecosystem collaboration',
+          'Working-group participation',
+        ],
+        links: [
+          ['View the dated notice and status', '/en/news/cybersecurity-open-program'],
+          ['Review the ecosystem framework', '/en/cybersecurity'],
+          ['Explore working groups', '/en/working-groups'],
+        ],
+        unavailablePattern: /not currently available/iu,
+      },
+    ] as const
 
-    expect(container.querySelector('.external-application--unavailable')).not.toBeNull()
-    expect(container.querySelector('.external-application a')).toBeNull()
-    expect(screen.getByText(/当前不可用/u)).toBeTruthy()
+    for (const { component: Page, headings, links, unavailablePattern } of cases) {
+      const { container, unmount } = render(<Page />)
+
+      for (const heading of headings) {
+        expect(screen.getByRole('heading', { level: 3, name: heading })).toBeTruthy()
+      }
+      for (const [name, href] of links) {
+        expect(screen.getByRole('link', { name }).getAttribute('href')).toBe(href)
+      }
+      expect(container.querySelector('.external-application--unavailable')).not.toBeNull()
+      expect(container.querySelector('.external-application a')).toBeNull()
+      expect(container.querySelector('.external-application__unavailable')?.textContent).toMatch(
+        unavailablePattern,
+      )
+
+      unmount()
+    }
   })
 
   it('states the static-site and external-form information boundary', () => {

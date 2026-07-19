@@ -3,6 +3,7 @@ import {
   getCybersecurityEcosystem,
   getCybersecurityPageContent,
 } from '@/content/cybersecurity'
+import { getAllianceJoinContent } from '@/content/join'
 import {
   getWorkingGroupBySlug,
   getWorkingGroupCatalogContent,
@@ -134,9 +135,15 @@ describe('cybersecurity topic relationship', () => {
     )
   })
 
-  it('offers the same collaboration structure in reviewed Chinese and English copy', () => {
+  it('offers the same collaboration structure and participation gateway in both locales', () => {
     const zh = getCybersecurityPageContent('zh')
     const en = getCybersecurityPageContent('en')
+    const expectedPaths = [
+      { href: undefined, id: 'alliance' },
+      { href: '/news/cybersecurity-open-program', id: 'professional-program' },
+      { href: '/cybersecurity', id: 'institutional-ecosystem' },
+      { href: '/working-groups', id: 'working-groups' },
+    ]
 
     expect(getCybersecurityEcosystem('zh')).toBe(zh)
     expect(getCybersecurityEcosystem('en')).toBe(en)
@@ -149,6 +156,15 @@ describe('cybersecurity topic relationship', () => {
     expect(en.openPrinciples).toHaveLength(zh.openPrinciples.length)
     expect(zh.governanceBoundaries.every((rule) => rule.trim() !== '')).toBe(true)
     expect(en.governanceBoundaries.every((rule) => rule.trim() !== '')).toBe(true)
+
+    for (const locale of ['zh', 'en'] as const) {
+      const paths = getAllianceJoinContent(locale).paths.items
+
+      expect(paths.map(({ href, id }) => ({ href, id }))).toEqual(expectedPaths)
+      expect(paths.find(({ id }) => id === 'professional-program')?.description).toMatch(
+        locale === 'zh' ? /历史信息.*当前不可用/u : /dated information.*currently unavailable/iu,
+      )
+    }
   })
 
   it('does not retain legacy organization or division-of-labour shapes', () => {

@@ -46,7 +46,7 @@ export function JoinView({ locale }: { locale: Locale }): ReactElement {
             eyebrow={content.paths.eyebrow}
             title={content.paths.title}
           />
-          <div className="grid-3">
+          <div className="grid-2">
             {content.paths.items.map((path) => (
               <article className="card" key={path.id}>
                 <h3>{path.title}</h3>

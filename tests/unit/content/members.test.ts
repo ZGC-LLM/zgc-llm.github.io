@@ -89,5 +89,8 @@ describe('public member directory', () => {
     expect(MEMBERS_PAGE_COPY.en.sourceDescription).toContain('does not infer')
     expect(MEMBERS_PAGE_COPY.zh.groups.council.title).not.toBe('')
     expect(MEMBERS_PAGE_COPY.en.groups['supervisory-board'].title).not.toBe('')
+    expect(MEMBERS_PAGE_COPY.en.roleLabels['监事长单位']).toBe(
+      'Supervisory board chair organization',
+    )
   })
 })
