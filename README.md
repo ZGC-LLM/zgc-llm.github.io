@@ -84,7 +84,7 @@ GitHub Pages 是主部署路径。`main` 的 push 必须先通过 CI；Pages 工
 - Pages、DNS、TLS、保护域 301 与分支门禁：[docs/deploy-pages-dns.md](./docs/deploy-pages-dns.md)
 - 自托管 standalone 容器：[docs/deploy-docker.md](./docs/deploy-docker.md)
 
-当前仍需外部完成正式域名、三个 Feishu 表单匿名流程、第二名合格 reviewer，以及适用的备案、公开联系渠道和正式品牌资产核验。官方英文全称未确认，英文公开面只使用 `ZGCLLM` 或 `the Alliance`。这些事项由最终发布验收记录结论，本 README 不代替发布报告。
+当前仍需外部完成正式域名、三个 Feishu 表单匿名流程、第二名合格 reviewer，以及适用的备案与公开联系渠道。正式 Logo 和官方英文全称未确认，本地候选公开输出已分别使用中性文字/程序化图形和 `ZGCLLM` / `the Alliance`；只有恢复正式资产或全称时才须先完成权利人确认。GitHub Pages 实际端点可能仍服务较旧提交，候选源码通过不等于现网已更新；候选 SHA、现网 SHA、外部门和发布裁决以 [发布就绪报告](./docs/dev/repository-wide-release-optimization/release-readiness-report.md) 为准，本 README 不代替发布报告。
 
 ## 文档入口
 

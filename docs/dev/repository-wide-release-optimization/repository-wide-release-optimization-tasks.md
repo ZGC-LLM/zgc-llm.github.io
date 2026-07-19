@@ -487,13 +487,15 @@ design: ./repository-wide-release-optimization-design.md
 
 ### 验收标准
 
-- [ ] baseline-after 与 before 使用相同命令、环境和计数口径并有对比表
-- [ ] `rtk pnpm typecheck`、lint、unit/integration/coverage、完整 e2e、普通 build、export build 全部通过；Docker daemon 可用时镜像构建通过，不可用时明确记录环境阻塞
+执行状态（2026-07-19）：T-012 的自动验收、证据归档和 NO-GO 裁决已完成；发布目标仍受下列未勾选条件和发布报告七类门阻塞。
+
+- [x] baseline-after 与 before 使用相同命令、环境和计数口径并有对比表
+- [x] `rtk pnpm typecheck`、lint、unit/integration/coverage、完整 e2e、普通 build、export build 全部通过；Docker daemon 可用时镜像构建通过，不可用时明确记录环境阻塞
 - [ ] coverage、浏览器、链接、SEO、a11y、性能和安全阈值满足 requirements 或有用户批准例外
 - [ ] audit register 中 P0=0，未批准 P1=0；所有 F-001..F-033 有证据链接
-- [ ] 事实/授权、外部飞书、备案和域名阻塞均已清除或明确阻止发布结论
-- [ ] 只有满足所有发布门时报告写“可发布”，否则写“不可发布”并给出恢复任务
-- [ ] 覆盖 F-002、F-016、F-018、F-019、F-020、F-032、F-033
+- [x] 事实/授权、外部飞书、备案和域名阻塞均已清除或明确阻止发布结论
+- [x] 只有满足所有发布门时报告写“可发布”，否则写“不可发布”并给出恢复任务
+- [x] 覆盖 F-002、F-016、F-018、F-019、F-020、F-032、F-033
 
 ### 涉及文件
 

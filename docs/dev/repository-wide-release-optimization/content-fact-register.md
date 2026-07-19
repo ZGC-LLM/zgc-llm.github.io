@@ -5,6 +5,9 @@ task: T-001
 snapshot: a37e9a388caf52ce0959dfddb440d0c864a7676e
 audited_at: 2026-07-19
 status: open
+closure_status: release-blocked
+closure_candidate: e567124de56542d0d501b368dac9c05a81acaf89
+closure_assessed_at: 2026-07-19T21:53:00+08:00
 ---
 
 # 公开内容事实与授权登记
@@ -155,3 +158,74 @@ status: open
 4. 已替换为不暗示背书、成果、承诺或确定关系的中性表述，并有导出产物证据。
 
 不得以“仓库原本如此”“测试已通过”“外链能打开”关闭事实项。最终只有 FACT-002～008、FACT-021～024、FACT-027/028、FACT-030～037、FACT-039/040/042 的阻塞均解除或中性化，且 [audit-register.md](./audit-register.md) 达到 P0=0、未批准 P1=0，才允许写“可发布”。
+
+## 6. T-012 closure appendix（2026-07-19）
+
+### 6.1 口径、候选与现网边界
+
+本附录回填 §5 要求，绑定运行时候选
+`e567124de56542d0d501b368dac9c05a81acaf89`。`repo closed` 只表示候选源码与候选 export 已按
+“来源限界、移除或中性化”处理，不表示外部事实、权利或运营状态已被测试证明。`repo partial`
+表示候选仍缺规定的用户路径；`external blocked` 表示正式发布或恢复相关表述仍需 owner 证据。
+
+当前公开的 `https://zgc-llm.github.io/` 是旧部署 `d624120dcf25e90d86970006a28d3d70f9fe364f`
+（Deploy run `29671570130`），不是本候选。该端点仍公开占位 ICP、未核邮箱、旧 Logo、上线稿、
+会员资格绝对规则、5 个具名工作组主体和 3 个启用的 Feishu CTA。因此下表的“候选处理”不能
+写成“现网已处理”；
+旧公开部署的 SHA/服务状态直接阻塞门 2/4；其中的占位备案、表单/资格与未核联系内容还分别
+阻塞门 1/3/6，合计影响门 1/2/3/4/6。必须由有权限 owner 停止服务，或在受保护 PR、同 SHA CI
+与审批通过后用事实安全候选替换。本轮未修改 Pages、DNS、Actions Variables 或表单。
+
+候选 export 的负向扫描仅限运行时源码与 `out/*.html`：占位 ICP、未核邮箱、冲突英文全称、
+具名工作组关系、主管背书、费用/授权绝对承诺、会员资格绝对规则和上线稿均未进入候选 HTML；
+三个 Feishu URL 也未成为候选 HTML 的可点击 `href`。历史规格与本登记会继续保留原始字符串作为
+审计证据，不能写成“全仓零命中”。
+
+### 6.2 未核实、冲突和外部阻塞事实逐项裁决
+
+| FACT     | 候选 export 的公开处理                                                                 | 仓库侧裁决                                              | 当前外部/现网状态与恢复条件                                                                                                                    | 候选证据                                                                                |
+| -------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| FACT-002 | 英文只使用 `ZGCLLM` / `the Alliance`，不声明官方英文全称                               | `repo closed`（中性化）                                 | 旧现网仍可能出现冲突译名；恢复唯一全称前须权利人批准 glossary、范围、版本和日期，并重跑全 `/en` crawl                                          | `8ec1fab`、`663850c`、`c4f5574`、`faf7725`；site-config、members、structured-data tests |
+| FACT-003 | canonical/config/CNAME 统一为正式主域，但不声称其已上线                                | `repo closed`（目标配置）                               | `external blocked`：Pages `cname:null`，正式域 DNS/TLS/HTTPS 未建立；须 custom domain、DNS、TLS 和正式域 200 全通过                            | `db8700f`、`8ec1fab`、`1eff7fb`；SEO/metadata crawl                                     |
+| FACT-004 | apex 与 5 个备用域只记录为待配置跳转目标，不作 canonical 或“已 301”声明                | `repo closed`（文档中性化）                             | `external blocked`：六入口均须各自有效 TLS，且精确单跳 301 到主域                                                                              | `1eff7fb`、`8ca8107`；部署指南与 canonical tests                                        |
+| FACT-005 | 候选已移除邮箱和 `mailto:`；不可用申请态只诚实提示稍后查看官网                         | `repo partial`                                          | 旧现网仍公开邮箱；须授权公开渠道并完成实际收发/到达测试，再补双语、键盘可达 fallback；对应 P1-008                                              | `b591f91`、`e24f2ee`；footer/external-link tests                                        |
+| FACT-006 | 占位 ICP 已从候选 footer/export 移除                                                   | `repo closed`（删除占位）                               | 旧现网仍公开占位号；适用备案判断仍 `external blocked`，需要展示时只能使用官方可追溯记录                                                        | `b591f91`、`e24f2ee`；footer test 与候选 export 负向扫描                                |
+| FACT-007 | 候选删除旧 raster Logo 和 JSON-LD logo，使用文字品牌与程序化中性图形                   | `repo closed`（中性化）                                 | 旧现网仍服务 legacy PNG/JSON-LD logo；恢复前须权利人、授权范围、文件版本和日期                                                                 | `6ee5aba`；static-image/structured-data tests                                           |
+| FACT-008 | `.com` 已从 current endpoint/运营声明移除                                              | `repo closed`（移除）                                   | 当前不作为发布入口；若恢复须 registrar、DNS、TLS、301 证据并更新权威域名清单                                                                   | `1eff7fb`、`8ca8107`；当前维护文档扫描                                                  |
+| FACT-021 | 智谱的工作组具名角色已替换为通用技术参与角色，`named:false`                            | `repo closed`（中性化）                                 | 旧现网仍公开该角色；恢复须独立来源/权利人确认名称、角色、英文名与成果范围                                                                      | `c4f5574`、`e24f2ee`；WG facts/validation tests                                         |
+| FACT-022 | 清华大学“学术指导”角色已移除，不能从理事长单位外推                                     | `repo closed`（中性化）                                 | 旧现网仍公开该角色；恢复须独立角色授权及公开范围                                                                                               | `c4f5574`；WG tests                                                                     |
+| FACT-023 | 广义工作组角色已移除；只保留“数说安全发布该时点计划信息”的精确来源归因                 | `repo closed`（广义关系）；`scoped publish`（来源归因） | 旧现网仍公开更广角色；恢复产业研究、生态连接或英文名须独立证据                                                                                 | `c4f5574`、`faf7725`；WG/news tests                                                     |
+| FACT-024 | 云起无垠名称、角色和英文名均不进入候选公开实现                                         | `repo closed`（移除）                                   | 旧现网仍公开该关系；恢复须独立来源、角色及英文名授权                                                                                           | `c4f5574`；WG tests                                                                     |
+| FACT-027 | “主管部门指导组建”从候选中删除                                                         | `repo closed`（移除）                                   | 恢复须权威文件 URL、日期、具体主体、适用范围与公开授权                                                                                         | `663850c`；候选源码/export 负向扫描                                                     |
+| FACT-028 | 改为“依法依规推进/按需确认”，不暗示现有主管背书                                        | `repo closed`（中性化）                                 | 恢复具体指导关系须权威来源及可公开范围                                                                                                         | `c4f5574`；WG/cybersecurity tests                                                       |
+| FACT-030 | 只作为 2026-07-08 有来源、有日期的历史计划发布，不声称持续开放                         | `scoped publish`                                        | 启用 CTA 或表述为当前持续计划前，须运营确认且 FACT-037 全门通过                                                                                | `faf7725`、`db0fd31`；news、dynamic-route、journey tests                                |
+| FACT-031 | 只保留来源覆盖的限时权益、技术接入、交流和联合评测；明确不构成长期保障                 | `scoped publish`                                        | 恢复联合发布、行业传播或长期 SLA 前须 owner、有效期和范围确认                                                                                  | `faf7725`；news source/status tests                                                     |
+| FACT-032 | 删除“免费/完全授权”等绝对承诺；费用与责任均限定到具体项目和参与方确认                  | `repo closed`（中性化）                                 | 恢复须运营/法务批准具体项目、费用、有效期和责任文本                                                                                            | `c4f5574`；join/WG tests                                                                |
+| FACT-033 | 不再断言“个人不能入会”；明确个人工作组参与与联盟会员申请不同，联盟表单默认关闭         | `repo closed`（中性化）                                 | 旧现网仍断言联盟会员均为单位、个人无法直接入盟并启用联盟 CTA；先遏制旧路径，恢复前须章程/产品 owner 给出唯一规则并同步 zh/en、表单、FAQ 与测试 | `c4f5574`、`db0fd31`；四路径 integration/E2E                                            |
+| FACT-034 | 上线稿 `published:false`，不生成候选静态参数，访问为 404/noindex                       | `repo closed`（撤回）                                   | 旧现网仍以 200 发布“正式上线”稿；恢复须 FACT-003/004 通过、重定发布日期并完成审批                                                              | `faf7725`；dynamic-news/static-pages/journey tests                                      |
+| FACT-035 | 联盟表单使用精确 allowlist、独立变量且默认不渲染 anchor                                | `repo closed`（fail closed）                            | 旧现网 CTA 仍启用；`external blocked`：逐表核 title、对象、匿名提交、告知、字段、回执和 owner 批准后只设置对应变量                             | `8ec1fab`、`7f9f59c`、`e24f2ee`；site-config/application tests                          |
+| FACT-036 | 工作组表单独立 fail closed，绝不回退联盟表单                                           | `repo closed`（fail closed）                            | 旧现网 CTA 仍启用；`external blocked`：除逐表检查外还须核资格与专属 SLA                                                                        | 同 FACT-035；`never falls back` unit contract                                           |
+| FACT-037 | 来源只证明 URL 与历史计划关联；候选 CTA 默认关闭                                       | `repo closed`（fail closed）                            | 旧现网 CTA 仍启用且带 3 工作日承诺；`external blocked`：匿名、当前受理、隐私、字段与回执逐项通过后才设置 program 变量                          | `faf7725`、`8ec1fab`、`7f9f59c`；news/application tests                                 |
+| FACT-039 | 候选只要求用户查看目标表单实际说明，并明确本站未替外部表单确认主体、用途、保存期或联系 | `repo closed`（中性化）                                 | 随三表 `external blocked`；精确 controller、purpose、retention、contact 必须逐表取证                                                           | `faf7725`；privacy/static-page/journey tests                                            |
+| FACT-040 | 候选不在全站泛化 3/5/3–10 日 SLA，改为按流程后续确认                                   | `repo closed`（中性化）                                 | 旧现网仍含 program 3 工作日承诺；恢复须每入口 owner、范围、有效期和回执一致性                                                                  | `c4f5574`、`faf7725`；候选源码/export 负向扫描                                          |
+| FACT-042 | `published`/`named` 不再单独构成发布依据；建立 fact/source/reviewer/scope 记录与负例   | `repo closed`（当前快照的记录契约）                     | 校验器不能证明 reviewer 是权利人；任何新事实仍须真实来源或权利人批准，不能把测试通过当授权                                                     | `8ec1fab`、`e24f2ee`；content-validation-facts tests；`validateAllContent()===[]`       |
+
+### 6.3 其余事实的限定状态
+
+| FACT                    | T-012 裁决                                                                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| FACT-001、FACT-009～019 | 只按 2025-08-25 公开来源保留中文名称、32/10 数字、10 个中文成员名和来源明确覆盖的 3 个职务；不外推 Logo、官方英文名、工作组关系或持续有效性 |
+| FACT-020                | 联盟对自身只作克制的协调角色描述，不据此进入“已授权工作组伙伴”名录                                                                          |
+| FACT-025                | 候选没有具名个人；未来新增姓名前必须登记本人公开授权或权威来源                                                                              |
+| FACT-026                | “多数为联盟成员”已删除；联盟成员与工作组参与名录保持独立                                                                                    |
+| FACT-029                | 数字仅作栏目/机制分类，明确不代表项目已经启动或产生结果                                                                                     |
+| FACT-038                | 只描述静态候选没有站内申请表单、接收 endpoint 或申请人数据库；不替托管方/Feishu 承诺日志、用途或保存期                                      |
+| FACT-041                | 旧 Docker 体积/内存营销数字已移除；只在 T-012 基线记录带环境、日期、命令和镜像 digest 的实测值，不作为发布卖点                              |
+
+### 6.4 Closure 结论
+
+候选源码与 export 对 FACT-002～008、FACT-021～024、FACT-027/028、FACT-030～037、
+FACT-039/040/042 已逐项完成来源限界、移除、中性化或 fail-closed 处理；FACT-005 的可执行联系
+替代仍为 `repo partial`。但旧公开 Pages 部署尚未替换，且域名、备案判断、三表、联系渠道与相关
+授权仍受外部门阻塞。故 F-012 只能判为“候选通过、现网未通过”的 `PARTIAL`，本登记结论为：
+**release-blocked / 不可正式发布**。

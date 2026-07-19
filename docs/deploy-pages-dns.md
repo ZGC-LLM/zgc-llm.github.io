@@ -4,6 +4,8 @@ GitHub Pages 是本站的主部署路径。仓库通过 [CI](../.github/workflow
 
 正式 canonical 目标为 `https://www.zgc-llm.org.cn`。截至 2026-07-19 的发布审计，正式域名没有可用 DNS 记录，HTTPS 无法连接，GitHub Pages API 的 `cname` 为空；仓库中的 CNAME、canonical 和 workflow 配置不能作为已上线证据。
 
+同次审计确认 Pages 实际端点 `https://zgc-llm.github.io/` 在审计时仍服务旧提交。当前候选通过本地测试不代表该公开端点已经替换；后续复验状态、旧端点的具体 SHA、暴露内容和处置结果只记录在 [发布就绪报告](./dev/repository-wide-release-optimization/release-readiness-report.md)，本运行手册不把一次审计的 SHA 固化为长期配置。
+
 需要自托管时使用 [Docker standalone 指南](./deploy-docker.md)。
 
 ## 部署链
@@ -23,6 +25,8 @@ push main
 ```
 
 Pages 不直接消费开发机或旧 workflow 的产物。重新构建是为了在拥有部署权限的干净 runner 上，为同一已批准 SHA 和公开变量生成正式 artifact。
+
+验收必须同时证明“批准 SHA = CI SHA = Pages workflow checkout SHA = deployment SHA”。只看 workflow 绿色、Pages `status=built` 或页面能打开，均不能证明当前公开内容来自获批候选。
 
 手动 `workflow_dispatch` 只能在 `main` 上执行，工作流还会查询该 SHA 最近一次 main push CI；没有成功结果时部署失败。PR、fork、schedule 或手动触发的 CI 不能授予部署资格。
 
@@ -114,6 +118,16 @@ curl --silent --show-error --head https://zgcllm.net/
 
 验收时保留状态码、`Location`、证书域名、有效期和最终 canonical。每个备用域必须一次 301 到 `https://www.zgc-llm.org.cn/`，不能形成多跳、循环或 HTTP 降级。
 
+Pages 与批准 SHA：
+
+```bash
+gh api repos/ZGC-LLM/zgc-llm.github.io/pages
+gh run list --commit <approved-sha>
+gh api repos/ZGC-LLM/zgc-llm.github.io/deployments --jq '.[] | {sha,environment,created_at}'
+```
+
+把审批记录、CI、部署工作流和 deployment API 的完整 SHA 逐一比对。不得用短 SHA、分支最新提交或“最后一次成功”替代精确一致性证明。
+
 构建与 artifact：
 
 ```bash
@@ -121,6 +135,17 @@ pnpm install --frozen-lockfile
 pnpm build:export
 test "$(cat out/CNAME)" = 'www.zgc-llm.org.cn'
 ```
+
+部署后对**实际 Pages 端点和正式域名**执行同一组负向 smoke；两者都通过前不能关闭发布门：
+
+- footer 不出现占位备案号、未核验邮箱或旧品牌图片；JSON-LD 不引用未授权 Logo；
+- 已撤回“正式上线”路由返回 404/noindex，不从新闻列表、sitemap 或内部链接到达；
+- 工作组成员页不出现未经独立来源与公开授权确认的具名主体或角色；
+- 联盟、工作组和历史计划的申请 CTA 只有在对应表单逐项核验且批准后才可点击；
+- canonical、robots、sitemap、hreflang 与最终 URL 都使用 `https://www.zgc-llm.org.cn`；
+- 实际部署 SHA 等于批准 SHA，且失败质量门不会产生新的 Pages deployment。
+
+如果 github.io 与正式域返回不同内容、任何旧事实仍可访问，或 deployment SHA 不一致，应立即停止发布并回滚/停用旧公开内容；不能通过只刷新 DNS、重跑本地 build 或修改报告掩盖。
 
 ## 分支与外部发布条件
 
@@ -133,10 +158,11 @@ main 当前要求三个 strict status checks：`Security audit`、`Types, lint &
 - 三个 Feishu target 的匿名提交与隐私/回执核验；
 - 适用的 ICP 备案或运营/法务确认；
 - 已验证的公开联系渠道；
-- 正式 Logo 的使用权与适用范围；
-- 官方英文全称的权利人确认。
 
-没有备案号时不展示占位号；没有已核验邮箱时不提供 `mailto:`；英文全称未确认时只使用 `ZGCLLM` 或 `the Alliance`。以上任一必需条件未完成时，发布验收必须如实记录阻塞。
+没有备案号时不展示占位号；没有已核验邮箱时不提供 `mailto:`。正式 Logo 和官方英文全称
+当前未确认，候选源码/export 已分别使用中性文字/程序化图形和 `ZGCLLM` / `the Alliance`，因此不把
+未使用资产的授权误计为当前静态候选阻塞；未来恢复正式资产或英文全称前，必须先确认权利人、
+使用范围、文件/术语版本和日期。以上当前必需条件未完成时，发布验收必须如实记录阻塞。
 
 ## 排障
 
