@@ -10,6 +10,7 @@
     "build:export": "cross-env BUILD_TARGET=export pnpm build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "format:check": "prettier --check .",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:unit",

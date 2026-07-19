@@ -118,7 +118,10 @@ describe('news record validation', () => {
     expect(issues(bundle)).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ code: 'required', message: expect.stringContaining('title') }),
-        expect.objectContaining({ code: 'required', message: expect.stringContaining('description') }),
+        expect.objectContaining({
+          code: 'required',
+          message: expect.stringContaining('description'),
+        }),
         expect.objectContaining({ code: 'identifier' }),
         expect.objectContaining({ code: 'enum' }),
         expect.objectContaining({ code: 'type' }),
@@ -153,11 +156,7 @@ describe('news record validation', () => {
     bundle.news = [
       {
         ...bundle.news[0],
-        body: asRuntimeValue<NewsEntry['body']>([
-          null,
-          [],
-          { text: '未知内容', type: 'quote' },
-        ]),
+        body: asRuntimeValue<NewsEntry['body']>([null, [], { text: '未知内容', type: 'quote' }]),
       },
     ]
 
@@ -330,7 +329,10 @@ describe('working-group record validation', () => {
       expect.arrayContaining([
         expect.objectContaining({ code: 'required', message: expect.stringContaining('slug') }),
         expect.objectContaining({ code: 'required', message: expect.stringContaining('title') }),
-        expect.objectContaining({ code: 'required', message: expect.stringContaining('description') }),
+        expect.objectContaining({
+          code: 'required',
+          message: expect.stringContaining('description'),
+        }),
         expect.objectContaining({ code: 'identifier', message: expect.stringContaining('id') }),
         expect.objectContaining({ code: 'enum' }),
       ]),

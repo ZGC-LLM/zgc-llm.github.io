@@ -77,6 +77,8 @@ jobs:
         run: pnpm typecheck
       - name: Lint
         run: pnpm lint
+      - name: Check maintained file formatting
+        run: pnpm format:check
       - name: Run unit tests with required coverage
         # T-009 owns Vitest's numeric thresholds. This required step propagates
         # every test or threshold failure and must never use continue-on-error.

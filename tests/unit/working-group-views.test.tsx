@@ -1,9 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import {
-  WorkingGroupOverview,
-} from '@/app/(frontend)/working-groups/[slug]/page'
+import { WorkingGroupOverview } from '@/app/(frontend)/working-groups/[slug]/page'
 import {
   WorkingGroupMembersDirectory,
   WorkingGroupMembersView,
@@ -106,8 +104,9 @@ describe('WorkingGroupMembersDirectory', () => {
     expect(screen.getByRole('img', { name: `示例共建方${copy.logoAltSuffix}` })).toBeTruthy()
     expect(screen.getByText('验证伙伴')).toBeTruthy()
     expect(screen.getByText('负责能力验证')).toBeTruthy()
-    expect(screen.getByRole('heading', { name: '专业参与方' }).parentElement?.querySelector('img'))
-      .toBeNull()
+    expect(
+      screen.getByRole('heading', { name: '专业参与方' }).parentElement?.querySelector('img'),
+    ).toBeNull()
   })
 })
 
@@ -153,8 +152,8 @@ describe('WorkingGroupJoinView', () => {
 
     const faqWithLink = copy.faq.items.find((item) => item.link)
     expect(faqWithLink).toBeDefined()
-    expect(
-      screen.getByRole('link', { name: faqWithLink!.link!.label }).getAttribute('href'),
-    ).toBe(`${locale === 'en' ? '/en' : ''}${faqWithLink!.link!.href}`)
+    expect(screen.getByRole('link', { name: faqWithLink!.link!.label }).getAttribute('href')).toBe(
+      `${locale === 'en' ? '/en' : ''}${faqWithLink!.link!.href}`,
+    )
   })
 })

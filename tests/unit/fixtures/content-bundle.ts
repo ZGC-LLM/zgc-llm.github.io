@@ -88,6 +88,8 @@ export function createValidContentBundle(): ContentBundle {
   }
 }
 
-export function cloneContentBundle(bundle: ContentBundle = createValidContentBundle()): ContentBundle {
+export function cloneContentBundle(
+  bundle: ContentBundle = createValidContentBundle(),
+): ContentBundle {
   return structuredClone(bundle)
 }

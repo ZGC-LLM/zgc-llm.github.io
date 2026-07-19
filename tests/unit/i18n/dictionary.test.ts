@@ -13,7 +13,9 @@ function leafPaths(value: unknown, prefix = ''): string[] {
 
 describe('locale dictionaries', () => {
   it('provides one dictionary for every supported locale in stable order', () => {
-    expect(allDictionaries()).toEqual(LOCALES.map((locale) => ({ dictionary: dict(locale), locale })))
+    expect(allDictionaries()).toEqual(
+      LOCALES.map((locale) => ({ dictionary: dict(locale), locale })),
+    )
   })
 
   it('keeps every locale structurally complete', () => {

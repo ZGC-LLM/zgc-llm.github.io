@@ -83,8 +83,9 @@ describe('MembersDirectory', () => {
         .getAttribute('lang'),
     ).toBe('zh-CN')
     expect(screen.getByText(copy.roleLabels[council.description!])).toBeTruthy()
-    expect(screen.getByRole('heading', { name: supervisor.name }).parentElement?.querySelector('img'))
-      .toBeNull()
+    expect(
+      screen.getByRole('heading', { name: supervisor.name }).parentElement?.querySelector('img'),
+    ).toBeNull()
     expect(screen.queryByText(unlisted.name)).toBeNull()
   })
 })
@@ -93,24 +94,27 @@ describe('MembersView', () => {
   it.each([
     { locale: 'zh' as const, pathPrefix: '' },
     { locale: 'en' as const, pathPrefix: '/en' },
-  ])('renders the reviewed source and localized navigation in $locale', ({ locale, pathPrefix }) => {
-    const copy = MEMBERS_PAGE_COPY[locale]
+  ])(
+    'renders the reviewed source and localized navigation in $locale',
+    ({ locale, pathPrefix }) => {
+      const copy = MEMBERS_PAGE_COPY[locale]
 
-    const { container } = render(<MembersView locale={locale} />)
+      const { container } = render(<MembersView locale={locale} />)
 
-    expect(screen.getByRole('main').getAttribute('id')).toBe('main-content')
-    expect(screen.getByRole('heading', { level: 1, name: copy.heroTitle })).toBeTruthy()
-    expect(screen.getByRole('link', { name: copy.relationAction }).getAttribute('href')).toBe(
-      `${pathPrefix}/working-groups`,
-    )
-    const sourceLink = screen.getByRole('link', { name: copy.sourceLinkLabel })
-    expect(sourceLink.getAttribute('href')).toBe(MEMBER_DIRECTORY_SOURCE.url)
-    expect(sourceLink.getAttribute('rel')).toBe('noreferrer noopener')
-    expect(
-      container.querySelector(`time[datetime="${MEMBER_DIRECTORY_SOURCE.publishedAt}"]`),
-    ).not.toBeNull()
-    expect(
-      container.querySelector(`time[datetime="${MEMBER_DIRECTORY_SOURCE.reviewedAt}"]`),
-    ).not.toBeNull()
-  })
+      expect(screen.getByRole('main').getAttribute('id')).toBe('main-content')
+      expect(screen.getByRole('heading', { level: 1, name: copy.heroTitle })).toBeTruthy()
+      expect(screen.getByRole('link', { name: copy.relationAction }).getAttribute('href')).toBe(
+        `${pathPrefix}/working-groups`,
+      )
+      const sourceLink = screen.getByRole('link', { name: copy.sourceLinkLabel })
+      expect(sourceLink.getAttribute('href')).toBe(MEMBER_DIRECTORY_SOURCE.url)
+      expect(sourceLink.getAttribute('rel')).toBe('noreferrer noopener')
+      expect(
+        container.querySelector(`time[datetime="${MEMBER_DIRECTORY_SOURCE.publishedAt}"]`),
+      ).not.toBeNull()
+      expect(
+        container.querySelector(`time[datetime="${MEMBER_DIRECTORY_SOURCE.reviewedAt}"]`),
+      ).not.toBeNull()
+    },
+  )
 })

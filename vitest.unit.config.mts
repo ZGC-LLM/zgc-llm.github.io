@@ -6,10 +6,7 @@ export default defineConfig({
   test: {
     clearMocks: true,
     environment: 'jsdom',
-    include: [
-      'tests/unit/**/*.test.{ts,tsx}',
-      'tests/integration/**/*.test.{ts,tsx}',
-    ],
+    include: ['tests/unit/**/*.test.{ts,tsx}', 'tests/integration/**/*.test.{ts,tsx}'],
     restoreMocks: true,
     unstubEnvs: true,
     coverage: {

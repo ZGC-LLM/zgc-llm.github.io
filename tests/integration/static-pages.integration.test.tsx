@@ -3,9 +3,7 @@ import type { Metadata } from 'next'
 import type { ComponentType } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import EnAlliancePage, {
-  metadata as enAllianceMetadata,
-} from '@/app/(en)/en/alliance/page'
+import EnAlliancePage, { metadata as enAllianceMetadata } from '@/app/(en)/en/alliance/page'
 import EnCybersecurityPage, {
   metadata as enCybersecurityMetadata,
 } from '@/app/(en)/en/cybersecurity/page'
@@ -81,17 +79,20 @@ const STATIC_PAGES: readonly StaticPageCase[] = [
 ]
 
 describe('static locale route composition', () => {
-  it.each(STATIC_PAGES)('renders one accessible page shell for $locale $path', ({ component: Page, locale, metadata, path }) => {
-    render(<Page />)
+  it.each(STATIC_PAGES)(
+    'renders one accessible page shell for $locale $path',
+    ({ component: Page, locale, metadata, path }) => {
+      render(<Page />)
 
-    const main = screen.getByRole('main')
-    expect(main.getAttribute('id')).toBe('main-content')
-    expect(main.tabIndex).toBe(-1)
-    const headings = screen.getAllByRole('heading', { level: 1 })
-    expect(headings).toHaveLength(1)
-    expect(headings[0].textContent?.trim()).not.toBe('')
-    expectLocalizedMetadata(metadata, path, locale)
-  })
+      const main = screen.getByRole('main')
+      expect(main.getAttribute('id')).toBe('main-content')
+      expect(main.tabIndex).toBe(-1)
+      const headings = screen.getAllByRole('heading', { level: 1 })
+      expect(headings).toHaveLength(1)
+      expect(headings[0].textContent?.trim()).not.toBe('')
+      expectLocalizedMetadata(metadata, path, locale)
+    },
+  )
 
   it('publishes reviewed member names but no unapproved member logos', () => {
     const { container } = render(<MembersPage />)

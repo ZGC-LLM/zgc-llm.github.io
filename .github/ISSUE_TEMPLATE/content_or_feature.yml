@@ -1,6 +1,6 @@
 name: 内容 / 功能建议 Content or feature request
 description: 建议新增或修改公开内容（src/content/）或站点功能
-labels: ["enhancement"]
+labels: ['enhancement']
 body:
   - type: dropdown
     id: type

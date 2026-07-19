@@ -110,26 +110,32 @@ describe('working-group dynamic route graph', () => {
     }
   })
 
-  it.each(ROUTES)('renders and describes the known $locale route $suffix', async ({ locale, metadata, page, suffix }) => {
-    const slug = 'cybersecurity'
-    const element = await page({ params: Promise.resolve({ slug }) })
-    render(element)
-    const routeMetadata = await metadata({ params: Promise.resolve({ slug }) })
+  it.each(ROUTES)(
+    'renders and describes the known $locale route $suffix',
+    async ({ locale, metadata, page, suffix }) => {
+      const slug = 'cybersecurity'
+      const element = await page({ params: Promise.resolve({ slug }) })
+      render(element)
+      const routeMetadata = await metadata({ params: Promise.resolve({ slug }) })
 
-    const main = screen.getByRole('main')
-    expect(main.getAttribute('id')).toBe('main-content')
-    expect(main.tabIndex).toBe(-1)
-    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
-    expectLocalizedMetadata(routeMetadata, `/working-groups/${slug}${suffix}`, locale)
-  })
+      const main = screen.getByRole('main')
+      expect(main.getAttribute('id')).toBe('main-content')
+      expect(main.tabIndex).toBe(-1)
+      expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
+      expectLocalizedMetadata(routeMetadata, `/working-groups/${slug}${suffix}`, locale)
+    },
+  )
 
-  it.each(ROUTES)('returns notFound for an unknown $locale route $suffix', async ({ metadata, page }) => {
-    const params = Promise.resolve({ slug: 'does-not-exist' })
-    const element = await page({ params })
+  it.each(ROUTES)(
+    'returns notFound for an unknown $locale route $suffix',
+    async ({ metadata, page }) => {
+      const params = Promise.resolve({ slug: 'does-not-exist' })
+      const element = await page({ params })
 
-    expect(() => render(element)).toThrow('NEXT_NOT_FOUND')
-    await expect(
-      metadata({ params: Promise.resolve({ slug: 'does-not-exist' }) }),
-    ).rejects.toThrow('NEXT_NOT_FOUND')
-  })
+      expect(() => render(element)).toThrow('NEXT_NOT_FOUND')
+      await expect(
+        metadata({ params: Promise.resolve({ slug: 'does-not-exist' }) }),
+      ).rejects.toThrow('NEXT_NOT_FOUND')
+    },
+  )
 })

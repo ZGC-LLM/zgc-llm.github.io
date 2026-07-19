@@ -59,18 +59,21 @@ describe('application target isolation across public entry points', () => {
     ['alliance', APPLICATION_ENVIRONMENTS.alliance],
     ['workingGroup', APPLICATION_ENVIRONMENTS.workingGroup],
     ['news', APPLICATION_ENVIRONMENTS.program],
-  ] as const)('enables only the %s entry point from its exact dedicated environment', async (enabledId, environment) => {
-    isolateApplicationEnvironment(environment)
-    const entries = await loadEntryPoints()
+  ] as const)(
+    'enables only the %s entry point from its exact dedicated environment',
+    async (enabledId, environment) => {
+      isolateApplicationEnvironment(environment)
+      const entries = await loadEntryPoints()
 
-    for (const [id, element] of Object.entries(entries) as Array<
-      [keyof typeof entries, ReactElement]
-    >) {
-      if (id === enabledId) {
-        expect(applicationHref(element)).toBe(environment.url)
-      } else {
-        expectUnavailable(element)
+      for (const [id, element] of Object.entries(entries) as Array<
+        [keyof typeof entries, ReactElement]
+      >) {
+        if (id === enabledId) {
+          expect(applicationHref(element)).toBe(environment.url)
+        } else {
+          expectUnavailable(element)
+        }
       }
-    }
-  })
+    },
+  )
 })

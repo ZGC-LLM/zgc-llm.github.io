@@ -74,9 +74,9 @@ describe('news dynamic route graph', () => {
 
     expect(screen.getByRole('main').tabIndex).toBe(-1)
     expect(screen.getByRole('heading', { level: 1 }).textContent).toMatch(/Cybersecurity/u)
-    expect(screen.getByRole('link', { name: /Back to Alliance updates/u }).getAttribute('href')).toBe(
-      '/en/news',
-    )
+    expect(
+      screen.getByRole('link', { name: /Back to Alliance updates/u }).getAttribute('href'),
+    ).toBe('/en/news')
     expectLocalizedMetadata(metadata, `/news/${publishedEntry.slug}`, 'en')
   })
 

@@ -18,7 +18,12 @@ describe('PageHero', () => {
 
   it('renders an eyebrow and explicit action region when supplied', () => {
     const { container } = render(
-      <PageHero actions={<a href="/next">继续</a>} description="描述" eyebrow="专题" title="标题" />,
+      <PageHero
+        actions={<a href="/next">继续</a>}
+        description="描述"
+        eyebrow="专题"
+        title="标题"
+      />,
     )
 
     expect(screen.getByText('专题')).toBeTruthy()

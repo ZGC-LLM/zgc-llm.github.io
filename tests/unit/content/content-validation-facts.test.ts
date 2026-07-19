@@ -218,9 +218,7 @@ describe('fact reference fields', () => {
         publishedFact('FACT-213', ['display-name'], { evidenceStatus }),
       ])
 
-      expect(codes(result)).toEqual(
-        expect.arrayContaining(['fact-publication', 'fact-unreviewed']),
-      )
+      expect(codes(result)).toEqual(expect.arrayContaining(['fact-publication', 'fact-unreviewed']))
     },
   )
 
@@ -243,9 +241,7 @@ describe('fact reference fields', () => {
           : { evidenceStatus }
 
       expect(
-        validateMemberFacts([
-          publishedFact('FACT-215', ['official-english-name'], overrides),
-        ]),
+        validateMemberFacts([publishedFact('FACT-215', ['official-english-name'], overrides)]),
       ).toEqual([])
     },
   )
@@ -269,9 +265,7 @@ describe('fact reference fields', () => {
         publishedFact('FACT-218', ['display-name'], { evidenceStatus, source: undefined }),
       ])
 
-      expect(codes(result)).toEqual(
-        expect.arrayContaining(['fact-source', 'fact-unreviewed']),
-      )
+      expect(codes(result)).toEqual(expect.arrayContaining(['fact-source', 'fact-unreviewed']))
     },
   )
 

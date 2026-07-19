@@ -61,6 +61,7 @@ Vitest 当前包含 31 个文件、354 项测试。覆盖率为 statements 99.57
 ```bash
 pnpm typecheck
 pnpm lint
+pnpm format:check
 pnpm test
 pnpm build
 ```
@@ -70,11 +71,14 @@ pnpm build
 ```bash
 pnpm typecheck
 pnpm lint
+pnpm format:check
 pnpm test:coverage
 pnpm build
 pnpm build:export
 pnpm test:e2e
 ```
+
+`pnpm format:check` 以 `.prettierignore` 为边界：现行源码、测试、配置和维护文档必须通过；环境托管的 `.agents/`、追溯性 feature 规格和历史原型不做机械重写。`docs/dev/README.md` 作为当前生命周期索引仍在格式门内。
 
 文档改动还应检查 Prettier、相对链接、脚本名称、环境变量和域名漂移。部署相关改动至少运行：
 

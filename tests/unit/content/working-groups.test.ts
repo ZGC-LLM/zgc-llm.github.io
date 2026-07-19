@@ -12,10 +12,7 @@ import {
   localizeWorkingGroup,
   WORKING_GROUPS,
 } from '@/content/working-groups'
-import {
-  getWorkingGroupMembers,
-  WORKING_GROUP_MEMBERS,
-} from '@/content/working-group-members'
+import { getWorkingGroupMembers, WORKING_GROUP_MEMBERS } from '@/content/working-group-members'
 import { describe, expect, it } from 'vitest'
 
 describe('working-group catalog', () => {
@@ -132,7 +129,9 @@ describe('working-group collaborator directory', () => {
 
 describe('cybersecurity topic relationship', () => {
   it('links the topic page from its working-group record', () => {
-    expect(WORKING_GROUPS.some(({ ecosystemHref }) => ecosystemHref === '/cybersecurity')).toBe(true)
+    expect(WORKING_GROUPS.some(({ ecosystemHref }) => ecosystemHref === '/cybersecurity')).toBe(
+      true,
+    )
   })
 
   it('offers the same collaboration structure in reviewed Chinese and English copy', () => {

@@ -40,23 +40,26 @@ describe('SiteHeader', () => {
   it.each([
     ['zh', '/', '/working-groups', '/join'],
     ['en', '/en', '/en/working-groups', '/en/join'],
-  ] as const)('renders localized brand, navigation and participation routes for %s', (locale, home, groups, join) => {
-    const copy = dict(locale).header
-    render(<SiteHeader locale={locale} />)
+  ] as const)(
+    'renders localized brand, navigation and participation routes for %s',
+    (locale, home, groups, join) => {
+      const copy = dict(locale).header
+      render(<SiteHeader locale={locale} />)
 
-    expect(
-      screen
-        .getByRole('link', { name: locale === 'zh' ? /中关村/u : 'ZGCLLM' })
-        .getAttribute('href'),
-    ).toBe(home)
-    expect(screen.getAllByRole('link', { name: copy.joinWorkingGroup })[0].getAttribute('href')).toBe(
-      groups,
-    )
-    expect(screen.getAllByRole('link', { name: copy.institutionApply })[0].getAttribute('href')).toBe(
-      join,
-    )
-    expect(screen.getByRole('navigation', { name: copy.mainNav })).toBeTruthy()
-  })
+      expect(
+        screen
+          .getByRole('link', { name: locale === 'zh' ? /中关村/u : 'ZGCLLM' })
+          .getAttribute('href'),
+      ).toBe(home)
+      expect(
+        screen.getAllByRole('link', { name: copy.joinWorkingGroup })[0].getAttribute('href'),
+      ).toBe(groups)
+      expect(
+        screen.getAllByRole('link', { name: copy.institutionApply })[0].getAttribute('href'),
+      ).toBe(join)
+      expect(screen.getByRole('navigation', { name: copy.mainNav })).toBeTruthy()
+    },
+  )
 
   it('opens and closes the mobile menu with click and Escape while restoring focus', () => {
     render(<SiteHeader locale="zh" />)

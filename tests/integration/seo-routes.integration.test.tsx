@@ -4,18 +4,12 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import EnNotFound, {
-  metadata as enNotFoundMetadata,
-} from '@/app/(en)/not-found'
+import EnNotFound, { metadata as enNotFoundMetadata } from '@/app/(en)/not-found'
 import EnRootLayout, { metadata as enRootMetadata } from '@/app/(en)/layout'
-import NotFound, {
-  metadata as zhNotFoundMetadata,
-} from '@/app/(frontend)/not-found'
+import NotFound, { metadata as zhNotFoundMetadata } from '@/app/(frontend)/not-found'
 import RootLayout, { metadata as zhRootMetadata } from '@/app/(frontend)/layout'
 import sitemap from '@/app/(frontend)/sitemap'
-import GlobalNotFound, {
-  metadata as globalNotFoundMetadata,
-} from '@/app/global-not-found'
+import GlobalNotFound, { metadata as globalNotFoundMetadata } from '@/app/global-not-found'
 import robots from '@/app/robots'
 import { PUBLIC_STATIC_ROUTES, SITE_URL } from '@/config/site'
 import { getPublishedNews } from '@/content/news'
@@ -41,18 +35,17 @@ describe('sitemap release graph', () => {
     expect(entries).toHaveLength(expectedPaths.length * LOCALES.length)
     expect(new Set(actualUrls).size).toBe(actualUrls.length)
     expect(new Set(actualUrls)).toEqual(new Set(expectedUrls))
-    expect(actualUrls.some((url) => /\/(?:admin|api|404)(?:\/|$)/u.test(new URL(url).pathname))).toBe(
-      false,
-    )
-    expect(actualUrls).not.toContain(
-      absoluteCanonicalUrl('/news/alliance-website-launch', 'zh'),
-    )
+    expect(
+      actualUrls.some((url) => /\/(?:admin|api|404)(?:\/|$)/u.test(new URL(url).pathname)),
+    ).toBe(false)
+    expect(actualUrls).not.toContain(absoluteCanonicalUrl('/news/alliance-website-launch', 'zh'))
   })
 
   it('attaches complete absolute hreflang alternates to every entry', () => {
     for (const entry of sitemap()) {
       const pathname = new URL(entry.url).pathname
-      const zhPath = pathname === '/en' ? '/' : pathname.startsWith('/en/') ? pathname.slice(3) : pathname
+      const zhPath =
+        pathname === '/en' ? '/' : pathname.startsWith('/en/') ? pathname.slice(3) : pathname
 
       expect(entry.alternates?.languages).toEqual(buildAlternates(zhPath, 'zh').languages)
     }
@@ -62,7 +55,9 @@ describe('sitemap release graph', () => {
     const entries = sitemap()
     const home = entries.find(({ url }) => url === absoluteCanonicalUrl('/', 'zh'))
     const alliance = entries.find(({ url }) => url === absoluteCanonicalUrl('/alliance', 'zh'))
-    const news = entries.find(({ url }) => new URL(url).pathname.includes('/news/cybersecurity-open-program'))
+    const news = entries.find(({ url }) =>
+      new URL(url).pathname.includes('/news/cybersecurity-open-program'),
+    )
 
     expect(home).toMatchObject({ changeFrequency: 'weekly', priority: 1 })
     expect(alliance).toMatchObject({ changeFrequency: 'monthly', priority: 0.7 })
@@ -91,21 +86,24 @@ describe('localized and global not-found contracts', () => {
   it.each([
     ['zh', NotFound, zhNotFoundMetadata, '/', '/news', '/privacy'],
     ['en', EnNotFound, enNotFoundMetadata, '/en', '/en/news', '/en/privacy'],
-  ] as const)('renders a non-indexable %s recovery page', (_locale, Page, metadata, home, news, privacy) => {
-    render(<Page />)
+  ] as const)(
+    'renders a non-indexable %s recovery page',
+    (_locale, Page, metadata, home, news, privacy) => {
+      render(<Page />)
 
-    expect(metadata).toMatchObject({
-      alternates: { canonical: null },
-      robots: { follow: false, index: false },
-    })
-    expect(screen.getByRole('main').tabIndex).toBe(-1)
-    expect(screen.getByRole('heading', { level: 1 })).toBeTruthy()
-    expect(screen.getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
-      home,
-      news,
-      privacy,
-    ])
-  })
+      expect(metadata).toMatchObject({
+        alternates: { canonical: null },
+        robots: { follow: false, index: false },
+      })
+      expect(screen.getByRole('main').tabIndex).toBe(-1)
+      expect(screen.getByRole('heading', { level: 1 })).toBeTruthy()
+      expect(screen.getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+        home,
+        news,
+        privacy,
+      ])
+    },
+  )
 
   it('renders one bilingual global recovery document without duplicating Next noindex metadata', () => {
     const html = renderToStaticMarkup(GlobalNotFound())

@@ -14,15 +14,9 @@ vi.mock('next/og', () => ({
   },
 }))
 
-import {
-  dynamic as appleDynamic,
-  GET as getAppleIcon,
-} from '@/app/apple-icon.png/route'
+import { dynamic as appleDynamic, GET as getAppleIcon } from '@/app/apple-icon.png/route'
 import { dynamic as iconDynamic, GET as getIcon } from '@/app/icon.png/route'
-import {
-  dynamic as socialDynamic,
-  GET as getSocialPreview,
-} from '@/app/social-preview.png/route'
+import { dynamic as socialDynamic, GET as getSocialPreview } from '@/app/social-preview.png/route'
 
 beforeEach(() => {
   imageResponse.calls.length = 0
@@ -39,16 +33,19 @@ describe('static ImageResponse route contracts', () => {
       { height: 630, width: 1200 },
       ['ZGCLLM', 'www.zgc-llm.org.cn'],
     ],
-  ] as const)('emits a force-static neutral %s asset with the expected dimensions', (_name, get, dynamic, size, text) => {
-    const response = get()
-    const call = imageResponse.calls[0]
-    const markup = renderToStaticMarkup(call.element as ReactElement)
+  ] as const)(
+    'emits a force-static neutral %s asset with the expected dimensions',
+    (_name, get, dynamic, size, text) => {
+      const response = get()
+      const call = imageResponse.calls[0]
+      const markup = renderToStaticMarkup(call.element as ReactElement)
 
-    expect(response).toBe(call.response)
-    expect(dynamic).toBe('force-static')
-    expect(imageResponse.calls).toHaveLength(1)
-    expect(call.options).toEqual(size)
-    for (const value of text) expect(markup).toContain(value)
-    expect(markup).not.toContain('logo')
-  })
+      expect(response).toBe(call.response)
+      expect(dynamic).toBe('force-static')
+      expect(imageResponse.calls).toHaveLength(1)
+      expect(call.options).toEqual(size)
+      for (const value of text) expect(markup).toContain(value)
+      expect(markup).not.toContain('logo')
+    },
+  )
 })

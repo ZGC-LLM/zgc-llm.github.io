@@ -6,27 +6,30 @@ describe('site structured data', () => {
   it.each([
     ['zh', '中关村自主大模型产业联盟', 'zh-CN', 'https://www.zgc-llm.org.cn/'],
     ['en', 'ZGCLLM', 'en', 'https://www.zgc-llm.org.cn/en'],
-  ] as const)('emits an approved Organization and localized WebSite for %s', (locale, name, language, url) => {
-    const [organization, website] = siteStructuredData(locale)
+  ] as const)(
+    'emits an approved Organization and localized WebSite for %s',
+    (locale, name, language, url) => {
+      const [organization, website] = siteStructuredData(locale)
 
-    expect(organization).toEqual({
-      '@context': 'https://schema.org',
-      '@id': 'https://www.zgc-llm.org.cn/#organization',
-      '@type': 'Organization',
-      name: '中关村自主大模型产业联盟',
-      url: 'https://www.zgc-llm.org.cn/',
-    })
-    expect(organization).not.toHaveProperty('logo')
-    expect(website).toMatchObject({
-      '@context': 'https://schema.org',
-      '@id': `${url}#website`,
-      '@type': 'WebSite',
-      inLanguage: language,
-      name,
-      publisher: { '@id': 'https://www.zgc-llm.org.cn/#organization' },
-      url,
-    })
-  })
+      expect(organization).toEqual({
+        '@context': 'https://schema.org',
+        '@id': 'https://www.zgc-llm.org.cn/#organization',
+        '@type': 'Organization',
+        name: '中关村自主大模型产业联盟',
+        url: 'https://www.zgc-llm.org.cn/',
+      })
+      expect(organization).not.toHaveProperty('logo')
+      expect(website).toMatchObject({
+        '@context': 'https://schema.org',
+        '@id': `${url}#website`,
+        '@type': 'WebSite',
+        inLanguage: language,
+        name,
+        publisher: { '@id': 'https://www.zgc-llm.org.cn/#organization' },
+        url,
+      })
+    },
+  )
 })
 
 describe('article structured data', () => {

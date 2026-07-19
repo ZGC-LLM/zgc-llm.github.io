@@ -35,6 +35,7 @@ pnpm dev
 | `pnpm dev`               | 启动开发服务器                                       |
 | `pnpm typecheck`         | TypeScript 类型检查                                  |
 | `pnpm lint`              | ESLint 检查                                          |
+| `pnpm format:check`      | 检查现行维护文件的 Prettier 格式                     |
 | `pnpm test`              | 运行 Vitest unit 与 integration 测试                 |
 | `pnpm test:coverage`     | 运行测试并执行覆盖率硬门                             |
 | `pnpm test:e2e:chromium` | 运行 PR 使用的 Chromium 快速集                       |

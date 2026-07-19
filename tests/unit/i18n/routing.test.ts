@@ -55,9 +55,7 @@ describe('canonical URL policy', () => {
     expect(canonicalPath('/', 'zh')).toBe('/')
     expect(canonicalPath('/alliance/', 'zh')).toBe('/alliance')
     expect(canonicalPath('/alliance', 'en')).toBe('/en/alliance')
-    expect(absoluteCanonicalUrl('/alliance', 'en')).toBe(
-      'https://www.zgc-llm.org.cn/en/alliance',
-    )
+    expect(absoluteCanonicalUrl('/alliance', 'en')).toBe('https://www.zgc-llm.org.cn/en/alliance')
   })
 
   it('uses directory URLs in export builds without duplicating the root slash', async () => {
@@ -66,9 +64,7 @@ describe('canonical URL policy', () => {
     expect(canonicalPath('/', 'zh')).toBe('/')
     expect(canonicalPath('/alliance', 'zh')).toBe('/alliance/')
     expect(canonicalPath('/alliance/', 'en')).toBe('/en/alliance/')
-    expect(absoluteCanonicalUrl('/alliance', 'en')).toBe(
-      'https://www.zgc-llm.org.cn/en/alliance/',
-    )
+    expect(absoluteCanonicalUrl('/alliance', 'en')).toBe('https://www.zgc-llm.org.cn/en/alliance/')
   })
 
   it('preserves an intentional safe trailing slash in an absolute URL', async () => {
@@ -79,21 +75,24 @@ describe('canonical URL policy', () => {
     expect(absoluteSiteUrl('/news')).toBe('https://www.zgc-llm.org.cn/news')
   })
 
-  it.each(['zh', 'en'] as const)('builds absolute canonical and complete hreflang for %s', async (locale) => {
-    const { buildAlternates } = await importRouting()
-    const alternates = buildAlternates('/news/item', locale)
+  it.each(['zh', 'en'] as const)(
+    'builds absolute canonical and complete hreflang for %s',
+    async (locale) => {
+      const { buildAlternates } = await importRouting()
+      const alternates = buildAlternates('/news/item', locale)
 
-    expect(alternates.canonical).toBe(
-      locale === 'zh'
-        ? 'https://www.zgc-llm.org.cn/news/item'
-        : 'https://www.zgc-llm.org.cn/en/news/item',
-    )
-    expect(alternates.languages).toEqual({
-      en: 'https://www.zgc-llm.org.cn/en/news/item',
-      'x-default': 'https://www.zgc-llm.org.cn/news/item',
-      'zh-CN': 'https://www.zgc-llm.org.cn/news/item',
-    })
-  })
+      expect(alternates.canonical).toBe(
+        locale === 'zh'
+          ? 'https://www.zgc-llm.org.cn/news/item'
+          : 'https://www.zgc-llm.org.cn/en/news/item',
+      )
+      expect(alternates.languages).toEqual({
+        en: 'https://www.zgc-llm.org.cn/en/news/item',
+        'x-default': 'https://www.zgc-llm.org.cn/news/item',
+        'zh-CN': 'https://www.zgc-llm.org.cn/news/item',
+      })
+    },
+  )
 })
 
 describe('metadata construction', () => {

@@ -1,6 +1,16 @@
 .next
 coverage
 node_modules
+out
 playwright-report
 pnpm-lock.yaml
 test-results
+
+# Environment-managed agent packages are maintained by their owning plugins.
+.agents
+
+# Prototypes and feature specifications are immutable decision history. Current
+# documentation remains formatted; the lifecycle index is explicitly included.
+docs/design/prototypes
+docs/dev/*
+!docs/dev/README.md

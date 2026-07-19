@@ -1,10 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import {
-  APPROVED_APPLICATION_URL,
-  importSiteConfig,
-} from './helpers/import-site-config'
+import { APPROVED_APPLICATION_URL, importSiteConfig } from './helpers/import-site-config'
 
 afterEach(() => {
   cleanup()
@@ -56,11 +53,14 @@ describe('ExternalApplicationLink fail-closed behavior', () => {
   it.each([
     ['提交申请', /当前不可用/u],
     ['Submit application', /not currently available/u],
-  ])('infers unavailable copy from label language when locale is omitted', async (label, message) => {
-    await renderApplicationLink({ configuredUrl: '', label })
+  ])(
+    'infers unavailable copy from label language when locale is omitted',
+    async (label, message) => {
+      await renderApplicationLink({ configuredUrl: '', label })
 
-    expect(screen.getByText(message)).toBeTruthy()
-  })
+      expect(screen.getByText(message)).toBeTruthy()
+    },
+  )
 
   it('renders an exact, explicitly enabled Feishu target with safe external attributes', async () => {
     await importSiteConfig({ NEXT_PUBLIC_APPLICATION_URL: APPROVED_APPLICATION_URL.alliance })
@@ -90,11 +90,13 @@ describe('ExternalApplicationLink fail-closed behavior', () => {
     await importSiteConfig({ NEXT_PUBLIC_APPLICATION_URL: APPROVED_APPLICATION_URL.alliance })
     const { ExternalApplicationLink } = await import('@/components/site/external-application-link')
 
-    render(<ExternalApplicationLink configuredUrl={APPROVED_APPLICATION_URL.alliance} locale="zh" />)
+    render(
+      <ExternalApplicationLink configuredUrl={APPROVED_APPLICATION_URL.alliance} locale="zh" />,
+    )
 
-    expect(
-      screen.getByRole('link', { name: /联盟申请，打开飞书外部表单/u }).textContent,
-    ).toContain('联盟申请')
+    expect(screen.getByRole('link', { name: /联盟申请，打开飞书外部表单/u }).textContent).toContain(
+      '联盟申请',
+    )
   })
 
   it('keeps ordinary external-provider disclosure correct when supplied by the resolver contract', async () => {
@@ -109,11 +111,15 @@ describe('ExternalApplicationLink fail-closed behavior', () => {
     }))
     const { ExternalApplicationLink } = await import('@/components/site/external-application-link')
 
-    render(<ExternalApplicationLink configuredUrl="https://applications.example.org/form" locale="en" />)
+    render(
+      <ExternalApplicationLink configuredUrl="https://applications.example.org/form" locale="en" />,
+    )
 
     expect(
       screen.getByRole('link', { name: /opens an external service/u }).getAttribute('href'),
     ).toBe('https://applications.example.org/form')
-    expect(screen.getByText(/this site does not receive or store application-form data/u)).toBeTruthy()
+    expect(
+      screen.getByText(/this site does not receive or store application-form data/u),
+    ).toBeTruthy()
   })
 })

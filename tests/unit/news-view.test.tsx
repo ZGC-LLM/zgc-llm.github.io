@@ -86,8 +86,12 @@ describe('NewsArticle', () => {
     expect(
       screen.getByRole('link', { name: new RegExp(copy.sourceLinkLabel) }).getAttribute('href'),
     ).toBe(sourceFact.source!.url)
-    expect(container.querySelector(`time[datetime="${sourceFact.source!.publishedAt}"]`)).not.toBeNull()
-    expect(container.querySelector(`time[datetime="${sourceFact.source!.reviewedAt}"]`)).not.toBeNull()
+    expect(
+      container.querySelector(`time[datetime="${sourceFact.source!.publishedAt}"]`),
+    ).not.toBeNull()
+    expect(
+      container.querySelector(`time[datetime="${sourceFact.source!.reviewedAt}"]`),
+    ).not.toBeNull()
   })
 
   it('renders a safe generic HTTPS action and drops unsafe or incomplete actions', () => {
@@ -160,7 +164,8 @@ describe('NewsArticle', () => {
 
     render(<NewsArticle entry={{ ...publishedEntry, facts: [factWithoutPublishedAt] }} />)
 
-    const sourceSection = screen.getByRole('heading', { name: NEWS_PAGE_COPY.zh.sourceTitle })
+    const sourceSection = screen
+      .getByRole('heading', { name: NEWS_PAGE_COPY.zh.sourceTitle })
       .closest('section')!
     expect(sourceSection.querySelectorAll('time')).toHaveLength(1)
     expect(sourceSection.querySelector('time')?.getAttribute('datetime')).toBe(

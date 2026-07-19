@@ -36,6 +36,7 @@ CI 与 Docker 使用 Node.js `22.23.1`，pnpm 固定为 `11.2.2`。`package.json
 pnpm dev
 pnpm typecheck
 pnpm lint
+pnpm format:check
 pnpm test
 pnpm test:coverage
 pnpm build

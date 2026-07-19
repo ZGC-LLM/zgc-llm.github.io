@@ -13,8 +13,12 @@ describe('site footer', () => {
     expect(screen.getByText('中关村自主大模型产业联盟')).toBeTruthy()
     expect(document.body.textContent).not.toMatch(/contact@|ICP备/u)
     expect(document.querySelector('a[href^="mailto:"]')).toBeNull()
-    expect(screen.getByRole('navigation', { name: dict('zh').footer.sectionUnderstand })).toBeTruthy()
-    expect(screen.getByRole('navigation', { name: dict('zh').footer.sectionParticipate })).toBeTruthy()
+    expect(
+      screen.getByRole('navigation', { name: dict('zh').footer.sectionUnderstand }),
+    ).toBeTruthy()
+    expect(
+      screen.getByRole('navigation', { name: dict('zh').footer.sectionParticipate }),
+    ).toBeTruthy()
     expect(screen.getByRole('navigation', { name: dict('zh').footer.sectionMore })).toBeTruthy()
   })
 

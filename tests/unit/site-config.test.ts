@@ -182,28 +182,35 @@ describe('fail-closed application resolution', () => {
   it.each([
     [APPLICATION_ENV.alliance, 'alliance', APPROVED_APPLICATION_URL.alliance],
     [APPLICATION_ENV.program, 'cybersecurity-program', APPROVED_APPLICATION_URL.program],
-    [APPLICATION_ENV.workingGroup, 'cybersecurity-working-group', APPROVED_APPLICATION_URL.workingGroup],
-  ] as const)('enables only %s when its exact env value is present', async (envKey, targetId, url) => {
-    const environment = { [envKey]: url }
-    const { APPLICATION_TARGETS, resolveApplicationTarget, resolveConfiguredApplicationTarget } =
-      await importSiteConfig(environment)
+    [
+      APPLICATION_ENV.workingGroup,
+      'cybersecurity-working-group',
+      APPROVED_APPLICATION_URL.workingGroup,
+    ],
+  ] as const)(
+    'enables only %s when its exact env value is present',
+    async (envKey, targetId, url) => {
+      const environment = { [envKey]: url }
+      const { APPLICATION_TARGETS, resolveApplicationTarget, resolveConfiguredApplicationTarget } =
+        await importSiteConfig(environment)
 
-    expect(resolveConfiguredApplicationTarget(targetId)).toMatchObject({
-      href: url,
-      id: targetId,
-      isAvailable: true,
-      status: 'available',
-    })
-    expect(resolveApplicationTarget(url)).toMatchObject({
-      href: url,
-      id: targetId,
-      isAvailable: true,
-      status: 'available',
-    })
-    for (const [otherId, target] of Object.entries(APPLICATION_TARGETS)) {
-      expect(target.href, otherId).toBe(otherId === targetId ? url : undefined)
-    }
-  })
+      expect(resolveConfiguredApplicationTarget(targetId)).toMatchObject({
+        href: url,
+        id: targetId,
+        isAvailable: true,
+        status: 'available',
+      })
+      expect(resolveApplicationTarget(url)).toMatchObject({
+        href: url,
+        id: targetId,
+        isAvailable: true,
+        status: 'available',
+      })
+      for (const [otherId, target] of Object.entries(APPLICATION_TARGETS)) {
+        expect(target.href, otherId).toBe(otherId === targetId ? url : undefined)
+      }
+    },
+  )
 
   it.each([
     ['', 'missing'],
@@ -236,12 +243,10 @@ describe('fail-closed application resolution', () => {
   })
 
   it('never falls a working group back to the Alliance application target', async () => {
-    const {
-      resolveWorkingGroupApplicationTarget,
-      resolveWorkingGroupApplicationUrl,
-    } = await importSiteConfig({
-      NEXT_PUBLIC_APPLICATION_URL: APPROVED_APPLICATION_URL.alliance,
-    })
+    const { resolveWorkingGroupApplicationTarget, resolveWorkingGroupApplicationUrl } =
+      await importSiteConfig({
+        NEXT_PUBLIC_APPLICATION_URL: APPROVED_APPLICATION_URL.alliance,
+      })
 
     expect(resolveWorkingGroupApplicationTarget({ applicationEnvKey: undefined })).toMatchObject({
       href: undefined,

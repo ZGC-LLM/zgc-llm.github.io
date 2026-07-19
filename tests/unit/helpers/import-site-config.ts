@@ -9,8 +9,7 @@ export const APPLICATION_ENV = {
 export const APPROVED_APPLICATION_URL = {
   alliance: 'https://clouditera.feishu.cn/share/base/form/shrcnlX5daUGxOitSbOOUc1tkBb',
   program: 'https://clouditera.feishu.cn/share/base/form/shrcnXSRHvrWPehplPdvFuB0juc',
-  workingGroup:
-    'https://clouditera.feishu.cn/share/base/form/shrcnzfEuj5Wr8mdtX9aUxnP9LB',
+  workingGroup: 'https://clouditera.feishu.cn/share/base/form/shrcnzfEuj5Wr8mdtX9aUxnP9LB',
 } as const
 
 type SiteEnvironment = Partial<
