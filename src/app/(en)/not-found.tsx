@@ -3,8 +3,8 @@ import type { ReactElement } from 'react'
 
 import { notFoundMetadata, NotFoundView } from '@/components/pages/not-found-view'
 
-export const metadata: Metadata = notFoundMetadata('zh')
+export const metadata: Metadata = notFoundMetadata('en')
 
-export default function NotFound(): ReactElement {
-  return <NotFoundView locale="zh" />
+export default function EnNotFound(): ReactElement {
+  return <NotFoundView locale="en" />
 }
