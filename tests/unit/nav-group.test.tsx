@@ -71,13 +71,15 @@ describe('NavGroup', () => {
     )
   })
 
-  it('marks the title current on nested working-group routes (accepted overlap)', () => {
+  it('does not mark the group title current for a child destination (no duplicate aria-current)', () => {
+    // The group href is /members; a submenu child points at a /working-groups/* route.
+    // Only the item that actually owns the route announces current — the group title must not.
     mockPathname = '/working-groups/cybersecurity/members'
     renderGroup()
 
-    expect(screen.getByRole('button', { name: '成员伙伴' }).getAttribute('aria-current')).toBe(
-      'page',
-    )
+    expect(
+      screen.getByRole('button', { name: '成员伙伴' }).getAttribute('aria-current'),
+    ).toBeNull()
   })
 
   it('renders the title as a navigable link on mobile', () => {

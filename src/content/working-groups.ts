@@ -103,7 +103,7 @@ const WORKING_GROUPS_EN: Readonly<Record<string, WorkingGroupOverlay>> = {
       {
         description:
           'Provides the organisational platform and industry credibility, coordinates resources across parties, reviews build directions and result releases, and takes on the platform and coordination role.',
-        name: 'ZGC Self-Reliant Large Model Industry Alliance',
+        name: 'Zhongguancun Independent Large Model Industry Alliance',
         named: true,
         role: 'Coordination and ecosystem hosting',
       },

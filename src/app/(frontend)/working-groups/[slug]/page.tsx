@@ -318,7 +318,7 @@ export function WorkingGroupOverviewView({
   if (!group) notFound()
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <WorkingGroupOverview group={group} locale={locale} />
     </main>
   )

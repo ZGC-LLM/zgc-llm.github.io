@@ -4,6 +4,14 @@ import type { ValueProposition } from '@/types/content'
 
 // 双语内容：中文权威，英文为初稿（enDraft，待人工校对）。经 getHomeXxx(locale) 访问。
 
+export interface HomeParticipationPath {
+  readonly action: string
+  readonly description: string
+  readonly href: '/join' | '/members' | '/news' | '/working-groups'
+  readonly id: string
+  readonly title: string
+}
+
 const VALUE_PROPOSITIONS: Localized<readonly ValueProposition[]> = {
   en: [
     {
@@ -64,18 +72,67 @@ const DIRECTIONS: Localized<readonly string[]> = {
   ],
 }
 
-const ACTION_SLOGANS: Localized<readonly string[]> = {
+const PARTICIPATION_PATHS: Localized<readonly HomeParticipationPath[]> = {
   en: [
-    'From demonstration agents to production-grade autonomous systems',
-    'From scattered exploration to coordinated effort',
-    'From closed black boxes to transparent and trustworthy systems',
-    'From single-point breakthroughs to long-horizon task deployment',
+    {
+      action: 'Apply to join',
+      description:
+        'Bring your organization into the Alliance and work with partners across the industry.',
+      href: '/join',
+      id: 'alliance-participation',
+      title: 'Join as an organization',
+    },
+    {
+      action: 'Explore working groups',
+      description: 'Individuals and teams can take part in a working group around a specific topic.',
+      href: '/working-groups',
+      id: 'working-groups',
+      title: 'Join a working group',
+    },
+    {
+      action: 'See the members',
+      description: 'See which organizations have already joined the Alliance.',
+      href: '/members',
+      id: 'members',
+      title: 'Who has joined',
+    },
+    {
+      action: 'Read the updates',
+      description: 'Catch up on the latest news, events and progress from the Alliance.',
+      href: '/news',
+      id: 'news',
+      title: 'Latest updates',
+    },
   ],
   zh: [
-    '从示范智能体走向生产级自治系统',
-    '从分散探索走向协同攻坚',
-    '从封闭黑盒走向透明可信',
-    '从单点能力突破走向长程任务落地',
+    {
+      action: '申请加入',
+      description: '让你的机构加入联盟，与产业各方一起协作。',
+      href: '/join',
+      id: 'alliance-participation',
+      title: '机构加入联盟',
+    },
+    {
+      action: '了解工作组',
+      description: '个人和团队都可以围绕具体议题参与工作组。',
+      href: '/working-groups',
+      id: 'working-groups',
+      title: '参与工作组',
+    },
+    {
+      action: '看看成员单位',
+      description: '看看已经加入联盟的机构有哪些。',
+      href: '/members',
+      id: 'members',
+      title: '谁已加入',
+    },
+    {
+      action: '查看最新动态',
+      description: '了解联盟最新的新闻、活动与进展。',
+      href: '/news',
+      id: 'news',
+      title: '最新动态',
+    },
   ],
 }
 
@@ -87,6 +144,6 @@ export function getHomeDirections(locale: Locale): readonly string[] {
   return resolve(DIRECTIONS, locale)
 }
 
-export function getHomeActionSlogans(locale: Locale): readonly string[] {
-  return resolve(ACTION_SLOGANS, locale)
+export function getHomeParticipationPaths(locale: Locale): readonly HomeParticipationPath[] {
+  return resolve(PARTICIPATION_PATHS, locale)
 }

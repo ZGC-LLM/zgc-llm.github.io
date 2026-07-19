@@ -114,7 +114,7 @@ export function CybersecurityView({ locale }: { locale: Locale }): ReactElement 
   const leads = workingGroup ? localizeWorkingGroup(workingGroup, locale).leads : []
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <>

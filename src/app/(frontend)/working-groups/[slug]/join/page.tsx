@@ -107,7 +107,7 @@ const STRINGS: Record<Locale, {
     process: [
       [
         'Submit a cooperation application',
-        'Introduce your (or your institution’s) research direction, technical background and ways to participate via the professional-user Feishu form.',
+        'Introduce your (or your institution’s) research direction, technical background and ways to participate via the professional-user Feishu form. Do not include raw sensitive data, credentials or actionable attack details in the initial submission.',
       ],
       [
         'Communicate & match',
@@ -177,7 +177,10 @@ const STRINGS: Record<Locale, {
     pathsEyebrow: '参与路径',
     pathsTitle: '参与方式',
     process: [
-      ['提交合作申请', '通过专业用户飞书表单介绍您（或所在机构）的研究方向、技术背景与可参与的方式。'],
+      [
+        '提交合作申请',
+        '通过专业用户飞书表单介绍您（或所在机构）的研究方向、技术背景与可参与的方式。初次提交请勿提供原始敏感数据、密钥或可操作攻击细节。',
+      ],
       ['沟通与匹配', '工作组根据公开方向与验证条件，确认适合的参与角色与任务。'],
       ['加入协作', '明确参与边界与授权范围后，正式加入工作组相关议题。'],
     ],
@@ -244,7 +247,7 @@ export function WorkingGroupJoinView({
   const configuredUrl = resolveWorkingGroupApplicationUrl(group)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <ExternalApplicationLink

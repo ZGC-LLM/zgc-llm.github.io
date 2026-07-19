@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { SITE_NAME, SITE_URL } from '@/config/site'
 import { HTML_LANG } from '@/i18n/locales'
 import { siteStructuredData } from '@/lib/structured-data'
-import { JsonLd } from '@/components/site/json-ld'
+import { JsonLd, serializeJsonLd } from '@/components/site/json-ld'
 
 afterEach(cleanup)
 
@@ -49,6 +49,33 @@ describe('JsonLd', () => {
     const { container } = render(<JsonLd data={data} />)
 
     const script = container.querySelector('script[type="application/ld+json"]')
-    expect(script?.textContent).toBe(JSON.stringify(data))
+    expect(script?.textContent).toBe(serializeJsonLd(data))
+  })
+})
+
+describe('serializeJsonLd', () => {
+  it('escapes the </script> HTML sentinel so it cannot break out of the script block', () => {
+    const serialized = serializeJsonLd({ '@type': 'Article', body: 'x</script><script>alert(1)' })
+
+    expect(serialized).not.toContain('</script>')
+    expect(serialized).not.toContain('<script>')
+    expect(serialized).toContain('\\u003c')
+    expect(serialized).toContain('\\u003e')
+  })
+
+  it('escapes ampersands and the U+2028/U+2029 line separators', () => {
+    const serialized = serializeJsonLd({ '@type': 'Article', body: 'a & b\u2028c\u2029d' })
+
+    expect(serialized).toContain('\\u0026')
+    expect(serialized).toContain('\\u2028')
+    expect(serialized).toContain('\\u2029')
+    expect(serialized).not.toContain('\u2028')
+    expect(serialized).not.toContain('\u2029')
+  })
+
+  it('round-trips back to the original data after JSON.parse', () => {
+    const data = { '@type': 'Article', body: 'x</script> & y\u2028z' }
+
+    expect(JSON.parse(serializeJsonLd(data))).toEqual(data)
   })
 })

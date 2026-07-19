@@ -3,7 +3,11 @@ import type { ReactElement } from 'react'
 
 import { SectionHeading } from '@/components/site/section-heading'
 import { SITE_NAME } from '@/config/site'
-import { getHomeActionSlogans, getHomeDirections, getHomeValuePropositions } from '@/content/home'
+import {
+  getHomeDirections,
+  getHomeParticipationPaths,
+  getHomeValuePropositions,
+} from '@/content/home'
 import { MEMBERS } from '@/content/members'
 import { getPublishedNews } from '@/content/news'
 import type { Locale } from '@/i18n/locales'
@@ -27,9 +31,9 @@ interface HomeStrings {
   directionsEyebrow: string
   directionsTitle: string
   directionsDescription: string
-  actionEyebrow: string
-  actionTitle: string
-  actionDescription: string
+  participationEyebrow: string
+  participationTitle: string
+  participationDescription: string
   cyberEyebrow: string
   cyberTitle: string
   cyberBody: string
@@ -54,10 +58,10 @@ interface HomeStrings {
 
 const STRINGS: Record<Locale, HomeStrings> = {
   en: {
-    actionDescription:
-      'Along a clear path, moving the Alliance from capability building toward industrial value.',
-    actionEyebrow: 'Action Path',
-    actionTitle: 'A sustained leap from capability to ecosystem',
+    participationDescription:
+      'Organizations can apply to join, and individuals can take part in a working group. You can also start by browsing members and the latest updates.',
+    participationEyebrow: 'Get involved',
+    participationTitle: 'Find the way that fits you',
     cyberAction: 'Explore the cybersecurity ecosystem',
     cyberBody:
       'The Alliance hosts a Cybersecurity Working Group focused on security-oriented large models and cybersecurity agents, connecting professional users, real scenarios, in-depth tasks and capability validation to keep advancing priority projects.',
@@ -108,9 +112,9 @@ const STRINGS: Record<Locale, HomeStrings> = {
     valueTitle: 'An open, secure and collaborative industry ecosystem',
   },
   zh: {
-    actionDescription: '沿清晰路径，推动联盟从能力建设走向产业价值。',
-    actionEyebrow: '行动路径',
-    actionTitle: '从能力到生态的持续跃迁',
+    participationDescription: '机构可申请加入联盟，个人可参与工作组；也可以先看看成员单位和最新动态。',
+    participationEyebrow: '参与我们',
+    participationTitle: '找到适合你的方式',
     cyberAction: '了解网络安全生态',
     cyberBody:
       '联盟下设网络安全工作组，聚焦安全大模型与网络安全智能体，连接专业用户、真实场景、深度任务与能力验证，持续推进重点项目落地。',
@@ -157,7 +161,7 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
   const publishedNews = getPublishedNews()
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <section className="hero page-hero">
         <div className="container hero__inner">
           <div>
@@ -165,11 +169,11 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
             <h1>{t.heroTitle}</h1>
             <p className="hero__lead">{t.heroLead}</p>
             <div className="hero__cta">
-              <Link className="btn btn--primary" href={localizePath('/join', locale)}>
-                {t.heroCta}
-              </Link>
               <Link className="btn btn--ghost" href={localizePath('/working-groups', locale)}>
                 {t.heroWorkingGroupCta}
+              </Link>
+              <Link className="btn btn--primary" href={localizePath('/join', locale)}>
+                {t.heroCta}
               </Link>
             </div>
           </div>
@@ -241,14 +245,18 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
       <section className="block">
         <div className="container">
           <SectionHeading
-            description={t.actionDescription}
-            eyebrow={t.actionEyebrow}
-            title={t.actionTitle}
+            description={t.participationDescription}
+            eyebrow={t.participationEyebrow}
+            title={t.participationTitle}
           />
           <div className="grid-4">
-            {getHomeActionSlogans(locale).map((slogan) => (
-              <article className="card" key={slogan}>
-                <b>{slogan}</b>
+            {getHomeParticipationPaths(locale).map((path) => (
+              <article className="card" key={path.id}>
+                <h3>{path.title}</h3>
+                <p>{path.description}</p>
+                <Link className="text-link mt-4" href={localizePath(path.href, locale)}>
+                  {path.action}
+                </Link>
               </article>
             ))}
           </div>

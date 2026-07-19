@@ -1333,11 +1333,19 @@ section.block {
   gap: 32px;
 }
 
-.footer h4 {
+.footer h4,
+.footer__heading {
   font-size: 13px;
   font-weight: 600;
   color: #fff;
   margin: 0 0 14px;
+}
+
+/* 语义化页脚导航：ul 列表还原为与旧版 <br> 堆叠一致的外观 */
+.footer__links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .footer a,

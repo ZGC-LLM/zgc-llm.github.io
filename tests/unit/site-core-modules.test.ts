@@ -66,7 +66,7 @@ describe('getWorkingGroupMembers', () => {
 
   it('localizes the publicly authorised cybersecurity partners', () => {
     expect(getWorkingGroupMembers('cybersecurity', 'en').map(({ name }) => name)).toEqual([
-      'ZGC Self-Reliant Large Model Industry Alliance',
+      'Zhongguancun Independent Large Model Industry Alliance',
       'Zhipu',
       'Tsinghua University',
       'Datainsecurity',

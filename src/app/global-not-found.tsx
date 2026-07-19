@@ -35,7 +35,7 @@ export default function GlobalNotFound(): ReactElement {
           跳到主要内容
         </a>
         <SiteHeader locale="zh" />
-        <main className="site-container" id="main-content">
+        <main className="site-container" id="main-content" tabIndex={-1}>
           <div className="notfound">
             <p className="eyebrow">404</p>
             <h1>页面未找到</h1>

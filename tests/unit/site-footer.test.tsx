@@ -14,10 +14,10 @@ describe('site footer', () => {
     const contactLink = screen.getByRole('link', { name: 'contact@zgc-llm.org.cn' })
     expect(contactLink.getAttribute('href')).toBe('mailto:contact@zgc-llm.org.cn')
 
-    const icpLink = screen.getByRole('link', { name: '京ICP备2025000000号-1' })
-    expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
-    expect(icpLink.getAttribute('target')).toBe('_blank')
-    expect(icpLink.getAttribute('rel')).toBe('noreferrer')
+    // The placeholder ICP filing number is intentionally absent until a real
+    // filing is issued; no beian.miit.gov.cn link should render.
+    expect(screen.queryByRole('link', { name: /京ICP备/ })).toBeNull()
+    expect(document.body.textContent).not.toMatch(/beian\.miit\.gov\.cn/)
   })
 
   it('localizes navigation links under /en for the English locale', () => {

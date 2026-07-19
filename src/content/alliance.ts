@@ -12,7 +12,7 @@ const MISSION: Localized<string> = {
 
 const INTRO: Localized<readonly string[]> = {
   en: [
-    'The Zhongguancun Self-Reliant Large Model Industry Alliance was established under the guidance of the relevant authorities. Guided by the principles of independent innovation, open collaboration, security and trustworthiness, and joint industry development, it connects the strengths of models, chips, computing power, data, platforms and industry applications to help build an internationally competitive self-reliant large-model industry ecosystem.',
+    'The Zhongguancun Independent Large Model Industry Alliance was established under the guidance of the relevant authorities. Guided by the principles of independent innovation, open collaboration, security and trustworthiness, and joint industry development, it connects the strengths of models, chips, computing power, data, platforms and industry applications to help build an internationally competitive self-reliant large-model industry ecosystem.',
     'The Alliance invests continuously in frontier directions such as long-horizon tasks and autonomous-agent systems, moving large-model capabilities from single-turn demonstrations toward sustainable production environments. It also places great emphasis on the convergence of large models and cybersecurity — building, around security-oriented large models, cybersecurity agents, professional data, capability evaluation and real-world applications, a self-reliant, trustworthy and reliable large-model security capability system that evolves from black-box toward transparent, interpretable systems.',
   ],
   zh: [

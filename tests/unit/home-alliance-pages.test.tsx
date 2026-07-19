@@ -47,6 +47,21 @@ describe('home page', () => {
     expect(document.body.textContent).not.toMatch(/项目初始化|进入内容后台|管理后台/)
   })
 
+  it('renders the participation paths as actionable links, not dead slogans', () => {
+    render(<HomePage />)
+
+    // The four participation cards each link to a real destination.
+    expect(screen.getByRole('link', { name: '申请加入' }).getAttribute('href')).toBe('/join')
+    expect(screen.getByRole('link', { name: '了解工作组' }).getAttribute('href')).toBe(
+      '/working-groups',
+    )
+    expect(screen.getByRole('link', { name: '看看成员单位' }).getAttribute('href')).toBe('/members')
+    expect(screen.getByRole('link', { name: '查看最新动态' }).getAttribute('href')).toBe('/news')
+
+    // The old static slogans must be gone.
+    expect(document.body.textContent).not.toMatch(/从示范智能体走向生产级自治系统/)
+  })
+
   it('defines page-specific metadata', () => {
     expect(homeMetadata.title).toEqual({ absolute: '首页｜中关村自主大模型产业联盟' })
     expect(homeMetadata.description).toMatch(/产业生态/)

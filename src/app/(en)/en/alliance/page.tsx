@@ -8,7 +8,7 @@ import { buildAlternates } from '@/i18n/routing'
 export const metadata: Metadata = {
   alternates: buildAlternates('/alliance', 'en'),
   description:
-    'Learn about the Zhongguancun Self-Reliant Large Model Industry Alliance — its purpose, overview, shared values and collaboration mechanisms.',
+    'Learn about the Zhongguancun Independent Large Model Industry Alliance — its purpose, overview, shared values and collaboration mechanisms.',
   title: 'About the Alliance',
 }
 
