@@ -59,9 +59,9 @@ interface HomeStrings {
 const STRINGS: Record<Locale, HomeStrings> = {
   en: {
     participationDescription:
-      'Review the participation guidance and current availability, then choose the relevant Alliance or working-group path.',
-    participationEyebrow: 'Ways to participate',
-    participationTitle: 'Clear entry points for participation',
+      'Organizations can apply to join, and individuals can take part in a working group. You can also start by browsing members and the latest updates.',
+    participationEyebrow: 'Get involved',
+    participationTitle: 'Find the way that fits you',
     cyberAction: 'Explore the cybersecurity ecosystem',
     cyberBody:
       'The Alliance hosts a Cybersecurity Working Group focused on security-oriented large models and cybersecurity agents, connecting professional users, real scenarios, in-depth tasks and capability validation to keep advancing priority projects.',
@@ -112,9 +112,9 @@ const STRINGS: Record<Locale, HomeStrings> = {
     valueTitle: 'An open, secure and collaborative industry ecosystem',
   },
   zh: {
-    participationDescription: '了解参与说明与当前入口状态，选择合适的联盟或工作组路径。',
-    participationEyebrow: '参与路径',
-    participationTitle: '清晰的参与入口',
+    participationDescription: '机构可申请加入联盟，个人可参与工作组；也可以先看看成员单位和最新动态。',
+    participationEyebrow: '参与我们',
+    participationTitle: '找到适合你的方式',
     cyberAction: '了解网络安全生态',
     cyberBody:
       '联盟下设网络安全工作组，聚焦安全大模型与网络安全智能体，连接专业用户、真实场景、深度任务与能力验证，持续推进重点项目落地。',

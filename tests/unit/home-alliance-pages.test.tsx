@@ -51,12 +51,12 @@ describe('home page', () => {
     render(<HomePage />)
 
     // The four participation cards each link to a real destination.
-    expect(screen.getByRole('link', { name: '查看参与方式' }).getAttribute('href')).toBe('/join')
-    expect(screen.getByRole('link', { name: '查看工作组' }).getAttribute('href')).toBe(
+    expect(screen.getByRole('link', { name: '申请加入' }).getAttribute('href')).toBe('/join')
+    expect(screen.getByRole('link', { name: '了解工作组' }).getAttribute('href')).toBe(
       '/working-groups',
     )
-    expect(screen.getByRole('link', { name: '查看成员信息' }).getAttribute('href')).toBe('/members')
-    expect(screen.getByRole('link', { name: '查看联盟动态' }).getAttribute('href')).toBe('/news')
+    expect(screen.getByRole('link', { name: '看看成员单位' }).getAttribute('href')).toBe('/members')
+    expect(screen.getByRole('link', { name: '查看最新动态' }).getAttribute('href')).toBe('/news')
 
     // The old static slogans must be gone.
     expect(document.body.textContent).not.toMatch(/从示范智能体走向生产级自治系统/)
