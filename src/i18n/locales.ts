@@ -10,12 +10,6 @@ export const HTML_LANG: Readonly<Record<Locale, string>> = {
   zh: 'zh-CN',
 }
 
-/** hreflang values are kept separate from internal locale keys. */
-export const HREF_LANG: Readonly<Record<Locale, string>> = {
-  en: 'en',
-  zh: 'zh-CN',
-}
-
 export function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value)
 }

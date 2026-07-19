@@ -2,24 +2,22 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { SiteFooter } from '@/components/site/site-footer'
-import { dict } from '@/i18n/dictionary'
 
 afterEach(cleanup)
 
 describe('site footer', () => {
-  it('renders only verified brand and navigation information', () => {
+  it('renders the alliance brand, contact email on the canonical domain, and legal links', () => {
     render(<SiteFooter locale="zh" />)
 
     expect(screen.getByText('中关村自主大模型产业联盟')).toBeTruthy()
-    expect(document.body.textContent).not.toMatch(/contact@|ICP备/u)
-    expect(document.querySelector('a[href^="mailto:"]')).toBeNull()
-    expect(
-      screen.getByRole('navigation', { name: dict('zh').footer.sectionUnderstand }),
-    ).toBeTruthy()
-    expect(
-      screen.getByRole('navigation', { name: dict('zh').footer.sectionParticipate }),
-    ).toBeTruthy()
-    expect(screen.getByRole('navigation', { name: dict('zh').footer.sectionMore })).toBeTruthy()
+
+    const contactLink = screen.getByRole('link', { name: 'contact@zgc-llm.org.cn' })
+    expect(contactLink.getAttribute('href')).toBe('mailto:contact@zgc-llm.org.cn')
+
+    const icpLink = screen.getByRole('link', { name: '京ICP备2025000000号-1' })
+    expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
+    expect(icpLink.getAttribute('target')).toBe('_blank')
+    expect(icpLink.getAttribute('rel')).toBe('noreferrer')
   })
 
   it('localizes navigation links under /en for the English locale', () => {

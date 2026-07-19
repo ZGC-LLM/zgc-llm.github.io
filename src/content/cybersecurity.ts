@@ -2,250 +2,164 @@ import { resolve, type Localized } from '@/i18n/localized'
 import type { Locale } from '@/i18n/locales'
 import type { CybersecurityEcosystem } from '@/types/content'
 
-export interface CybersecurityPageContent extends CybersecurityEcosystem {
-  actionsDescription: string
-  actionsEyebrow: string
-  actionsTitle: string
-  contributionDescription: string
-  contributionEyebrow: string
-  contributionTitle: string
-  cycleDescription: string
-  cycleEyebrow: string
-  cycleTitle: string
-  detailCta: string
-  governanceBody: string
-  governanceEyebrow: string
-  governanceTitle: string
-  heroEyebrow: string
-  joinCta: string
-  metadataDescription: string
-  organizationBody: string
-  organizationEyebrow: string
-  organizationTitle: string
-  principlesLabel: string
-  resourcesDescription: string
-  resourcesEyebrow: string
-  resourcesTitle: string
-}
-
-const CYBERSECURITY_CONTENT: Localized<CybersecurityPageContent> = {
+// 双语内容：中文权威，英文为初稿（enDraft，待人工校对）。经 getCybersecurityEcosystem(locale) 访问。
+const ECOSYSTEM: Localized<CybersecurityEcosystem> = {
   en: {
     actions: [
       {
         description:
-          'Discuss methods for evaluating capability, risk, robustness and appropriate-use boundaries.',
-        title: 'Model and agent evaluation',
+          'As the entry point for professional users, upgrade one-off benefit campaigns into a long-term user network: application review, benefit distribution, needs collection, tiered operations and accumulation of outstanding cases.',
+        title: 'Run the Cybersecurity Professionals Open Program on an ongoing basis',
       },
       {
         description:
-          'Discuss reproducible tasks, controlled environments, adjudication methods and review mechanisms.',
-        title: 'Task and environment design',
+          'Open applications to security enterprises, labs, universities and professional researchers, offering closed-door exchange, benchmark/cyber-range testing, enterprise-grade model access and joint result releases.',
+        title: 'Launch the cybersecurity ecosystem co-building program',
       },
       {
         description:
-          'Discuss validation needs for tools, products and business scenarios within a clearly defined scope.',
-        title: 'Scenario validation and adaptation',
+          'Around real offense-defense, competition tasks, cyber mapping and dynamic ranges, build structured tasks for long-horizon work: task definition, environment tools, agent execution traces, decision processes, result adjudication and expert review — moving agents from demonstration to production.',
+        title: 'Build an in-depth data and task system',
       },
       {
         description:
-          'Exchange research experience and confirm authorization, sensitive-information and risk boundaries before publication.',
-        title: 'Research exchange and publication review',
+          'Around the needs of the cybersecurity industry, establish model validation and application mechanisms: trusted closed testing, professional validation and product-scenario deployment.',
+        title: 'Establish validation and application mechanisms for the cybersecurity industry',
       },
     ],
-    actionsDescription:
-      'Whether a topic proceeds, who participates and what it produces all require separate confirmation.',
-    actionsEyebrow: 'Topic Areas',
-    actionsTitle: 'Possible collaboration topics',
     contribution: [
-      'Topic proposals',
-      'Evaluation methods',
-      'Test environments',
-      'Appropriately authorized task materials',
-      'Professional feedback',
-      'Tool and product adaptation',
-      'Application scenarios',
-      'Research exchange',
+      'Authorized desensitized data',
+      'Real offense-defense tasks',
+      'Ranges and competitions',
+      'Vulnerability environments',
+      'Expert labeling and review',
+      'New-model test feedback',
+      'Security product integration',
+      'Real business scenarios',
+      'Domestic software and open-source security',
     ],
-    contributionDescription:
-      'You may express interest through one or more contribution types. The final scope depends on confirmation.',
-    contributionEyebrow: 'Participation',
-    contributionTitle: 'Possible contributions',
     cycle: [
-      'Topic definition',
-      'Professional evaluation',
-      'Scenario validation',
-      'Knowledge capture',
-      'Capability improvement',
-      'Public exchange',
+      'Model release',
+      'Professional validation',
+      'Scenario deployment',
+      'Data accumulation',
+      'Model enhancement',
+      'Industry promotion',
     ],
-    cycleDescription:
-      'Each topic may use the stages it needs, with goals, authorization and output boundaries confirmed at every step.',
-    cycleEyebrow: 'Collaboration Framework',
-    cycleTitle: 'Reference stages for collaboration',
-    detailCta: 'Explore the working group',
-    governanceBody:
-      'Collaboration should proceed in accordance with applicable requirements, with authorization confirmation, risk assessment and publication review where the topic requires them.',
     governanceBoundaries: [
-      'Discuss or use data, tasks and environments only where lawful source, necessary authorization and clear scope are established.',
-      'Do not publicly disclose sensitive materials, credentials, personal information or actionable attack details.',
-      'Information intended for publication requires confirmation by the relevant participants and any necessary compliance and risk review.',
+      'No disclosure of unauthorized sensitive materials or data; partners are not required to hand over raw data.',
+      'No disclosure of high-risk capabilities or actionable attack details.',
+      'Data compliance and public release of results require governance review and authorization confirmation.',
     ],
-    governanceEyebrow: 'Responsible Collaboration',
-    governanceTitle: 'Governance boundaries',
-    heroEyebrow: 'Cybersecurity Topic',
-    joinCta: 'See how to contribute',
-    metadataDescription:
-      'Explore collaboration stages, resources, topics and governance for large models and agents in cybersecurity, with links to the Cybersecurity Working Group.',
-    openPrinciples: [
-      'Vendor-neutral',
-      'Clear boundaries',
-      'Governable security',
-      'Careful disclosure',
-    ],
-    organizationBody:
-      'The Cybersecurity Working Group publishes the detailed scope, collaboration roles and participation guidance. Organizations and individual professionals may express interest in the published areas. Eligibility, topics, roles and arrangements depend on confirmation by the working group.',
-    organizationEyebrow: 'Organization and Participation',
-    organizationTitle: 'Continue with the Cybersecurity Working Group',
-    principlesLabel: 'Collaboration principles',
+    openPrinciples: ['Vendor-neutral', 'Equal participation', 'Governable security', 'Continuous evolution'],
     resources: [
       {
         description:
-          'Models, interfaces, tools and engineering experience that may support evaluation and adaptation discussions.',
-        title: 'Models and engineering',
-      },
-      {
-        description: 'Research methods, benchmark design, review mechanisms and risk analysis.',
-        title: 'Research and evaluation methods',
+          'Connecting self-reliant large models, APIs, tokens, computing resources and dedicated technical support.',
+        title: 'Models and computing power',
       },
       {
         description:
-          'Tasks, environments and business scenarios that may be discussed after rights and authorization scope are clear.',
-        title: 'Appropriately authorized tasks and scenarios',
+          'Connecting university labs and expert teams to build benchmarks, dynamic ranges and real-task evaluation systems.',
+        title: 'Academia and evaluation',
       },
       {
         description:
-          'Organizational representatives and individual professionals from research, engineering, security operations and application teams.',
-        title: 'Professional participants',
+          'Connecting security enterprises, competitions, ranges, open-source communities and offense-defense teams to form a continuous source of real tasks and in-depth data.',
+        title: 'Data and tasks',
       },
       {
         description:
-          'Products and controlled environments for capability validation, tool adaptation or scenario testing.',
-        title: 'Products and validation environments',
+          'Connecting security researchers, offense-defense teams, university faculty and students, and professional developers into a stable testing, feedback and co-creation network.',
+        title: 'Professional talent',
       },
       {
         description:
-          'Discussion and content channels for information confirmed as suitable for public disclosure.',
-        title: 'Public exchange channels',
+          'Connecting security products, enterprise business, domestic software and key industries to bring model capabilities into real business scenarios.',
+        title: 'Industry scenarios',
+      },
+      {
+        description:
+          'Connecting model release channels, industry media, professional communities and result platforms to promote and deploy new model capabilities professionally for the cybersecurity industry.',
+        title: 'Release and outreach',
       },
     ],
-    resourcesDescription:
-      'These are resource types that may be relevant. They do not imply that the Alliance has committed to provide them or already covers every category.',
-    resourcesEyebrow: 'Possible Resources',
-    resourcesTitle: 'Resources that may support collaboration',
     summary:
-      'This topic connects professional participants, task scenarios and evaluation methods for research, validation and application of large models and agents in cybersecurity. This page explains the collaboration framework and governance boundaries. The Cybersecurity Working Group publishes the detailed scope and participation guidance.',
-    title: 'Cybersecurity Ecosystem Collaboration',
+      'Leveraging the Alliance to connect professional users, real scenarios, in-depth data, capability evaluation and industry deployment, continuously moving agents from demonstration to production and jointly building a vendor-neutral, governable and continuously evolving self-reliant cybersecurity large-model ecosystem.',
+    title: 'Cybersecurity Ecosystem',
   },
   zh: {
+    cycle: ['模型发布', '专业验证', '场景落地', '数据沉淀', '模型增强', '行业推广'],
+    resources: [
+      { description: '连接自主大模型、API、Token、算力资源与专项技术支持。', title: '模型与算力' },
+      {
+        description: '连接高校实验室与专家团队，建设 Benchmark、动态靶场与真实任务评测体系。',
+        title: '学术与评测',
+      },
+      {
+        description: '连接安全企业、赛事、靶场、开源社区与攻防团队，形成持续的真实任务与深度数据来源。',
+        title: '数据与任务',
+      },
+      {
+        description: '连接安全研究员、攻防团队、高校师生与专业开发者，形成稳定的测试、反馈与共创网络。',
+        title: '专业人才',
+      },
+      {
+        description: '连接安全产品、企业业务、国产软件与重点行业，推动模型能力进入真实业务场景。',
+        title: '产业场景',
+      },
+      {
+        description: '连接模型发布渠道、行业媒体、专业社区与成果平台，推动新模型能力面向网络安全行业专业传播与落地。',
+        title: '发布与传播',
+      },
+    ],
     actions: [
       {
-        description: '讨论能力、风险、鲁棒性与适用边界的评测方法。',
-        title: '模型与智能体评测',
+        description:
+          '作为专业用户入口，将一次性权益活动升级为长期用户网络：申请审核、权益发放、需求收集、分层运营与优秀案例沉淀。',
+        title: '持续运营网络安全人员开放计划',
       },
       {
-        description: '讨论可复现任务、受控环境、判定方法与复核机制。',
-        title: '任务与环境设计',
+        description:
+          '面向安全企业、实验室、高校与专业研究人员开放申请，提供闭门交流、Benchmark/靶场测试、企业级模型接入与联合成果发布。',
+        title: '发布网络安全生态共建计划',
       },
       {
-        description: '在范围明确的前提下，讨论工具、产品与业务场景的验证需求。',
-        title: '场景验证与适配',
+        description:
+          '围绕真实攻防、赛事任务、网络测绘与动态靶场，面向长程任务建设结构化任务：任务定义、环境工具、Agent 执行轨迹、决策过程、结果判定与专家复核，推动智能体从示范走向生产环境。',
+        title: '建设深度数据与任务体系',
       },
       {
-        description: '交流研究经验，并在公开前确认授权、敏感信息和风险边界。',
-        title: '研究交流与发布审查',
+        description: '围绕网络安全行业需求，建立模型验证与应用机制：可信内测、专业验证与产品场景落地。',
+        title: '建立面向网络安全行业的验证与应用机制',
       },
     ],
-    actionsDescription: '具体议题是否启动、由谁参与以及形成何种输出，均需另行确认。',
-    actionsEyebrow: '协作议题',
-    actionsTitle: '可讨论的协作议题',
     contribution: [
-      '议题建议',
-      '评测方法',
-      '测试环境',
-      '经授权的任务素材',
-      '专业反馈',
-      '工具与产品适配',
-      '应用场景',
-      '研究交流',
+      '授权脱敏数据',
+      '真实攻防任务',
+      '靶场与赛事',
+      '漏洞环境',
+      '专家标注与复核',
+      '新模型测试反馈',
+      '安全产品接入',
+      '真实业务场景',
+      '国产软件与开源安全',
     ],
-    contributionDescription: '可从一种或多种方式表达合作意向，最终范围以确认结果为准。',
-    contributionEyebrow: '参与资源',
-    contributionTitle: '可以提出的参与资源',
-    cycle: ['议题提出', '专业评测', '场景验证', '经验沉淀', '能力改进', '公开交流'],
-    cycleDescription: '不同议题可按实际需要选择环节，并在每一步确认目标、授权和输出边界。',
-    cycleEyebrow: '协作框架',
-    cycleTitle: '协作参考环节',
-    detailCta: '查看网络安全工作组',
-    governanceBody: '相关协作应依法依规推进，并根据议题需要完成授权确认、风险评估和公开审查。',
     governanceBoundaries: [
-      '仅在具备合法来源、必要授权与明确范围时讨论或使用数据、任务和环境。',
-      '不公开敏感材料、密钥、个人信息或可操作攻击细节。',
-      '拟公开信息需经相关参与方确认，并完成必要的合规与风险审查。',
+      '不披露未经授权的敏感材料与数据；伙伴不被强制交付原始数据。',
+      '不公开高风险能力或可操作的攻击细节。',
+      '数据合规与成果公开需经治理评审与授权确认。',
     ],
-    governanceEyebrow: '责任治理',
-    governanceTitle: '治理边界',
-    heroEyebrow: '网络安全专题',
-    joinCta: '查看参与方式',
-    metadataDescription:
-      '介绍大模型与智能体网络安全协作的参考环节、可连接资源、议题方向与治理边界，并引导至网络安全工作组。',
-    openPrinciples: ['厂商中立', '边界清楚', '安全可治理', '审慎公开'],
-    organizationBody:
-      '网络安全工作组发布具体工作范围、协作角色和参与指引。机构与个人专业人士可根据公开方向提出合作意向，具体资格、议题、角色和安排以工作组确认信息为准。',
-    organizationEyebrow: '组织与参与',
-    organizationTitle: '前往网络安全工作组继续了解',
-    principlesLabel: '协作原则',
-    resources: [
-      {
-        description: '模型、接口、工具与工程经验，可用于讨论评测和适配需求。',
-        title: '模型与工程能力',
-      },
-      {
-        description: '研究方法、基准设计、复核机制与风险分析。',
-        title: '研究与评测方法',
-      },
-      {
-        description: '在权利基础和授权范围明确后，可讨论的任务、环境与业务场景。',
-        title: '经授权的任务与场景',
-      },
-      {
-        description: '来自研究、工程、安全运营与应用侧的机构代表和个人专业人士。',
-        title: '专业参与者',
-      },
-      {
-        description: '用于能力验证、工具适配或场景测试的产品与受控环境。',
-        title: '产品与验证环境',
-      },
-      {
-        description: '用于交流经确认、可公开信息的研讨与内容渠道。',
-        title: '公开交流渠道',
-      },
-    ],
-    resourcesDescription: '以下是协作中可能涉及的资源类型，不代表联盟已承诺提供或已覆盖全部资源。',
-    resourcesEyebrow: '协作资源',
-    resourcesTitle: '可连接的协作资源',
+    openPrinciples: ['厂商中立', '对等参与', '安全可治理', '持续演进'],
     summary:
-      '围绕大模型与智能体在网络安全场景中的研究、验证和应用，连接专业参与者、任务场景与评测方法。本页介绍协作框架与治理边界；具体工作范围和参与方式请前往网络安全工作组。',
-    title: '网络安全生态协作',
+      '依托联盟连接专业用户、真实场景、深度数据、能力评测与产业落地，持续推动智能体从示范走向生产环境，共建厂商中立、安全可治理、可持续演进的自主网络安全大模型生态。',
+    title: '网络安全生态',
   },
-}
-
-export function getCybersecurityPageContent(locale: Locale): CybersecurityPageContent {
-  return resolve(CYBERSECURITY_CONTENT, locale)
 }
 
 export function getCybersecurityEcosystem(locale: Locale): CybersecurityEcosystem {
-  return getCybersecurityPageContent(locale)
+  return resolve(ECOSYSTEM, locale)
 }
 
 /** 中文权威常量：向后兼容既有引用与单测。 */
-export const CYBERSECURITY_ECOSYSTEM: CybersecurityEcosystem = CYBERSECURITY_CONTENT.zh
+export const CYBERSECURITY_ECOSYSTEM: CybersecurityEcosystem = ECOSYSTEM.zh

@@ -26,9 +26,7 @@ export async function generateMetadata({ params }: EnNewsDetailProps): Promise<M
   return createNewsMetadata(entry, 'en')
 }
 
-export default async function EnNewsDetailPage({
-  params,
-}: EnNewsDetailProps): Promise<ReactElement> {
+export default async function EnNewsDetailPage({ params }: EnNewsDetailProps): Promise<ReactElement> {
   const { slug } = await params
   const entry = getPublishedNewsBySlug(slug)
 

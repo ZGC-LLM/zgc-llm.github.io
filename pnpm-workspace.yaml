@@ -3,8 +3,3 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   workerd: true
-
-# Next 16.2.6 pins vulnerable postcss@8.4.31. Keep this narrowly scoped
-# compatibility override until Next carries postcss >=8.5.10 itself.
-overrides:
-  postcss: 8.5.10
