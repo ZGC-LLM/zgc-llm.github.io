@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: EnPageProps): Promise<Metadat
   return createWorkingGroupJoinMetadata(group, 'en')
 }
 
-export default async function EnWorkingGroupJoinPage({ params }: EnPageProps): Promise<ReactElement> {
+export default async function EnWorkingGroupJoinPage({
+  params,
+}: EnPageProps): Promise<ReactElement> {
   const { slug } = await params
 
   return <WorkingGroupJoinView locale="en" slug={slug} />

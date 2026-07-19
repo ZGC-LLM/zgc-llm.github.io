@@ -21,10 +21,16 @@ export function LanguageToggle({ locale }: { locale: Locale }): ReactElement {
   const zhPath = raw === '/en' ? '/' : raw.startsWith('/en/') ? raw.slice(3) : raw
   const otherLocale: Locale = locale === 'zh' ? 'en' : 'zh'
   const targetHref = localizePath(zhPath, otherLocale)
+  const targetLanguage = otherLocale === 'en' ? 'English' : '中文'
 
   return (
     <span className="language-toggle">
-      <Link aria-label={t.label} className="toggle toggle--seg" href={targetHref}>
+      <Link
+        aria-label={`${t.label}: ${targetLanguage}`}
+        className="toggle toggle--seg"
+        href={targetHref}
+        hrefLang={otherLocale === 'zh' ? 'zh-CN' : 'en'}
+      >
         <svg
           aria-hidden="true"
           className="toggle__globe"
@@ -41,8 +47,12 @@ export function LanguageToggle({ locale }: { locale: Locale }): ReactElement {
           <line x1="2" x2="22" y1="12" y2="12" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z" />
         </svg>
-        <span className={locale === 'zh' ? 'on' : undefined}>{t.zh}</span>
-        <span className={locale === 'en' ? 'on' : undefined}>{t.en}</span>
+        <span aria-hidden="true" className={locale === 'zh' ? 'on' : undefined} lang="zh-CN">
+          {t.zh}
+        </span>
+        <span aria-hidden="true" className={locale === 'en' ? 'on' : undefined} lang="en">
+          {t.en}
+        </span>
       </Link>
     </span>
   )

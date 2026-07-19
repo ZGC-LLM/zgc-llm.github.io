@@ -1,37 +1,38 @@
-import Link from 'next/link'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
 
+import { ExternalApplicationLink } from '@/components/site/external-application-link'
 import { JsonLd } from '@/components/site/json-ld'
 import { PageHero } from '@/components/site/page-hero'
-import { isSafeExternalUrl, SITE_NAME, SITE_URL } from '@/config/site'
+import { isSafeExternalUrl, resolveConfiguredApplicationTarget } from '@/config/site'
 import {
+  formatNewsDate,
+  getNewsSources,
+  getNewsStatus,
   getPublishedNews,
   getPublishedNewsBySlug,
-  localizeNewsEntry,
+  localizeNewsEntryWithStatus,
   NEWS_ENTRIES,
+  NEWS_PAGE_COPY,
 } from '@/content/news'
-import { HTML_LANG, type Locale } from '@/i18n/locales'
-import { buildAlternates, localizePath } from '@/i18n/routing'
+import type { Locale } from '@/i18n/locales'
+import { buildPageMetadata, localizePath } from '@/i18n/routing'
+import { articleStructuredData } from '@/lib/structured-data'
 import type { ContentBlock, NewsEntry } from '@/types/content'
 
 interface NewsDetailPageProps {
   params: Promise<{ slug: string }>
 }
 
-// 仅预渲染 generateStaticParams 返回的 slug；未知 slug 一律 404。
-export const dynamicParams = false
-
 interface NewsArticleProps {
   entry: NewsEntry
   locale?: Locale
 }
 
-const DETAIL_STRINGS: Record<Locale, { publishedLabel: string; back: string }> = {
-  en: { back: '← Back to news', publishedLabel: 'Published: ' },
-  zh: { back: '← 返回新闻中心', publishedLabel: '发布日期：' },
-}
+// Only reviewed, published records are emitted into the static route graph.
+export const dynamicParams = false
 
 export function createNewsStaticParams(entries: readonly NewsEntry[]): { slug: string }[] {
   return getPublishedNews(entries).map((entry) => ({ slug: entry.slug }))
@@ -42,19 +43,16 @@ export function generateStaticParams(): { slug: string }[] {
 }
 
 export function createNewsMetadata(entry: NewsEntry, locale: Locale = 'zh'): Metadata {
-  const localized = localizeNewsEntry(entry, locale)
+  const localized = localizeNewsEntryWithStatus(entry, locale).entry
 
-  return {
-    alternates: buildAlternates(`/news/${entry.slug}`, locale),
+  return buildPageMetadata({
     description: localized.description,
-    openGraph: {
-      description: localized.description,
-      title: localized.title,
-      type: 'article',
-      url: localizePath(`/news/${entry.slug}`, locale),
-    },
+    locale,
+    publishedTime: entry.date,
     title: localized.title,
-  }
+    type: 'article',
+    zhPath: `/news/${entry.slug}`,
+  })
 }
 
 export async function generateMetadata({ params }: NewsDetailPageProps): Promise<Metadata> {
@@ -66,27 +64,19 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
   return createNewsMetadata(entry)
 }
 
-// 新闻详情结构化数据：帮助搜索引擎将其识别为文章并展示富媒体结果。
 export function createNewsArticleJsonLd(
   entry: NewsEntry,
   locale: Locale = 'zh',
 ): Record<string, unknown> {
-  const localized = localizeNewsEntry(entry, locale)
+  const localized = localizeNewsEntryWithStatus(entry, locale).entry
 
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+  return articleStructuredData({
     datePublished: entry.date,
     description: localized.description,
     headline: localized.title,
-    inLanguage: HTML_LANG[locale],
-    mainEntityOfPage: new URL(localizePath(`/news/${entry.slug}`, locale), SITE_URL).toString(),
-    publisher: {
-      '@type': 'Organization',
-      logo: new URL('/brand/llm-alliance-logo.png', SITE_URL).toString(),
-      name: SITE_NAME,
-    },
-  }
+    locale,
+    zhPath: `/news/${entry.slug}`,
+  })
 }
 
 function ContentBlockView({ block }: { block: ContentBlock }): ReactElement {
@@ -107,24 +97,105 @@ function ContentBlockView({ block }: { block: ContentBlock }): ReactElement {
 }
 
 export function NewsArticle({ entry: raw, locale = 'zh' }: NewsArticleProps): ReactElement {
-  const entry = localizeNewsEntry(raw, locale)
-  const t = DETAIL_STRINGS[locale]
+  const { entry, isFallback } = localizeNewsEntryWithStatus(raw, locale)
+  const copy = NEWS_PAGE_COPY[locale]
+  const sources = getNewsSources(raw)
+  const applicationTarget = entry.applicationTargetId
+    ? resolveConfiguredApplicationTarget(entry.applicationTargetId)
+    : undefined
+  const status = copy.statusLabels[getNewsStatus(raw)]
+  const category = copy.categoryLabels[entry.category]
 
   return (
     <>
-      <PageHero description={entry.description} eyebrow={entry.category} title={entry.title} />
+      <PageHero
+        description={entry.description}
+        eyebrow={`${category} · ${status}`}
+        title={entry.title}
+      />
       <section className="block">
         <div className="site-container">
           <article className="prose">
             <p className="meta">
-              {t.publishedLabel}
-              <time dateTime={entry.date}>{entry.date}</time>
+              {copy.publishedLabel}:{' '}
+              <time dateTime={entry.date}>{formatNewsDate(entry.date, locale)}</time>
+              <span aria-hidden="true"> · </span>
+              {status}
             </p>
+
             {entry.body.map((block, index) => (
               <ContentBlockView block={block} key={`${block.type}-${index}`} />
             ))}
+
+            {isFallback ? (
+              <p>
+                <Link className="text-link" href={`/news/${raw.slug}`}>
+                  {copy.fallbackAction}
+                </Link>
+              </p>
+            ) : null}
+
+            {sources.length > 0 ? (
+              <section aria-labelledby="news-public-source">
+                <h2 id="news-public-source">{copy.sourceTitle}</h2>
+                {sources.map((source) => (
+                  <div
+                    className="mt-4 rounded-2xl border border-[var(--border)] p-5"
+                    key={source.url}
+                  >
+                    <a
+                      className="text-link inline-flex min-h-11 items-center"
+                      href={source.url}
+                      rel="noreferrer noopener"
+                      target="_blank"
+                    >
+                      {copy.sourceLinkLabel}
+                      <span aria-hidden="true"> ↗</span>
+                    </a>
+                    <dl className="mt-2 grid gap-2 text-sm text-[var(--text-muted)] sm:grid-cols-2">
+                      {source.publishedAt ? (
+                        <div>
+                          <dt className="font-semibold">{copy.sourcePublishedLabel}</dt>
+                          <dd>
+                            <time dateTime={source.publishedAt}>
+                              {formatNewsDate(source.publishedAt, locale)}
+                            </time>
+                          </dd>
+                        </div>
+                      ) : null}
+                      <div>
+                        <dt className="font-semibold">{copy.sourceReviewedLabel}</dt>
+                        <dd>
+                          <time dateTime={source.reviewedAt}>
+                            {formatNewsDate(source.reviewedAt, locale)}
+                          </time>
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                ))}
+              </section>
+            ) : null}
+
+            {entry.applicationTargetId && entry.ctaLabel ? (
+              <section aria-labelledby="news-application-route">
+                <h2 id="news-application-route">{copy.applicationTitle}</h2>
+                <p>{copy.applicationDescription}</p>
+                <div className="mt-5">
+                  <ExternalApplicationLink
+                    className="btn btn--primary"
+                    configuredUrl={applicationTarget?.href ?? ''}
+                    label={entry.ctaLabel}
+                    locale={locale}
+                  >
+                    {entry.ctaLabel}
+                  </ExternalApplicationLink>
+                </div>
+              </section>
+            ) : null}
+
             {entry.ctaHref && entry.ctaLabel && isSafeExternalUrl(entry.ctaHref) ? (
-              <p className="cta">
+              <div className="mt-8">
                 <a
                   className="btn btn--primary"
                   href={entry.ctaHref}
@@ -132,12 +203,15 @@ export function NewsArticle({ entry: raw, locale = 'zh' }: NewsArticleProps): Re
                   target="_blank"
                 >
                   {entry.ctaLabel}
+                  <span aria-hidden="true"> ↗</span>
                 </a>
-              </p>
+                <small className="mt-2 block text-[var(--text-muted)]">{copy.externalNotice}</small>
+              </div>
             ) : null}
+
             <div className="back">
               <Link className="btn btn--ghost" href={localizePath('/news', locale)}>
-                {t.back}
+                {copy.backLabel}
               </Link>
             </div>
           </article>
@@ -155,14 +229,16 @@ export function NewsDetailView({
   locale: Locale
 }): ReactElement {
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <JsonLd data={createNewsArticleJsonLd(entry, locale)} />
       <NewsArticle entry={entry} locale={locale} />
     </main>
   )
 }
 
-export default async function NewsDetailPage({ params }: NewsDetailPageProps): Promise<ReactElement> {
+export default async function NewsDetailPage({
+  params,
+}: NewsDetailPageProps): Promise<ReactElement> {
   const { slug } = await params
   const entry = getPublishedNewsBySlug(slug)
 

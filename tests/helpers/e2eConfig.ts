@@ -16,7 +16,8 @@ export function resolveE2EBaseURL(value: string | undefined): string | undefined
   try {
     const url = new URL(baseURL)
 
-    if (url.protocol === 'http:' || url.protocol === 'https:') return baseURL
+    if (url.protocol === 'http:' || url.protocol === 'https:')
+      return url.toString().replace(/\/$/u, '')
   } catch {
     // Use the shared error below for malformed and unsupported URLs.
   }

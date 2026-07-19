@@ -1,5 +1,7 @@
 import { WORKING_GROUPS } from '@/content/working-groups'
+import type { Locale } from '@/i18n/locales'
 import type {
+  ApplicationTargetId,
   ExternalApplicationTarget,
   NavigationItem,
   ResolvedApplicationTarget,
@@ -8,20 +10,59 @@ import type {
 
 export const SITE_NAME = '中关村自主大模型产业联盟'
 export const SITE_DESCRIPTION =
-  '中关村自主大模型产业联盟官方网站，汇聚自主大模型力量，共建开放、安全、协同的产业生态，发布联盟动态、重点工作与生态合作信息。'
+  '中关村自主大模型产业联盟官网，发布联盟动态、重点工作、工作组信息与参与指引。'
 
-const DEFAULT_SITE_URL = 'https://www.zgc-llm.org.cn'
+/** 官方英文全称尚待权利人确认；英文公开面只使用缩写或 “the Alliance”。 */
+export const SITE_NAMES: Readonly<Record<Locale, string>> = {
+  en: 'ZGCLLM',
+  zh: SITE_NAME,
+}
 
+export const SITE_DESCRIPTIONS: Readonly<Record<Locale, string>> = {
+  en: 'Information from ZGCLLM about the Alliance, its working groups, public initiatives and ways to participate.',
+  zh: SITE_DESCRIPTION,
+}
+
+export function getSiteName(locale: Locale): string {
+  return SITE_NAMES[locale]
+}
+
+export function getSiteDescription(locale: Locale): string {
+  return SITE_DESCRIPTIONS[locale]
+}
+
+export const CANONICAL_SITE_URL = 'https://www.zgc-llm.org.cn'
+
+/**
+ * Fail closed: canonical metadata is never allowed to follow an arbitrary
+ * runtime host. The environment variable may confirm the approved root origin,
+ * but cannot replace it with localhost, a defensive domain, path or query.
+ */
 export function resolveSiteUrl(configuredUrl?: string): string {
-  if (!configuredUrl) return DEFAULT_SITE_URL
+  const candidate = configuredUrl ?? CANONICAL_SITE_URL
+
+  if (candidate !== candidate.trim()) return CANONICAL_SITE_URL
 
   try {
-    const url = new URL(configuredUrl)
+    const url = new URL(candidate)
 
-    return url.protocol === 'http:' || url.protocol === 'https:' ? configuredUrl : DEFAULT_SITE_URL
+    if (
+      url.protocol === 'https:' &&
+      url.hostname === 'www.zgc-llm.org.cn' &&
+      url.username === '' &&
+      url.password === '' &&
+      url.port === '' &&
+      url.pathname === '/' &&
+      url.search === '' &&
+      url.hash === ''
+    ) {
+      return CANONICAL_SITE_URL
+    }
   } catch {
-    return DEFAULT_SITE_URL
+    // Invalid public configuration falls back to the fixed canonical origin.
   }
+
+  return CANONICAL_SITE_URL
 }
 
 export const SITE_URL = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
@@ -31,8 +72,6 @@ export const SITE_NAVIGATION: readonly NavigationItem[] = [
   { href: '/working-groups', label: '工作组' },
   { href: '/cybersecurity', label: '网络安全生态' },
   {
-    // 分组节点：href 为父级落点（点击可跳转 /members），children 为二级子项。
-    // 标签本地化由 site-header 按显式 dict 键解析（见 NAV_GROUP_* 映射）。
     href: '/members',
     label: '成员伙伴',
     children: [
@@ -61,69 +100,257 @@ export const PUBLIC_STATIC_ROUTES = [
   '/privacy',
 ] as const
 
-// 加入申请飞书问卷（公开分享链接，外部匿名可填）。这些链接部署后本就出现在公开页面 HTML 中，
-// 非机密；作为默认值提交以便开箱即用，生产/预览可通过对应 NEXT_PUBLIC_* 环境变量覆盖。
-const DEFAULT_APPLICATION_URL =
-  'https://clouditera.feishu.cn/share/base/form/shrcnlX5daUGxOitSbOOUc1tkBb'
-const DEFAULT_APPLICATION_URL_CYBERSECURITY =
-  'https://clouditera.feishu.cn/share/base/form/shrcnzfEuj5Wr8mdtX9aUxnP9LB'
+type ApplicationEnvironmentKey =
+  | 'NEXT_PUBLIC_APPLICATION_URL'
+  | 'NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY'
+  | 'NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM'
 
-// 已知工作组专属申请问卷：显式静态读取对应 NEXT_PUBLIC_* 变量（保证构建期可静态内联/审计，
-// 不用动态 process.env[key]）+ 内置默认链接兜底。新增工作组时在此登记一条。
-const WORKING_GROUP_APPLICATION_URLS: Record<
-  string,
-  { readonly read: () => string | undefined; readonly fallback: string }
-> = {
-  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: {
+interface ApplicationEndpoint {
+  readonly envKey: ApplicationEnvironmentKey
+  readonly id: ApplicationTargetId
+  readonly label: string
+  readonly path: string
+  readonly read: () => string | undefined
+}
+
+const APPLICATION_ORIGIN = 'https://clouditera.feishu.cn'
+const APPLICATION_UNAVAILABLE_MESSAGE = '申请通道尚未开放，请稍后查看官网更新。'
+
+/**
+ * Each public form has an independent target. Repository-known URLs are an
+ * allowlist, not a readiness signal: only a matching explicit environment
+ * value enables the corresponding CTA.
+ */
+const APPLICATION_ENDPOINTS: Readonly<Record<ApplicationTargetId, ApplicationEndpoint>> = {
+  alliance: {
+    envKey: 'NEXT_PUBLIC_APPLICATION_URL',
+    id: 'alliance',
+    label: '联盟申请',
+    path: '/share/base/form/shrcnlX5daUGxOitSbOOUc1tkBb',
+    read: () => process.env.NEXT_PUBLIC_APPLICATION_URL,
+  },
+  'cybersecurity-program': {
+    envKey: 'NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM',
+    id: 'cybersecurity-program',
+    label: '网络安全人员开放计划申请',
+    path: '/share/base/form/shrcnXSRHvrWPehplPdvFuB0juc',
+    read: () => process.env.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM,
+  },
+  'cybersecurity-working-group': {
+    envKey: 'NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY',
+    id: 'cybersecurity-working-group',
+    label: '网络安全工作组申请',
+    path: '/share/base/form/shrcnzfEuj5Wr8mdtX9aUxnP9LB',
     read: () => process.env.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY,
-    fallback: DEFAULT_APPLICATION_URL_CYBERSECURITY,
   },
 }
 
-const configuredApplicationUrl = process.env.NEXT_PUBLIC_APPLICATION_URL
-
-export const APPLICATION_TARGET: ExternalApplicationTarget = {
-  // 环境变量为合法 https 时优先使用；未设置或为空串（未配置的 GitHub Variable）时回退内置默认链接。
-  href: isSafeExternalUrl(configuredApplicationUrl) ? configuredApplicationUrl : DEFAULT_APPLICATION_URL,
-  label: '合作申请',
-  unavailableMessage: '申请通道准备中，请通过官网联系方式与联盟联系。',
+const WORKING_GROUP_APPLICATION_TARGETS: Readonly<Partial<Record<string, ApplicationTargetId>>> = {
+  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: 'cybersecurity-working-group',
 }
 
-export function isSafeExternalUrl(value?: string): value is string {
-  if (!value) return false
+export const APPLICATION_ENV_KEYS: readonly ApplicationEnvironmentKey[] = Object.values(
+  APPLICATION_ENDPOINTS,
+).map(({ envKey }) => envKey)
+export const APPLICATION_TARGET_IDS: readonly ApplicationTargetId[] = Object.keys(
+  APPLICATION_ENDPOINTS,
+) as ApplicationTargetId[]
+
+function parseSafeHttpsUrl(value?: string): URL | undefined {
+  if (!value || value !== value.trim() || /[\u0000-\u001f\u007f]/u.test(value)) {
+    return undefined
+  }
 
   try {
-    return new URL(value).protocol === 'https:'
+    const url = new URL(value)
+
+    if (
+      url.protocol !== 'https:' ||
+      url.username !== '' ||
+      url.password !== '' ||
+      url.port !== '' ||
+      url.hostname === ''
+    ) {
+      return undefined
+    }
+
+    return url
   } catch {
-    return false
+    return undefined
   }
+}
+
+/** Generic external-resource policy. Application readiness uses the stricter resolver below. */
+export function isSafeExternalUrl(value?: string): value is string {
+  return parseSafeHttpsUrl(value) !== undefined
+}
+
+export function isKnownApplicationEnvKey(value?: string): value is ApplicationEnvironmentKey {
+  return Boolean(value && APPLICATION_ENV_KEYS.includes(value as ApplicationEnvironmentKey))
+}
+
+export function isKnownApplicationTargetId(value?: string): value is ApplicationTargetId {
+  return Boolean(value && APPLICATION_TARGET_IDS.includes(value as ApplicationTargetId))
+}
+
+export function isKnownWorkingGroupApplicationEnvKey(value?: string): boolean {
+  return Boolean(value && Object.hasOwn(WORKING_GROUP_APPLICATION_TARGETS, value))
+}
+
+export function normalizeApplicationUrl(
+  value?: string,
+  targetId?: ApplicationTargetId,
+): string | undefined {
+  const url = parseSafeHttpsUrl(value)
+
+  if (
+    !url ||
+    (targetId !== undefined && !isKnownApplicationTargetId(targetId)) ||
+    url.origin !== APPLICATION_ORIGIN ||
+    url.search !== '' ||
+    url.hash !== ''
+  ) {
+    return undefined
+  }
+
+  const endpoints = targetId
+    ? [APPLICATION_ENDPOINTS[targetId]]
+    : Object.values(APPLICATION_ENDPOINTS)
+  const match = endpoints.find(({ path }) => url.pathname === path)
+
+  return match ? `${APPLICATION_ORIGIN}${match.path}` : undefined
+}
+
+export function isAllowedApplicationUrl(
+  value?: string,
+  targetId?: ApplicationTargetId,
+): value is string {
+  return normalizeApplicationUrl(value, targetId) !== undefined
+}
+
+function targetDefinition(id: ApplicationTargetId): ExternalApplicationTarget {
+  const endpoint = APPLICATION_ENDPOINTS[id]
+
+  return {
+    href: normalizeApplicationUrl(endpoint.read(), id),
+    id,
+    label: endpoint.label,
+    unavailableMessage: APPLICATION_UNAVAILABLE_MESSAGE,
+  }
+}
+
+export const APPLICATION_TARGETS: Readonly<Record<ApplicationTargetId, ExternalApplicationTarget>> =
+  {
+    alliance: targetDefinition('alliance'),
+    'cybersecurity-program': targetDefinition('cybersecurity-program'),
+    'cybersecurity-working-group': targetDefinition('cybersecurity-working-group'),
+  }
+
+/** Backward-compatible alias used by the general Alliance join page. */
+export const APPLICATION_TARGET = APPLICATION_TARGETS.alliance
+
+function configuredApplicationUrls(): readonly string[] {
+  return Object.values(APPLICATION_ENDPOINTS).flatMap((endpoint) => {
+    const href = normalizeApplicationUrl(endpoint.read(), endpoint.id)
+
+    return href ? [href] : []
+  })
 }
 
 export function resolveApplicationTarget(
   configuredUrl: string | undefined = APPLICATION_TARGET.href,
 ): ResolvedApplicationTarget {
-  const href = isSafeExternalUrl(configuredUrl) ? configuredUrl : undefined
+  const base = APPLICATION_TARGET
 
-  return {
-    ...APPLICATION_TARGET,
-    href,
-    isAvailable: Boolean(href),
+  if (!configuredUrl || configuredUrl.trim() === '') {
+    return { ...base, href: undefined, isAvailable: false, status: 'missing' }
   }
+
+  if (!isSafeExternalUrl(configuredUrl)) {
+    return { ...base, href: undefined, isAvailable: false, status: 'invalid' }
+  }
+
+  const href = normalizeApplicationUrl(configuredUrl)
+
+  if (!href) {
+    return { ...base, href: undefined, isAvailable: false, status: 'unapproved' }
+  }
+
+  if (!configuredApplicationUrls().includes(href)) {
+    return { ...base, href: undefined, isAvailable: false, status: 'unconfigured' }
+  }
+
+  const endpoint = Object.values(APPLICATION_ENDPOINTS).find(
+    ({ path }) => href === `${APPLICATION_ORIGIN}${path}`,
+  )
+  const definition = endpoint ? APPLICATION_TARGETS[endpoint.id] : base
+
+  return { ...definition, href, isAvailable: true, status: 'available' }
+}
+
+export function resolveConfiguredApplicationTarget(
+  id: ApplicationTargetId,
+): ResolvedApplicationTarget {
+  if (!isKnownApplicationTargetId(id)) {
+    return {
+      href: undefined,
+      isAvailable: false,
+      label: '申请通道',
+      status: 'invalid',
+      unavailableMessage: APPLICATION_UNAVAILABLE_MESSAGE,
+    }
+  }
+
+  const endpoint = APPLICATION_ENDPOINTS[id]
+  const configured = endpoint.read()
+  const base = APPLICATION_TARGETS[id]
+
+  if (!configured || configured.trim() === '') {
+    return { ...base, href: undefined, isAvailable: false, status: 'missing' }
+  }
+
+  if (!isSafeExternalUrl(configured)) {
+    return { ...base, href: undefined, isAvailable: false, status: 'invalid' }
+  }
+
+  const href = normalizeApplicationUrl(configured, id)
+
+  if (!href) {
+    return { ...base, href: undefined, isAvailable: false, status: 'unapproved' }
+  }
+
+  return { ...base, href, isAvailable: true, status: 'available' }
+}
+
+export function resolveWorkingGroupApplicationTarget(
+  group: Pick<WorkingGroupSummary, 'applicationEnvKey'>,
+): ResolvedApplicationTarget {
+  const envKey = group.applicationEnvKey
+  const targetId =
+    envKey && isKnownWorkingGroupApplicationEnvKey(envKey)
+      ? WORKING_GROUP_APPLICATION_TARGETS[envKey]
+      : undefined
+
+  if (!targetId || !isKnownApplicationTargetId(targetId)) {
+    return {
+      href: undefined,
+      isAvailable: false,
+      label: '工作组申请',
+      status: envKey ? 'unapproved' : 'missing',
+      unavailableMessage: APPLICATION_UNAVAILABLE_MESSAGE,
+    }
+  }
+
+  return resolveConfiguredApplicationTarget(targetId)
 }
 
 /**
- * 解析某工作组加入 CTA 应使用的外部问卷 URL。
- * 优先级：专属环境变量（https）→ 该工作组内置默认链接 → 通用申请入口 APPLICATION_TARGET.href。
- * 专属变量经 WORKING_GROUP_APPLICATION_URLS 显式静态读取（非动态 process.env[key]），
- * 保证 NEXT_PUBLIC_* 在构建期可静态内联与审计；仍由 ExternalApplicationLink 内部做一次 https 校验兜底。
+ * Compatibility adapter for existing page components. The empty string is an
+ * explicit unavailable sentinel, preventing JavaScript default parameters from
+ * accidentally substituting the general Alliance form.
  */
 export function resolveWorkingGroupApplicationUrl(
   group: Pick<WorkingGroupSummary, 'applicationEnvKey'>,
 ): string {
-  const key = group.applicationEnvKey
-  const entry = key ? WORKING_GROUP_APPLICATION_URLS[key] : undefined
-  const configured = entry?.read()
-  if (isSafeExternalUrl(configured)) return configured
-
-  return entry?.fallback ?? APPLICATION_TARGET.href ?? DEFAULT_APPLICATION_URL
+  return resolveWorkingGroupApplicationTarget(group).href ?? ''
 }

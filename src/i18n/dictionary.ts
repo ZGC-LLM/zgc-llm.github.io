@@ -32,7 +32,6 @@ export interface Dictionary {
   }
   footer: {
     tagline: string
-    contactLabel: string
     sectionUnderstand: string
     sectionParticipate: string
     sectionMore: string
@@ -45,19 +44,18 @@ export interface Dictionary {
 
 const zh: Dictionary = {
   footer: {
-    contactLabel: '联系邮箱：',
     linkEcosystem: '生态共建',
     linkMembers: '成员伙伴',
     linkNews: '新闻动态',
     linkPrivacy: '隐私说明',
     sectionMore: '更多',
-    sectionParticipate: '参与联盟',
+    sectionParticipate: '参与协作',
     sectionUnderstand: '了解联盟',
     tagline: '汇聚自主大模型产业创新力量，连接技术、场景、人才与生态资源。',
   },
   header: {
-    institutionApply: '加入联盟',
-    joinWorkingGroup: '加入工作组',
+    institutionApply: '参与联盟协作',
+    joinWorkingGroup: '参与工作组',
     mainNav: '主导航',
     menu: '菜单',
     mobileNav: '移动导航',
@@ -83,20 +81,19 @@ const zh: Dictionary = {
 
 const en: Dictionary = {
   footer: {
-    contactLabel: 'Email: ',
     linkEcosystem: 'Ecosystem',
     linkMembers: 'Members',
     linkNews: 'News',
     linkPrivacy: 'Privacy',
     sectionMore: 'More',
-    sectionParticipate: 'Get Involved',
+    sectionParticipate: 'Participate',
     sectionUnderstand: 'About the Alliance',
     tagline:
-      'Bringing together innovation in the self-reliant large-model industry, connecting technology, scenarios, talent and ecosystem resources.',
+      'Connecting organizations, technology, real-world needs and expertise through open industry collaboration.',
   },
   header: {
-    institutionApply: 'Join the Alliance',
-    joinWorkingGroup: 'Join a working group',
+    institutionApply: 'Work with the Alliance',
+    joinWorkingGroup: 'Contribute to a working group',
     mainNav: 'Main navigation',
     menu: 'Menu',
     mobileNav: 'Mobile navigation',

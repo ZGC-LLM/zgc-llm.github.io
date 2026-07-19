@@ -1,134 +1,284 @@
-import {
-  APPLICATION_TARGET,
-  isSafeExternalUrl,
-  PUBLIC_STATIC_ROUTES,
-  resolveApplicationTarget,
-  resolveSiteUrl,
-  resolveWorkingGroupApplicationUrl,
-  SITE_NAME,
-  SITE_NAVIGATION,
-} from '@/config/site'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-describe('site configuration', () => {
-  it('uses the alliance brand and canonical production domain', () => {
-    expect(SITE_NAME).toBe('中关村自主大模型产业联盟')
-    expect(resolveSiteUrl()).toBe('https://www.zgc-llm.org.cn')
-    expect(resolveSiteUrl('http://localhost:3000')).toBe('http://localhost:3000')
-    expect(resolveSiteUrl('not-a-url')).toBe('https://www.zgc-llm.org.cn')
-    expect(resolveSiteUrl('javascript:alert(1)')).toBe('https://www.zgc-llm.org.cn')
-  })
+import {
+  APPLICATION_ENV,
+  APPROVED_APPLICATION_URL,
+  importSiteConfig,
+} from './helpers/import-site-config'
 
-  it('defines unique public navigation destinations with a members group', () => {
-    const leaves = SITE_NAVIGATION.filter((item) => !item.children).map(({ href }) => href)
+afterEach(() => {
+  vi.unstubAllEnvs()
+  vi.resetModules()
+})
 
-    expect(leaves).toContain('/cybersecurity')
-    expect(new Set(leaves).size).toBe(leaves.length)
+describe('canonical site configuration', () => {
+  it.each([undefined, 'https://www.zgc-llm.org.cn'])(
+    'keeps the exact approved production origin for %s',
+    async (configured) => {
+      const { CANONICAL_SITE_URL, resolveSiteUrl } = await importSiteConfig()
 
-    const group = SITE_NAVIGATION.find((item) => item.children)
-
-    expect(group?.href).toBe('/members')
-    expect(group?.children?.map((child) => child.href)).toEqual(['/members', '/working-groups'])
-
-    expect(PUBLIC_STATIC_ROUTES).toContain('/privacy')
-    expect(PUBLIC_STATIC_ROUTES).not.toContain('/admin')
-    expect(PUBLIC_STATIC_ROUTES).not.toContain('/professionals')
-  })
-
-  it('derives working-group sub-routes from WORKING_GROUPS', () => {
-    expect(PUBLIC_STATIC_ROUTES).toContain('/working-groups/cybersecurity')
-    expect(PUBLIC_STATIC_ROUTES).toContain('/working-groups/cybersecurity/members')
-    expect(PUBLIC_STATIC_ROUTES).toContain('/working-groups/cybersecurity/join')
-  })
-
-  it('exposes an application target with a committed default that env can override', () => {
-    const configured = process.env.NEXT_PUBLIC_APPLICATION_URL
-
-    if (isSafeExternalUrl(configured)) {
-      expect(APPLICATION_TARGET.href).toBe(configured)
-    } else {
-      // 未配置（或空串）环境变量时回退到源码内置的公开问卷默认链接（合法 https）
-      expect(isSafeExternalUrl(APPLICATION_TARGET.href)).toBe(true)
-    }
-    expect(APPLICATION_TARGET.label).toBeTruthy()
-    expect(APPLICATION_TARGET.unavailableMessage).toContain('联系')
-  })
+      expect(resolveSiteUrl(configured)).toBe(CANONICAL_SITE_URL)
+    },
+  )
 
   it.each([
-    ['https://example.feishu.cn/share/base/form/example', true],
-    ['http://example.feishu.cn/share/base/form/example', false],
+    ' http://www.zgc-llm.org.cn',
+    'https://www.zgc-llm.org.cn ',
+    'http://www.zgc-llm.org.cn',
+    'https://zgc-llm.org.cn',
+    'https://zgcllm.org.cn',
+    'https://www.zgc-llm.org.cn:443',
+    'https://user@example.com@www.zgc-llm.org.cn',
+    'https://www.zgc-llm.org.cn/path',
+    'https://www.zgc-llm.org.cn/?preview=1',
+    'https://www.zgc-llm.org.cn/#preview',
+    'http://localhost:3000',
+    'not-a-url',
+  ])('fails closed instead of adopting an unapproved canonical origin: %s', async (configured) => {
+    const { CANONICAL_SITE_URL, resolveSiteUrl } = await importSiteConfig()
+
+    expect(resolveSiteUrl(configured)).toBe(CANONICAL_SITE_URL)
+  })
+
+  it('derives unique public routes, including each working-group sub-route', async () => {
+    const { PUBLIC_STATIC_ROUTES, SITE_NAVIGATION } = await importSiteConfig()
+
+    expect(new Set(PUBLIC_STATIC_ROUTES).size).toBe(PUBLIC_STATIC_ROUTES.length)
+    expect(PUBLIC_STATIC_ROUTES).toEqual(
+      expect.arrayContaining([
+        '/',
+        '/privacy',
+        '/working-groups/cybersecurity',
+        '/working-groups/cybersecurity/join',
+        '/working-groups/cybersecurity/members',
+      ]),
+    )
+    expect(PUBLIC_STATIC_ROUTES).not.toEqual(expect.arrayContaining(['/admin', '/professionals']))
+    expect(SITE_NAVIGATION.find(({ href }) => href === '/members')?.children).toHaveLength(2)
+  })
+})
+
+describe('external URL policy', () => {
+  it.each([
+    ['https://example.com/form', true],
+    ['https://sub.example.com:443/form', true],
+    ['https://user:pass@example.com/form', false],
+    [' https://example.com/form', false],
+    ['https://example.com/form\n', false],
+    ['http://example.com/form', false],
     ['javascript:alert(1)', false],
-    ['data:text/html,unsafe', false],
+    ['not-a-url', false],
     ['', false],
     [undefined, false],
-  ])('validates external application URL %s', (value, expected) => {
+  ])('classifies generic external URL %s', async (value, expected) => {
+    const { isSafeExternalUrl } = await importSiteConfig()
+
     expect(isSafeExternalUrl(value)).toBe(expected)
   })
 
-  it('returns an unavailable state for an invalid configured URL', () => {
-    const target = resolveApplicationTarget('not-a-url')
+  it.each([
+    ['alliance', APPROVED_APPLICATION_URL.alliance],
+    ['cybersecurity-program', APPROVED_APPLICATION_URL.program],
+    ['cybersecurity-working-group', APPROVED_APPLICATION_URL.workingGroup],
+  ] as const)('accepts only the exact approved URL for %s', async (targetId, url) => {
+    const { isAllowedApplicationUrl, normalizeApplicationUrl } = await importSiteConfig()
 
-    expect(target.href).toBeUndefined()
-    expect(target.isAvailable).toBe(false)
-    expect(target.unavailableMessage).toContain('联系')
+    expect(normalizeApplicationUrl(url, targetId)).toBe(url)
+    expect(isAllowedApplicationUrl(url, targetId)).toBe(true)
   })
 
-  it('returns an available state for a valid configured URL', () => {
-    const target = resolveApplicationTarget('https://example.feishu.cn/share/base/form/example')
+  it.each([
+    `${APPROVED_APPLICATION_URL.alliance}/`,
+    `${APPROVED_APPLICATION_URL.alliance}?source=test`,
+    `${APPROVED_APPLICATION_URL.alliance}#form`,
+    APPROVED_APPLICATION_URL.alliance.replace('https://', 'http://'),
+    APPROVED_APPLICATION_URL.alliance.replace('clouditera.feishu.cn', 'evil.example'),
+    APPROVED_APPLICATION_URL.alliance.replace('clouditera.feishu.cn', 'clouditera.feishu.cn.evil'),
+    'https://clouditera.feishu.cn/share/base/form/not-approved',
+  ])('rejects an application URL outside the exact host/path contract: %s', async (url) => {
+    const { isAllowedApplicationUrl, normalizeApplicationUrl } = await importSiteConfig()
 
-    expect(target.href).toBe('https://example.feishu.cn/share/base/form/example')
-    expect(target.isAvailable).toBe(true)
+    expect(normalizeApplicationUrl(url)).toBeUndefined()
+    expect(isAllowedApplicationUrl(url)).toBe(false)
   })
 
-  describe('resolveWorkingGroupApplicationUrl', () => {
-    const ENV_KEY = 'NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY'
-    const SPECIFIC_HTTPS_URL = 'https://a.feishu.cn/x'
+  it('does not allow an approved URL to cross target boundaries', async () => {
+    const { normalizeApplicationUrl } = await importSiteConfig()
 
-    afterEach(() => {
-      vi.unstubAllEnvs()
+    expect(normalizeApplicationUrl(APPROVED_APPLICATION_URL.program, 'alliance')).toBeUndefined()
+    expect(
+      normalizeApplicationUrl(APPROVED_APPLICATION_URL.workingGroup, 'cybersecurity-program'),
+    ).toBeUndefined()
+  })
+
+  it.each([undefined, '', 'unknown', '__proto__', 'toString'])(
+    'rejects unknown target and environment identifiers: %s',
+    async (value) => {
+      const {
+        isKnownApplicationEnvKey,
+        isKnownApplicationTargetId,
+        isKnownWorkingGroupApplicationEnvKey,
+      } = await importSiteConfig()
+
+      expect(isKnownApplicationEnvKey(value)).toBe(false)
+      expect(isKnownApplicationTargetId(value)).toBe(false)
+      expect(isKnownWorkingGroupApplicationEnvKey(value)).toBe(false)
+    },
+  )
+
+  it('recognizes only registered target and environment identifiers', async () => {
+    const {
+      isKnownApplicationEnvKey,
+      isKnownApplicationTargetId,
+      isKnownWorkingGroupApplicationEnvKey,
+    } = await importSiteConfig()
+
+    expect(isKnownApplicationTargetId('alliance')).toBe(true)
+    expect(isKnownApplicationTargetId('cybersecurity-program')).toBe(true)
+    expect(isKnownApplicationEnvKey(APPLICATION_ENV.alliance)).toBe(true)
+    expect(isKnownWorkingGroupApplicationEnvKey(APPLICATION_ENV.workingGroup)).toBe(true)
+    expect(isKnownWorkingGroupApplicationEnvKey(APPLICATION_ENV.program)).toBe(false)
+  })
+})
+
+describe('fail-closed application resolution', () => {
+  it('keeps every application target unavailable when no public env is configured', async () => {
+    const {
+      APPLICATION_TARGET,
+      APPLICATION_TARGETS,
+      resolveApplicationTarget,
+      resolveConfiguredApplicationTarget,
+    } = await importSiteConfig()
+
+    expect(APPLICATION_TARGET.href).toBeUndefined()
+    expect(Object.values(APPLICATION_TARGETS).every(({ href }) => href === undefined)).toBe(true)
+    expect(resolveApplicationTarget()).toMatchObject({
+      href: undefined,
+      isAvailable: false,
+      status: 'missing',
+    })
+    expect(resolveConfiguredApplicationTarget('alliance')).toMatchObject({
+      href: undefined,
+      isAvailable: false,
+      status: 'missing',
+    })
+  })
+
+  it.each([
+    ['not-a-url', 'invalid'],
+    ['http://clouditera.feishu.cn/form', 'invalid'],
+    ['https://example.com/form', 'unapproved'],
+    [APPROVED_APPLICATION_URL.alliance, 'unconfigured'],
+  ] as const)('reports %s as %s instead of exposing a link', async (configured, status) => {
+    const { resolveApplicationTarget } = await importSiteConfig()
+
+    expect(resolveApplicationTarget(configured)).toMatchObject({
+      href: undefined,
+      isAvailable: false,
+      status,
+    })
+  })
+
+  it.each([
+    [APPLICATION_ENV.alliance, 'alliance', APPROVED_APPLICATION_URL.alliance],
+    [APPLICATION_ENV.program, 'cybersecurity-program', APPROVED_APPLICATION_URL.program],
+    [
+      APPLICATION_ENV.workingGroup,
+      'cybersecurity-working-group',
+      APPROVED_APPLICATION_URL.workingGroup,
+    ],
+  ] as const)(
+    'enables only %s when its exact env value is present',
+    async (envKey, targetId, url) => {
+      const environment = { [envKey]: url }
+      const { APPLICATION_TARGETS, resolveApplicationTarget, resolveConfiguredApplicationTarget } =
+        await importSiteConfig(environment)
+
+      expect(resolveConfiguredApplicationTarget(targetId)).toMatchObject({
+        href: url,
+        id: targetId,
+        isAvailable: true,
+        status: 'available',
+      })
+      expect(resolveApplicationTarget(url)).toMatchObject({
+        href: url,
+        id: targetId,
+        isAvailable: true,
+        status: 'available',
+      })
+      for (const [otherId, target] of Object.entries(APPLICATION_TARGETS)) {
+        expect(target.href, otherId).toBe(otherId === targetId ? url : undefined)
+      }
+    },
+  )
+
+  it.each([
+    ['', 'missing'],
+    ['  ', 'missing'],
+    ['not-a-url', 'invalid'],
+    ['https://example.com/form', 'unapproved'],
+  ] as const)('classifies an explicit alliance env value as %s', async (value, status) => {
+    const { resolveConfiguredApplicationTarget } = await importSiteConfig({
+      NEXT_PUBLIC_APPLICATION_URL: value,
     })
 
-    it('returns the dedicated URL when the working group env key resolves to a safe https value', () => {
-      vi.stubEnv(ENV_KEY, SPECIFIC_HTTPS_URL)
-
-      expect(resolveWorkingGroupApplicationUrl({ applicationEnvKey: ENV_KEY })).toBe(
-        SPECIFIC_HTTPS_URL,
-      )
+    expect(resolveConfiguredApplicationTarget('alliance')).toMatchObject({
+      href: undefined,
+      isAvailable: false,
+      status,
     })
+  })
 
-    it('falls back to the committed dedicated default when no dedicated env value is set', () => {
-      vi.stubEnv(ENV_KEY, undefined)
+  it('rejects a runtime-invalid target ID without indexing the target table', async () => {
+    const { resolveConfiguredApplicationTarget } = await importSiteConfig()
 
-      const dedicated = resolveWorkingGroupApplicationUrl({ applicationEnvKey: ENV_KEY })
+    expect(resolveConfiguredApplicationTarget('__proto__' as 'alliance')).toEqual(
+      expect.objectContaining({
+        href: undefined,
+        isAvailable: false,
+        label: '申请通道',
+        status: 'invalid',
+      }),
+    )
+  })
 
-      // 未配置专属环境变量时回退到源码内置的网安专属默认链接（合法 https）
-      expect(isSafeExternalUrl(dedicated)).toBe(true)
-      // 未声明 applicationEnvKey 的工作组回退到通用申请入口
-      expect(resolveWorkingGroupApplicationUrl({ applicationEnvKey: undefined })).toBe(
-        APPLICATION_TARGET.href,
-      )
+  it('never falls a working group back to the Alliance application target', async () => {
+    const { resolveWorkingGroupApplicationTarget, resolveWorkingGroupApplicationUrl } =
+      await importSiteConfig({
+        NEXT_PUBLIC_APPLICATION_URL: APPROVED_APPLICATION_URL.alliance,
+      })
+
+    expect(resolveWorkingGroupApplicationTarget({ applicationEnvKey: undefined })).toMatchObject({
+      href: undefined,
+      isAvailable: false,
+      status: 'missing',
     })
+    expect(
+      resolveWorkingGroupApplicationTarget({ applicationEnvKey: 'UNKNOWN_ENV' }),
+    ).toMatchObject({ href: undefined, isAvailable: false, status: 'unapproved' })
+    expect(
+      resolveWorkingGroupApplicationTarget({
+        applicationEnvKey: APPLICATION_ENV.workingGroup,
+      }),
+    ).toMatchObject({ href: undefined, isAvailable: false, status: 'missing' })
+    expect(
+      resolveWorkingGroupApplicationUrl({ applicationEnvKey: APPLICATION_ENV.workingGroup }),
+    ).toBe('')
+  })
 
-    it('ignores a non-https dedicated value and falls back to the committed default', () => {
-      vi.stubEnv(ENV_KEY, 'http://a.feishu.cn/x')
+  it('resolves the working-group target only from its dedicated exact env', async () => {
+    const { resolveWorkingGroupApplicationTarget, resolveWorkingGroupApplicationUrl } =
+      await importSiteConfig({
+        NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: APPROVED_APPLICATION_URL.workingGroup,
+      })
+    const group = { applicationEnvKey: APPLICATION_ENV.workingGroup }
 
-      const result = resolveWorkingGroupApplicationUrl({ applicationEnvKey: ENV_KEY })
-
-      expect(result).not.toBe('http://a.feishu.cn/x')
-      expect(isSafeExternalUrl(result)).toBe(true)
+    expect(resolveWorkingGroupApplicationTarget(group)).toMatchObject({
+      href: APPROVED_APPLICATION_URL.workingGroup,
+      id: 'cybersecurity-working-group',
+      isAvailable: true,
+      status: 'available',
     })
-
-    it('resolves a dedicated URL whose host differs from the shared application host', () => {
-      // NEXT_PUBLIC_APPLICATION_URL 由 APPLICATION_TARGET 在模块加载时读取一次，测试期间
-      // stub 该变量不会改变已加载的 APPLICATION_TARGET.href，因此这里用一个显式的「通用」
-      // https 常量代表两条路径应指向不同 host 的语义，而不依赖真实环境变量的加载时机。
-      const SHARED_HTTPS_URL = 'https://alliance.feishu.cn/share/base/form/shared'
-      vi.stubEnv(ENV_KEY, SPECIFIC_HTTPS_URL)
-
-      const dedicated = resolveWorkingGroupApplicationUrl({ applicationEnvKey: ENV_KEY })
-
-      expect(dedicated).toBe(SPECIFIC_HTTPS_URL)
-      expect(new URL(dedicated as string).host).not.toBe(new URL(SHARED_HTTPS_URL).host)
-    })
+    expect(resolveWorkingGroupApplicationUrl(group)).toBe(APPROVED_APPLICATION_URL.workingGroup)
   })
 })

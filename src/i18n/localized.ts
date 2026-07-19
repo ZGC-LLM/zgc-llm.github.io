@@ -13,16 +13,35 @@ export interface LocalizedText {
 /** 任意类型的双语容器：`zh` 权威、`en` 可选，缺失回退 `zh`。 */
 export type Localized<T> = { zh: T; en?: T }
 
+export interface ResolvedLocalized<T> {
+  isFallback: boolean
+  sourceLocale: Locale
+  value: T
+}
+
 /**
  * 按 locale 解析双语容器为具体值。
  * 非默认语言缺失时回退到中文权威值——视图永远拿到确定值、不感知回退。
  */
 export function resolve<T>(value: Localized<T>, locale: Locale): T {
-  if (locale === DEFAULT_LOCALE) return value.zh
+  return resolveWithStatus(value, locale).value
+}
+
+/**
+ * Resolve localized content while preserving whether Chinese fallback was used.
+ * Page/content migrations can therefore render an honest unavailable state or
+ * make missing English release-blocking instead of silently mixing languages.
+ */
+export function resolveWithStatus<T>(value: Localized<T>, locale: Locale): ResolvedLocalized<T> {
+  if (locale === DEFAULT_LOCALE) {
+    return { isFallback: false, sourceLocale: DEFAULT_LOCALE, value: value.zh }
+  }
 
   const localized = value[locale]
 
-  return localized === undefined ? value.zh : localized
+  return localized === undefined
+    ? { isFallback: true, sourceLocale: DEFAULT_LOCALE, value: value.zh }
+    : { isFallback: false, sourceLocale: locale, value: localized }
 }
 
 /** 是否尚未人工校对：英文缺失（走回退）或标注了 `enDraft`。 */

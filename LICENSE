@@ -1,26 +1,34 @@
-版权所有 © 2026 中关村自主大模型产业联盟（ZGCLLM）。保留所有权利。
-Copyright © 2026 Zhongguancun Independent Large Model Industry Alliance (ZGCLLM).
-All Rights Reserved.
+未授予公共许可 / NO PUBLIC LICENSE GRANTED
 
-本仓库及其全部内容（包括但不限于源代码、页面设计、文案、图片、配置数据与
-文档，下称"本作品"）为中关村自主大模型产业联盟的专有资产，受《中华人民共和国
-著作权法》及相关法律法规与国际条约保护。
+本仓库未提供开源许可或其他面向公众的使用授权。除适用法律或 GitHub 平台条款
+明确允许的行为外，未经相关权利人事先书面授权，不得复制、修改、分发、再许可
+或基于本仓库内容制作衍生作品。
 
-一、授权限制
-未经版权方事先书面授权，任何组织或个人不得以任何形式或方式复制、修改、发布、
-分发、再许可、出售、公开传播本作品或其任何部分，亦不得对本作品进行反向工程、
-反编译，或基于本作品创建衍生作品。
+仓库中可能包含由不同主体享有权利的源代码、文案、设计、图片、名称、标识、
+商标、域名及其他材料。其权利归属与许可范围以有效权属文件和书面授权为准；
+相关内容出现在本仓库中，不构成对所有权、著作权、商标权或可复用范围的确认。
 
-二、名称与标识
-"中关村自主大模型产业联盟""ZGCLLM"及相关名称、标识、商标与域名（包括
-zgc-llm.org.cn 及其子域、品牌保护域名等）归版权方或其权利人所有，未经许可
-不得使用。
+本项目在 `package.json` 中标记为 `UNLICENSED`。该标记表示未授予开源许可，
+不得解释为 SPDX `Unlicense` 公共领域声明。
 
-三、免责声明
-本作品按"现状"（AS IS）提供，不附带任何明示或默示的担保，包括但不限于适销性、
-特定用途适用性与不侵权的担保。在适用法律允许的最大范围内，版权方不对因使用或
-无法使用本作品而产生的任何直接、间接、偶然或后果性损害承担责任。
+正式权利主体、品牌资产使用范围与授权联系渠道尚待核验。本文件不替代法律意见；
+需要许可时，应通过项目维护者另行确认的渠道联系相关权利人。
 
-四、授权联系
-如需获取使用授权或洽谈合作，请通过官方网站 https://www.zgc-llm.org.cn
-公布的渠道联系版权方。
+This repository does not grant an open-source or other public license. Except as expressly
+permitted by applicable law or GitHub's platform terms, no part of this repository may be
+copied, modified, distributed, sublicensed, or used to create derivative works without prior
+written permission from the relevant rights holder.
+
+The repository may contain source code, copy, designs, images, names, logos, trademarks,
+domain names, and other materials whose rights are held by different parties. Ownership and
+permission scopes must be established by valid records and written authorization. Inclusion
+in this repository is not a representation of ownership, copyright or trademark status, or
+permission to reuse any material.
+
+The project is marked `UNLICENSED` in `package.json`. This means that no open-source license
+is granted; it must not be confused with the SPDX `Unlicense` public-domain dedication.
+
+The applicable rights holders, permitted uses of brand assets, and authorization contact
+channel remain subject to verification. This notice is not legal advice. Permission requests
+must be directed to the relevant rights holder through a channel separately confirmed by the
+project maintainers.

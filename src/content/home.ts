@@ -2,91 +2,165 @@ import { resolve, type Localized } from '@/i18n/localized'
 import type { Locale } from '@/i18n/locales'
 import type { ValueProposition } from '@/types/content'
 
-// 双语内容：中文权威，英文为初稿（enDraft，待人工校对）。经 getHomeXxx(locale) 访问。
+export interface HomeParticipationPath {
+  readonly action: string
+  readonly description: string
+  readonly href: '/join' | '/members' | '/news' | '/working-groups'
+  readonly id: string
+  readonly title: string
+}
 
-const VALUE_PROPOSITIONS: Localized<readonly ValueProposition[]> = {
+const FOCUS_AREAS: Localized<readonly ValueProposition[]> = {
   en: [
     {
       description:
-        'Keeping core foundation models open, connecting models, chips, computing power, data, platforms and industry applications to build an open collaboration network.',
-      id: 'open',
-      title: 'Open & Shared',
+        'Focus on shared research and validation questions in core large-model technology, long-horizon tasks and agent systems.',
+      id: 'technology',
+      title: 'Technology and systems',
     },
     {
       description:
-        'Around security-oriented large models, cybersecurity agents, capability evaluation and governance, moving black-box systems toward transparency and building a self-reliant, trustworthy and reliable security capability system.',
-      id: 'trustworthy',
-      title: 'Secure & Trustworthy',
+        'Connect needs and capabilities across models, chips, computing, data, platforms and industry applications.',
+      id: 'industry',
+      title: 'Industry and applications',
     },
     {
       description:
-        'Pooling the strength of the whole industry to tackle core technologies, long-horizon tasks and autonomous-agent systems, and pushing self-reliant large-model capabilities to new heights.',
-      id: 'collaborative',
-      title: 'Collaborative Effort',
+        'Address evaluation, security, compliance, authorization and accountability as foundations for trustworthy use.',
+      id: 'governance',
+      title: 'Security and governance',
     },
   ],
   zh: [
     {
-      description: '坚持核心基座模型开源共享，连接模型、芯片、算力、数据、平台及行业应用力量，构建开放协作网络。',
-      id: 'open',
-      title: '开放共享',
+      description: '关注大模型核心技术、长程任务与智能体系统，识别可共同研究和验证的问题。',
+      id: 'technology',
+      title: '技术与系统',
+    },
+    {
+      description: '连接模型、芯片、算力、数据、平台与行业应用，围绕真实需求寻找协作切入点。',
+      id: 'industry',
+      title: '产业与场景',
+    },
+    {
+      description: '关注评测、安全、合规、授权与责任边界，为可信应用建立清晰前提。',
+      id: 'governance',
+      title: '安全与治理',
+    },
+  ],
+}
+
+const TRUST_PRINCIPLES: Localized<readonly ValueProposition[]> = {
+  en: [
+    {
+      description:
+        'Start with practical needs and define the question, participation model and intended output.',
+      id: 'shared-priorities',
+      title: 'Shared priorities',
     },
     {
       description:
-        '围绕安全大模型、网络安全智能体、能力评测与治理，推动黑盒系统向透明可解释系统演进，构建自主可控、可信可靠的安全能力体系。',
-      id: 'trustworthy',
-      title: '安全可信',
+        'Include security, compliance, authorization and accountability in the collaboration process.',
+      id: 'responsibilities',
+      title: 'Clear responsibilities',
     },
     {
-      description: '汇聚产业各方力量，集中资源攻坚核心技术、长程任务与自治智能体系统，推动自主大模型能力持续迈向新高峰。',
-      id: 'collaborative',
-      title: '协同攻坚',
+      description:
+        'Publish member, event and progress information after reviewing its source and authorization.',
+      id: 'confirmed-information',
+      title: 'Confirmed information',
+    },
+  ],
+  zh: [
+    {
+      description: '从真实需求出发，明确问题、参与方式与预期产出。',
+      id: 'shared-priorities',
+      title: '共同议题',
+    },
+    {
+      description: '将安全、合规、授权与责任边界纳入协作过程。',
+      id: 'responsibilities',
+      title: '责任边界',
+    },
+    {
+      description: '成员、活动与阶段材料在完成来源和授权确认后发布。',
+      id: 'confirmed-information',
+      title: '确认后公开',
     },
   ],
 }
 
-const DIRECTIONS: Localized<readonly string[]> = {
+const PARTICIPATION_PATHS: Localized<readonly HomeParticipationPath[]> = {
   en: [
-    'Core technology innovation for self-reliant large models',
-    'Coordinated development across the industry chain',
-    'Industry scenarios and high-quality data co-creation',
-    'Joint evaluation of models and agents',
-    'Security-oriented large models and trustworthy agents',
-    'International development of AI enterprises',
+    {
+      action: 'View ways to participate',
+      description: 'Review the Alliance participation guidance and current application status.',
+      href: '/join',
+      id: 'alliance-participation',
+      title: 'Alliance participation',
+    },
+    {
+      action: 'Explore working groups',
+      description: "Explore each working group's focus and participation guidance.",
+      href: '/working-groups',
+      id: 'working-groups',
+      title: 'Working-group collaboration',
+    },
+    {
+      action: 'View member information',
+      description: 'Browse public member information and source notes.',
+      href: '/members',
+      id: 'members',
+      title: 'Member information',
+    },
+    {
+      action: 'View Alliance updates',
+      description: 'Read confirmed news, event and progress information.',
+      href: '/news',
+      id: 'news',
+      title: 'Alliance updates',
+    },
   ],
   zh: [
-    '自主大模型核心技术创新',
-    '产业链上下游协同发展',
-    '行业场景与高质量数据共建',
-    '模型与智能体联合评测',
-    '安全大模型与可信智能体建设',
-    '人工智能企业国际化发展',
+    {
+      action: '查看参与方式',
+      description: '了解联盟层面的参与说明与当前入口状态。',
+      href: '/join',
+      id: 'alliance-participation',
+      title: '联盟参与',
+    },
+    {
+      action: '查看工作组',
+      description: '浏览各工作组方向与对应的参与说明。',
+      href: '/working-groups',
+      id: 'working-groups',
+      title: '专题协作',
+    },
+    {
+      action: '查看成员信息',
+      description: '查阅联盟成员公开信息与来源说明。',
+      href: '/members',
+      id: 'members',
+      title: '成员信息',
+    },
+    {
+      action: '查看联盟动态',
+      description: '查看经确认后发布的新闻、活动与阶段信息。',
+      href: '/news',
+      id: 'news',
+      title: '联盟动态',
+    },
   ],
 }
 
-const ACTION_SLOGANS: Localized<readonly string[]> = {
-  en: [
-    'From demonstration agents to production-grade autonomous systems',
-    'From scattered exploration to coordinated effort',
-    'From closed black boxes to transparent and trustworthy systems',
-    'From single-point breakthroughs to long-horizon task deployment',
-  ],
-  zh: [
-    '从示范智能体走向生产级自治系统',
-    '从分散探索走向协同攻坚',
-    '从封闭黑盒走向透明可信',
-    '从单点能力突破走向长程任务落地',
-  ],
+export function getHomeFocusAreas(locale: Locale): readonly ValueProposition[] {
+  return resolve(FOCUS_AREAS, locale)
 }
 
-export function getHomeValuePropositions(locale: Locale): readonly ValueProposition[] {
-  return resolve(VALUE_PROPOSITIONS, locale)
+export function getHomeTrustPrinciples(locale: Locale): readonly ValueProposition[] {
+  return resolve(TRUST_PRINCIPLES, locale)
 }
 
-export function getHomeDirections(locale: Locale): readonly string[] {
-  return resolve(DIRECTIONS, locale)
-}
-
-export function getHomeActionSlogans(locale: Locale): readonly string[] {
-  return resolve(ACTION_SLOGANS, locale)
+export function getHomeParticipationPaths(locale: Locale): readonly HomeParticipationPath[] {
+  return resolve(PARTICIPATION_PATHS, locale)
 }

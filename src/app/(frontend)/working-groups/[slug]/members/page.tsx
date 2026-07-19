@@ -1,18 +1,20 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
 
 import { PageHero } from '@/components/site/page-hero'
+import { SectionHeading } from '@/components/site/section-heading'
 import { getWorkingGroupMembers } from '@/content/working-group-members'
 import {
   getWorkingGroupBySlug,
+  getWorkingGroupMembersContent,
   getWorkingGroupSlugs,
   localizeWorkingGroup,
 } from '@/content/working-groups'
 import type { Locale } from '@/i18n/locales'
-import { buildAlternates, localizePath } from '@/i18n/routing'
+import { buildPageMetadata, localizePath } from '@/i18n/routing'
 import type { WorkingGroupMember, WorkingGroupSummary } from '@/types/content'
 
 interface WorkingGroupMembersPageProps {
@@ -25,65 +27,19 @@ export function generateStaticParams(): { slug: string }[] {
   return getWorkingGroupSlugs().map((slug) => ({ slug }))
 }
 
-const STRINGS: Record<Locale, {
-  pageTitle: string
-  descriptionFor: (title: string) => string
-  ogTitleSuffix: string
-  emptyTitle: string
-  emptyBody: string
-  emptyCta: string
-  logoAltSuffix: string
-  relationNotePrefix: string
-  relationLinkLabel: string
-  relationNoteSuffix: string
-}> = {
-  en: {
-    descriptionFor: (title) =>
-      `View the publicly authorized Working Group Partners list of the ${title}.`,
-    emptyBody:
-      'More Working Group Partners will be disclosed after public authorization. Please stay tuned.',
-    emptyCta: 'Apply to join this working group',
-    emptyTitle: 'Working Group Partners list is being prepared',
-    logoAltSuffix: ' logo',
-    ogTitleSuffix: ' · Working Group Partners',
-    pageTitle: 'Working Group Partners',
-    relationLinkLabel: 'Alliance Members',
-    relationNotePrefix: 'Organisations on this list are mostly also alliance members. Visit ',
-    relationNoteSuffix: ' for the full list.',
-  },
-  zh: {
-    descriptionFor: (title) => `查看${title}公开授权的工作组共建伙伴名单。`,
-    emptyBody: '更多工作组共建伙伴名单将在获得公开授权后陆续公开，敬请关注。',
-    emptyCta: '申请加入本工作组',
-    emptyTitle: '工作组共建伙伴名单整理中',
-    logoAltSuffix: '标识',
-    ogTitleSuffix: ' · 工作组共建伙伴',
-    pageTitle: '工作组共建伙伴',
-    relationLinkLabel: '联盟成员',
-    relationNotePrefix: '名单单位多为联盟会员，可前往',
-    relationNoteSuffix: '页查看完整名单。',
-  },
-}
-
 export function createWorkingGroupMembersMetadata(
   group: WorkingGroupSummary,
   locale: Locale = 'zh',
 ): Metadata {
   const localized = localizeWorkingGroup(group, locale)
-  const t = STRINGS[locale]
-  const description = t.descriptionFor(localized.title)
+  const content = getWorkingGroupMembersContent(locale)
 
-  return {
-    alternates: buildAlternates(`/working-groups/${group.slug}/members`, locale),
-    description,
-    openGraph: {
-      description,
-      title: `${localized.title}${t.ogTitleSuffix}`,
-      type: 'website',
-      url: localizePath(`/working-groups/${group.slug}/members`, locale),
-    },
-    title: `${localized.title}${t.ogTitleSuffix}`,
-  }
+  return buildPageMetadata({
+    description: content.metadataDescriptionFor(localized.title),
+    locale,
+    title: content.metadataTitleFor(localized.title),
+    zhPath: `/working-groups/${group.slug}/members`,
+  })
 }
 
 export async function generateMetadata({
@@ -94,13 +50,13 @@ export async function generateMetadata({
 
   if (!group) notFound()
 
-  return createWorkingGroupMembersMetadata(group)
+  return createWorkingGroupMembersMetadata(group, 'zh')
 }
 
 interface WorkingGroupMembersDirectoryProps {
   group: WorkingGroupSummary
-  members: readonly WorkingGroupMember[]
   locale?: Locale
+  members: readonly WorkingGroupMember[]
 }
 
 export function WorkingGroupMembersDirectory({
@@ -108,20 +64,20 @@ export function WorkingGroupMembersDirectory({
   members,
   locale = 'zh',
 }: WorkingGroupMembersDirectoryProps): ReactElement {
-  const t = STRINGS[locale]
+  const content = getWorkingGroupMembersContent(locale)
 
   if (members.length === 0) {
     return (
       <section className="block">
         <div className="site-container">
           <div className="empty">
-            <h3>{t.emptyTitle}</h3>
-            <p>{t.emptyBody}</p>
+            <h2>{content.emptyTitle}</h2>
+            <p>{content.emptyBody}</p>
             <Link
-              className="btn btn--primary"
+              className="button-primary mt-6 whitespace-normal text-center"
               href={localizePath(`/working-groups/${group.slug}/join`, locale)}
             >
-              {t.emptyCta}
+              {content.emptyCta}
             </Link>
           </div>
         </div>
@@ -132,13 +88,14 @@ export function WorkingGroupMembersDirectory({
   return (
     <section className="block">
       <div className="site-container">
+        <SectionHeading title={content.directoryTitle} />
         <div className="grid-3">
           {members.map((member) => (
             <article className="card min-w-0" key={member.id}>
               {member.logo ? (
                 <div className="logo-tile">
                   <Image
-                    alt={`${member.name}${t.logoAltSuffix}`}
+                    alt={`${member.name}${content.logoAltSuffix}`}
                     className="max-h-14 w-auto object-contain"
                     height={56}
                     src={member.logo}
@@ -169,25 +126,31 @@ export function WorkingGroupMembersView({
   if (!group) notFound()
 
   const localized = localizeWorkingGroup(group, locale)
-  const t = STRINGS[locale]
+  const content = getWorkingGroupMembersContent(locale)
   const members = getWorkingGroupMembers(slug, locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
-        description={t.descriptionFor(localized.title)}
+        description={content.pageDescriptionFor(localized.title)}
         eyebrow={localized.title}
-        title={t.pageTitle}
+        title={content.pageTitle}
       />
-      <section className="block block--subtle">
-        <div className="site-container">
-          <p>
-            {t.relationNotePrefix}
-            <Link href={localizePath('/members', locale)}>{t.relationLinkLabel}</Link>
-            {t.relationNoteSuffix}
-          </p>
+      {members.length > 0 ? (
+        <div className="block block--subtle">
+          <div className="site-container">
+            <p className="max-w-[70ch] text-lg leading-relaxed text-[var(--text-body)]">
+              {content.relationBody}{' '}
+              <Link
+                className="text-link inline-flex min-h-11 items-center font-semibold text-[var(--brand-primary)]"
+                href={localizePath('/members', locale)}
+              >
+                {content.relationLinkLabel}
+              </Link>
+            </p>
+          </div>
         </div>
-      </section>
+      ) : null}
       <WorkingGroupMembersDirectory group={group} locale={locale} members={members} />
     </main>
   )
@@ -197,9 +160,6 @@ export default async function WorkingGroupMembersPage({
   params,
 }: WorkingGroupMembersPageProps): Promise<ReactElement> {
   const { slug } = await params
-  const group = getWorkingGroupBySlug(slug)
-
-  if (!group) notFound()
 
   return <WorkingGroupMembersView locale="zh" slug={slug} />
 }

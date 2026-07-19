@@ -1,56 +1,114 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
     branches:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# 允许一个并发部署，跳过排队中的旧运行；不取消进行中的部署
 concurrency:
   group: pages
   cancel-in-progress: false
 
+permissions: {}
+
+env:
+  NODE_VERSION: 22.23.1
+  PNPM_VERSION: 11.2.2
+  NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
+  NEXT_PUBLIC_APPLICATION_URL: ${{ vars.NEXT_PUBLIC_APPLICATION_URL }}
+  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: ${{ vars.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY }}
+  NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM: ${{ vars.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM }}
+
 jobs:
   build:
+    # workflow_run can carry write-capable deployment authority, so accept only
+    # a successful push CI run for main in this repository. Pull requests,
+    # forks, schedules and manually dispatched CI runs are never deployable.
+    if: >-
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository) ||
+      (github.event_name == 'workflow_dispatch' &&
+       github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: read
     env:
       BUILD_TARGET: export
-      NEXT_PUBLIC_SITE_URL: https://www.zgc-llm.org.cn
-      # 加入申请外部表单地址（可选覆盖）：在仓库 Settings → Secrets and variables → Actions 配置 Variable。
-      # `NEXT_PUBLIC_APPLICATION_URL`（联盟 /join，飞书问卷 https:// 链接，需外部/匿名可填）；
-      # `NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY`（网络安全工作组专属飞书问卷）。
-      # 二者均可留空：留空/未配置时回退为 src/config/site.ts 内置的默认问卷链接（非禁用态），无需在此配置即可上线。
-      NEXT_PUBLIC_APPLICATION_URL: ${{ vars.NEXT_PUBLIC_APPLICATION_URL }}
-      NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: ${{ vars.NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY }}
+      SOURCE_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
+      - name: Verify successful push CI for manual deployment
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          conclusion="$(
+            gh api \
+              --method GET \
+              "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs" \
+              -f branch=main \
+              -f event=push \
+              -f status=completed \
+              -f per_page=100 \
+              --jq ".workflow_runs
+                | map(select(.head_sha == \"${SOURCE_SHA}\"))
+                | sort_by(.run_number)
+                | last
+                | .conclusion // \"\""
+          )"
+          if [ "$conclusion" != 'success' ]; then
+            echo "::error::Manual deployment requires the latest completed main push CI for ${SOURCE_SHA} to succeed."
+            exit 1
+          fi
+      - name: Check out CI-approved revision
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
-          version: 11.2.2
-      - uses: actions/setup-node@v7
+          persist-credentials: false
+          ref: ${{ env.SOURCE_SHA }}
+      - name: Verify checked-out revision
+        run: test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+      - name: Set up pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           cache: pnpm
-          node-version: 22
-      - uses: actions/configure-pages@v6
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - uses: actions/upload-pages-artifact@v5
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build deployment export
+        # CI already proved both build targets. This clean runner rebuilds the
+        # immutable Pages artifact for the exact approved SHA and public vars.
+        run: pnpm build
+      - name: Verify canonical domain artifact
+        run: test "$(cat out/CNAME)" = 'www.zgc-llm.org.cn'
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: ./out
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      pages: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
+      - name: Deploy approved artifact
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5

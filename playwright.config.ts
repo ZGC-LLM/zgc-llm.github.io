@@ -11,38 +11,79 @@ const e2eBaseURL = remoteBaseURL ?? localBaseURL
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  expect: {
+    timeout: 10_000,
+  },
+  fullyParallel: false,
   testDir: './tests/e2e',
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  forbidOnly: true,
+  outputDir: 'test-results/playwright',
+  reporter: [['list'], ['html', { open: 'never', outputFolder: 'playwright-report' }]],
+  retries: 0,
+  timeout: 45_000,
   use: {
     baseURL: e2eBaseURL,
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
+    video: 'retain-on-failure',
   },
+  workers: 1,
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
+      testMatch: '**/*.fast.e2e.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'release-chromium',
+      testMatch: '**/journeys.release.e2e.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'release-firefox',
+      testMatch: '**/journeys.release.e2e.spec.ts',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'release-webkit',
+      testMatch: '**/journeys.release.e2e.spec.ts',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'release-mobile-chromium',
+      testMatch: '**/responsive.release.e2e.spec.ts',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'release-mobile-webkit',
+      testMatch: '**/responsive.release.e2e.spec.ts',
+      use: { ...devices['iPhone 13'] },
+    },
+    {
+      name: 'release-quality',
+      testMatch: /(?:keyboard|quality)\.release\.e2e\.spec\.ts/u,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'release-lighthouse',
+      testMatch: '**/lighthouse.release.e2e.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
   webServer: remoteBaseURL
     ? undefined
     : {
-        // 直接调用 next 二进制，绕过 `pnpm dev`。CI(setup-pnpm)下经 pnpm 启动子进程时，
-        // pnpm 会因 package.json `type: module` 去加载不存在的 .pnpmfile.mjs 而崩溃
-        // （Error during pnpmfile execution），导致 webServer 无法启动。直连二进制规避该问题。
-        command: `node node_modules/next/dist/bin/next dev --hostname 127.0.0.1 --port ${e2ePort}`,
-        env: { NODE_OPTIONS: '--no-deprecation' },
+        command: `pnpm build:export && node --no-deprecation --import=tsx/esm tests/helpers/staticExportServer.ts`,
+        env: {
+          E2E_PORT: String(e2ePort),
+          NEXT_PUBLIC_APPLICATION_URL: '',
+          NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: '',
+          NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM: '',
+          NEXT_PUBLIC_SITE_URL: 'https://www.zgc-llm.org.cn',
+          NODE_OPTIONS: '--no-deprecation',
+        },
         reuseExistingServer: false,
-        timeout: 120_000,
+        timeout: 180_000,
         url: localBaseURL,
       },
 })

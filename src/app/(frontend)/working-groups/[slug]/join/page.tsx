@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { ReactElement } from 'react'
 
@@ -6,13 +7,14 @@ import { ExternalApplicationLink } from '@/components/site/external-application-
 import { PageHero } from '@/components/site/page-hero'
 import { SectionHeading } from '@/components/site/section-heading'
 import { resolveWorkingGroupApplicationUrl } from '@/config/site'
+import { getWorkingGroupJoinContent } from '@/content/join'
 import {
   getWorkingGroupBySlug,
   getWorkingGroupSlugs,
   localizeWorkingGroup,
 } from '@/content/working-groups'
 import type { Locale } from '@/i18n/locales'
-import { buildAlternates } from '@/i18n/routing'
+import { buildPageMetadata, localizePath } from '@/i18n/routing'
 import type { WorkingGroupSummary } from '@/types/content'
 
 interface WorkingGroupJoinPageProps {
@@ -25,207 +27,28 @@ export function generateStaticParams(): { slug: string }[] {
   return getWorkingGroupSlugs().map((slug) => ({ slug }))
 }
 
-type Pair = readonly [string, string]
-
-const STRINGS: Record<Locale, {
-  applyCta: string
-  pageTitle: string
-  descriptionFor: (title: string) => string
-  metaDescriptionFor: (title: string) => string
-  ogTitleSuffix: string
-  valuesEyebrow: string
-  valuesTitle: string
-  valuesDescription: string
-  values: readonly Pair[]
-  pathsEyebrow: string
-  pathsTitle: string
-  pathsDescription: string
-  paths: readonly Pair[]
-  processEyebrow: string
-  processTitle: string
-  processDescription: string
-  processStep: string
-  process: readonly Pair[]
-  faqEyebrow: string
-  faqTitle: string
-  faq: readonly Pair[]
-}> = {
-  en: {
-    applyCta: 'Submit an application',
-    descriptionFor: (title) =>
-      `Whether you are an individual professional or represent a security enterprise, university or research institution, you are welcome to take part — learn about the value, paths and application process for joining the ${title} as a working group co-building partner. Submitting an application does not itself constitute formal membership; specific arrangements follow confirmation by the working group.`,
-    faq: [
-      [
-        'Who can apply — individuals or institutions?',
-        'Both. Security enterprises, universities, labs and individual researchers are all welcome to express interest in cooperating with the working group.',
-      ],
-      [
-        'Does applying mean formally joining?',
-        'No. The form is for establishing contact; specific arrangements are confirmed by the working group.',
-      ],
-      [
-        'What if the application channel is unavailable?',
-        'If the channel is not yet open, the page will prompt you to contact the Alliance via the channels published on this site.',
-      ],
-      [
-        'Where should institutions apply for formal Alliance membership?',
-        'This page is for working group co-building partners. If your institution wants to formally join the Alliance as a member, please visit the Alliance’s “Institutional Ecosystem Co-building” join page (/join) instead.',
-      ],
-      [
-        'Are there fees or thresholds to take part?',
-        'Taking part in the working group does not itself require any fee. We focus on your direction, capabilities and the ways you can contribute; specific tasks and roles are agreed with the working group.',
-      ],
-      [
-        'How are the data and tasks I contribute kept compliant?',
-        'All shared data and tasks proceed only after the necessary authorization and boundary confirmation, following the principles of vendor neutrality and compliant governance; we only use what has been authorized.',
-      ],
-    ],
-    faqEyebrow: 'Answers',
-    faqTitle: 'Frequently asked questions',
-    metaDescriptionFor: (title) =>
-      `Learn about the value, paths and application process for professional users joining the ${title}.`,
-    ogTitleSuffix: ' · Join the working group',
-    pageTitle: 'Join the working group',
-    paths: [
-      [
-        'Capability validation',
-        'Take part in capability testing, trusted validation and dynamic-range tasks for models and agents.',
-      ],
-      [
-        'In-depth data and task co-building',
-        'Contribute or use authorized in-depth data and tasks to support continuous accumulation.',
-      ],
-      [
-        'Professional dissemination',
-        'Join themed seminars, public events and dissemination of confirmed research results.',
-      ],
-    ],
-    pathsDescription:
-      'Choose a suitable entry point based on your research direction, technical ability and available time.',
-    pathsEyebrow: 'Ways to Participate',
-    pathsTitle: 'How to take part',
-    process: [
-      [
-        'Submit a cooperation application',
-        'Introduce your (or your institution’s) research direction, technical background and ways to participate via the professional-user Feishu form.',
-      ],
-      [
-        'Communicate & match',
-        'The working group confirms a suitable role and tasks based on public directions and validation conditions.',
-      ],
-      [
-        'Join the collaboration',
-        'After clarifying participation boundaries and authorization scope, formally join the working group’s topics.',
-      ],
-    ],
-    processDescription:
-      'Submitting an application expresses intent; subsequent collaboration follows the role and scope confirmed by the working group.',
-    processEyebrow: 'Collaboration Process',
-    processStep: 'Step',
-    processTitle: 'Joining process',
-    values: [
-      [
-        'Technical contribution',
-        'Channel research, validation and engineering capability into the working group’s in-depth tasks and capability-evaluation system.',
-      ],
-      [
-        'Topic participation',
-        'Join real-scenario topics such as offense-defense, competitions and ranges, advancing them together with ecosystem partners.',
-      ],
-      [
-        'Professional growth',
-        'Accumulate professional reputation through open collaboration and peer review, with access to frontier directions and first-hand data.',
-      ],
-    ],
-    valuesDescription:
-      'Connect individual expertise with real scenarios, in-depth tasks and the capability-validation system over the long term.',
-    valuesEyebrow: 'Value',
-    valuesTitle: 'The value of joining',
-  },
-  zh: {
-    applyCta: '提交加入工作组申请',
-    descriptionFor: (title) =>
-      `无论个人专业用户，还是安全企业、高校、科研机构等机构，均可参与——了解以工作组共建伙伴身份加入${title}的合作价值、参与路径与申请流程；提交申请不代表正式加入，以工作组后续确认为准。`,
-    faq: [
-      ['专业用户是否包含机构？', '是。既欢迎专业研究人员以个人身份参与，也欢迎安全企业、高校、实验室等机构表达合作意向。'],
-      ['提交申请是否代表正式加入？', '不代表。表单用于建立联系，具体参与安排以工作组后续确认为准。'],
-      ['申请通道暂不可用怎么办？', '若申请通道暂未开放，页面会提示您通过官网公布的联系方式与联盟联系。'],
-      [
-        '机构希望正式入盟，应前往哪里？',
-        '本页申请面向工作组共建伙伴；若机构希望以单位会员身份正式加入联盟，请前往联盟「机构生态共建」加入页（/join）提交合作申请。',
-      ],
-      [
-        '参与工作组是否有费用或门槛？',
-        '参与工作组本身不收取费用。我们更关注您的方向、能力与可参与的方式；具体任务与角色以工作组沟通确认为准。',
-      ],
-      [
-        '我贡献的数据与任务如何保证合规？',
-        '所有共享的数据与任务均在完成必要授权和边界确认后开展，遵循厂商中立与合规治理原则，我们只使用经授权的内容。',
-      ],
-    ],
-    faqEyebrow: '问题解答',
-    faqTitle: '常见问题',
-    metaDescriptionFor: (title) => `了解专业用户加入${title}的参与价值、路径与申请流程。`,
-    ogTitleSuffix: ' · 加入工作组',
-    pageTitle: '加入工作组',
-    paths: [
-      ['能力验证', '参与模型与智能体的能力测试、可信验证及动态靶场任务。'],
-      ['深度数据与任务共建', '贡献或使用经授权的深度数据与任务，支撑体系持续沉淀。'],
-      ['专业传播', '参与专题研讨、公开活动及经确认的研究成果传播。'],
-    ],
-    pathsDescription: '可根据个人研究方向、技术能力与可投入精力选择合适的参与切入点。',
-    pathsEyebrow: '参与路径',
-    pathsTitle: '参与方式',
-    process: [
-      ['提交合作申请', '通过专业用户飞书表单介绍您（或所在机构）的研究方向、技术背景与可参与的方式。'],
-      ['沟通与匹配', '工作组根据公开方向与验证条件，确认适合的参与角色与任务。'],
-      ['加入协作', '明确参与边界与授权范围后，正式加入工作组相关议题。'],
-    ],
-    processDescription: '提交申请即表达参与意向，后续协作以工作组确认的角色与范围为准。',
-    processEyebrow: '协作流程',
-    processStep: '步骤',
-    processTitle: '加入流程',
-    values: [
-      ['技术贡献', '将研究、验证与工程能力汇入工作组的深度任务与能力评测体系。'],
-      ['议题参与', '加入真实场景与攻防、赛事、靶场等专项议题，与生态伙伴共同推进。'],
-      ['专业成长', '在开放协作与同行评审中积累专业声誉，接触前沿方向与一手数据。'],
-    ],
-    valuesDescription: '让个人专业能力与真实场景、深度任务和能力验证体系形成长期连接。',
-    valuesEyebrow: '参与价值',
-    valuesTitle: '加入价值',
-  },
-}
-
 export function createWorkingGroupJoinMetadata(
   group: WorkingGroupSummary,
   locale: Locale = 'zh',
 ): Metadata {
   const localized = localizeWorkingGroup(group, locale)
-  const t = STRINGS[locale]
-  const description = t.metaDescriptionFor(localized.title)
+  const content = getWorkingGroupJoinContent(locale)
 
-  return {
-    alternates: buildAlternates(`/working-groups/${group.slug}/join`, locale),
-    description,
-    openGraph: {
-      description,
-      title: `${localized.title}${t.ogTitleSuffix}`,
-      type: 'website',
-      url: `/working-groups/${group.slug}/join`,
-    },
-    title: `${localized.title}${t.ogTitleSuffix}`,
-  }
+  return buildPageMetadata({
+    description: content.metadataDescriptionFor(localized.title),
+    locale,
+    title: content.metadataTitleFor(localized.title),
+    zhPath: `/working-groups/${group.slug}/join`,
+  })
 }
 
-export async function generateMetadata({
-  params,
-}: WorkingGroupJoinPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: WorkingGroupJoinPageProps): Promise<Metadata> {
   const { slug } = await params
   const group = getWorkingGroupBySlug(slug)
 
   if (!group) notFound()
 
-  return createWorkingGroupJoinMetadata(group)
+  return createWorkingGroupJoinMetadata(group, 'zh')
 }
 
 export function WorkingGroupJoinView({
@@ -239,39 +62,46 @@ export function WorkingGroupJoinView({
 
   if (!group) notFound()
 
-  const t = STRINGS[locale]
   const localized = localizeWorkingGroup(group, locale)
+  const content = getWorkingGroupJoinContent(locale)
   const configuredUrl = resolveWorkingGroupApplicationUrl(group)
+  const detailHref = localizePath(`/working-groups/${group.slug}`, locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
-          <ExternalApplicationLink
-            className="button-primary"
-            configuredUrl={configuredUrl}
-            label={t.applyCta}
-          >
-            {t.applyCta}
-          </ExternalApplicationLink>
+          <>
+            <ExternalApplicationLink
+              className="button-primary whitespace-normal text-center"
+              configuredUrl={configuredUrl}
+              label={content.applyCta}
+              locale={locale}
+            >
+              {content.applyCta}
+            </ExternalApplicationLink>
+            <Link className="button-secondary whitespace-normal text-center" href={detailHref}>
+              {content.detailCta}
+            </Link>
+          </>
         }
-        description={t.descriptionFor(localized.title)}
+        description={content.heroDescriptionFor(localized.title)}
         eyebrow={localized.title}
-        title={t.pageTitle}
+        title={content.pageTitle}
       />
 
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description={t.valuesDescription}
-            eyebrow={t.valuesEyebrow}
-            title={t.valuesTitle}
+            description={content.participation.description}
+            eyebrow={content.participation.eyebrow}
+            title={content.participation.title}
           />
           <div className="grid-3">
-            {t.values.map(([title, description]) => (
-              <article className="card" key={title}>
-                <h3>{title}</h3>
-                <p>{description}</p>
+            {content.participation.items.map((item) => (
+              <article className="card" key={item.id}>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
               </article>
             ))}
           </div>
@@ -281,15 +111,15 @@ export function WorkingGroupJoinView({
       <section className="block block--subtle">
         <div className="site-container">
           <SectionHeading
-            description={t.pathsDescription}
-            eyebrow={t.pathsEyebrow}
-            title={t.pathsTitle}
+            description={content.requirements.description}
+            eyebrow={content.requirements.eyebrow}
+            title={content.requirements.title}
           />
           <div className="grid-3">
-            {t.paths.map(([title, description]) => (
-              <article className="card" key={title}>
-                <h3>{title}</h3>
-                <p>{description}</p>
+            {content.requirements.items.map((item) => (
+              <article className="card" key={item.id}>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
               </article>
             ))}
           </div>
@@ -299,18 +129,18 @@ export function WorkingGroupJoinView({
       <section className="block">
         <div className="site-container">
           <SectionHeading
-            description={t.processDescription}
-            eyebrow={t.processEyebrow}
-            title={t.processTitle}
+            description={content.process.description}
+            eyebrow={content.process.eyebrow}
+            title={content.process.title}
           />
           <ol className="grid-3">
-            {t.process.map(([title, description], index) => (
-              <li className="card" key={title}>
+            {content.process.items.map((step, index) => (
+              <li className="card" key={step.id}>
                 <p className="eyebrow">
-                  {t.processStep} {String(index + 1).padStart(2, '0')}
+                  {content.processStepLabel} {String(index + 1).padStart(2, '0')}
                 </p>
-                <h3>{title}</h3>
-                <p>{description}</p>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
               </li>
             ))}
           </ol>
@@ -319,12 +149,20 @@ export function WorkingGroupJoinView({
 
       <section className="block block--subtle">
         <div className="site-container">
-          <SectionHeading eyebrow={t.faqEyebrow} title={t.faqTitle} />
+          <SectionHeading eyebrow={content.faq.eyebrow} title={content.faq.title} />
           <div className="grid-3">
-            {t.faq.map(([question, answer]) => (
-              <article className="card" key={question}>
-                <h3>{question}</h3>
-                <p>{answer}</p>
+            {content.faq.items.map((item) => (
+              <article className="card" key={item.id}>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+                {item.link ? (
+                  <Link
+                    className="text-link mt-4 inline-flex min-h-11 items-center font-semibold text-[var(--brand-primary)]"
+                    href={localizePath(item.link.href, locale)}
+                  >
+                    {item.link.label}
+                  </Link>
+                ) : null}
               </article>
             ))}
           </div>
@@ -338,9 +176,6 @@ export default async function WorkingGroupJoinPage({
   params,
 }: WorkingGroupJoinPageProps): Promise<ReactElement> {
   const { slug } = await params
-  const group = getWorkingGroupBySlug(slug)
-
-  if (!group) notFound()
 
   return <WorkingGroupJoinView locale="zh" slug={slug} />
 }

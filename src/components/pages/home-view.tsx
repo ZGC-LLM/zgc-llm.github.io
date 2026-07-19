@@ -2,174 +2,125 @@ import Link from 'next/link'
 import type { ReactElement } from 'react'
 
 import { SectionHeading } from '@/components/site/section-heading'
-import { SITE_NAME } from '@/config/site'
-import { getHomeActionSlogans, getHomeDirections, getHomeValuePropositions } from '@/content/home'
-import { MEMBERS } from '@/content/members'
-import { getPublishedNews } from '@/content/news'
+import { getSiteName } from '@/config/site'
+import {
+  getHomeFocusAreas,
+  getHomeParticipationPaths,
+  getHomeTrustPrinciples,
+} from '@/content/home'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
 
-// 页面级双语文案。成员单位名与新闻标题/摘要属尚未迁移的内容模块，英文页暂回退中文。
 interface HomeStrings {
-  heroTitle: string
-  heroLead: string
-  heroCta: string
-  heroWorkingGroupCta: string
-  glass1Key: string
-  glass1Value: string
-  glass1Tags: string[]
-  glass2Key: string
-  glass2Value: string
-  glass2Tags: string[]
-  valueEyebrow: string
-  valueTitle: string
-  valueDescription: string
-  directionsEyebrow: string
-  directionsTitle: string
-  directionsDescription: string
-  actionEyebrow: string
-  actionTitle: string
-  actionDescription: string
-  cyberEyebrow: string
-  cyberTitle: string
-  cyberBody: string
-  cyberAction: string
-  membersEyebrow: string
-  membersTitle: string
-  membersDescription: string
-  membersAllianceAction: string
-  membersWorkingGroupAction: string
-  membersEmptyTitle: string
-  membersEmptyBody: string
-  newsEyebrow: string
-  newsTitle: string
-  newsDescription: string
-  newsAction: string
-  newsEmptyTitle: string
-  newsEmptyBody: string
-  endTitle: string
   endBody: string
-  endAction: string
+  endPrimaryAction: string
+  endSecondaryAction: string
+  endTitle: string
+  focusDescription: string
+  focusEyebrow: string
+  focusTitle: string
+  glass1Key: string
+  glass1Tags: readonly string[]
+  glass1Value: string
+  glass2Key: string
+  glass2Tags: readonly string[]
+  glass2Value: string
+  heroLead: string
+  heroPrimaryAction: string
+  heroSecondaryAction: string
+  heroTitle: string
+  participationDescription: string
+  participationEyebrow: string
+  participationTitle: string
+  trustDescription: string
+  trustEyebrow: string
+  trustTitle: string
 }
 
-const STRINGS: Record<Locale, HomeStrings> = {
+const STRINGS: Readonly<Record<Locale, HomeStrings>> = {
   en: {
-    actionDescription:
-      'Along a clear path, moving the Alliance from capability building toward industrial value.',
-    actionEyebrow: 'Action Path',
-    actionTitle: 'A sustained leap from capability to ecosystem',
-    cyberAction: 'Explore the cybersecurity ecosystem',
-    cyberBody:
-      'The Alliance hosts a Cybersecurity Working Group focused on security-oriented large models and cybersecurity agents, connecting professional users, real scenarios, in-depth tasks and capability validation to keep advancing priority projects.',
-    cyberEyebrow: 'Security Working Group',
-    cyberTitle: 'Cybersecurity Ecosystem',
-    directionsDescription:
-      "Advancing continuously around self-reliant large models' core technology, industrial collaboration, scenario data, evaluation, security and internationalisation.",
-    directionsEyebrow: 'Focus Areas',
-    directionsTitle: 'Six priority workstreams',
-    endAction: 'Apply to become an ecosystem partner',
     endBody:
-      'We invite institutional partners to join the Alliance and build an open, secure and collaborative industry ecosystem together.',
-    endTitle: 'Build the self-reliant large-model industry ecosystem',
-    glass1Key: 'Positioning',
-    glass1Value:
-      'A self-reliant large-model industry ecosystem platform connecting models, chips, computing power, data, platforms and industry applications',
-    glass1Tags: ['Models', 'Chips', 'Compute', 'Data', 'Platforms', 'Applications'],
-    glass2Key: 'Core Topics',
+      'Review the participation guidance and current availability, then choose the relevant Alliance or working-group path.',
+    endPrimaryAction: 'View ways to participate',
+    endSecondaryAction: 'Explore working groups',
+    endTitle: 'Start with the path that fits your organization',
+    focusDescription:
+      'The Alliance groups its focus into technology, industry and governance topics that organizations can explore together.',
+    focusEyebrow: 'Focus areas',
+    focusTitle: 'Shared priorities for practical collaboration',
+    glass1Key: 'Alliance focus',
+    glass1Tags: ['Technology', 'Industry', 'Applications', 'Security'],
+    glass1Value: 'Technology and industry collaboration around shared priorities',
+    glass2Key: 'Explore',
+    glass2Tags: ['About', 'Working groups', 'Members', 'Participation'],
     glass2Value:
-      'Technology innovation, industrial collaboration, real-world deployment and building secure, trustworthy capabilities',
-    glass2Tags: ['Tech Innovation', 'Collaboration', 'Deployment', 'Security & Trust'],
-    heroCta: 'Join the Alliance',
-    heroWorkingGroupCta: 'Join a Working Group',
+      "From the Alliance's role to working groups, member information and ways to participate",
     heroLead:
-      'The Alliance brings together universities, research institutions and industry partners to advance technology innovation, industrial collaboration, real-world deployment and international cooperation around self-reliant large models, while continually strengthening security-oriented large models, trustworthy agents and AI security governance.',
-    heroTitle:
-      'Uniting self-reliant large-model strength to build an open, secure and collaborative industry ecosystem',
-    membersAllianceAction: 'Alliance Members',
-    membersDescription:
-      'The Alliance works with all parties to build an open and collaborative industry ecosystem.',
-    membersEmptyBody:
-      'Member information will be released gradually after public authorization. Please stay tuned.',
-    membersEmptyTitle: 'Member information is being prepared',
-    membersEyebrow: 'Ecosystem Partners',
-    membersTitle: 'Connecting diverse industry strengths',
-    membersWorkingGroupAction: 'Working Group Members',
-    newsAction: 'View news',
-    newsDescription:
-      'Publishing Alliance updates, event notices, industry observations and confirmed stage results.',
-    newsEmptyBody:
-      'News, events and results confirmed by the Alliance will be updated here. Please stay tuned.',
-    newsEmptyTitle: 'Latest updates coming soon',
-    newsEyebrow: 'Latest',
-    newsTitle: 'Follow the Alliance',
-    valueDescription:
-      'Connecting all industry parties on the pillars of open sharing, security and trust, and collaborative effort.',
-    valueEyebrow: 'Alliance Values',
-    valueTitle: 'An open, secure and collaborative industry ecosystem',
+      "ZGCLLM focuses on technology, industry coordination, practical applications and security governance. This site presents the Alliance's priorities, public information and ways for organizations to participate.",
+    heroPrimaryAction: 'View ways to participate',
+    heroSecondaryAction: 'About the Alliance',
+    heroTitle: 'Open, secure collaboration for large-model technology and industry',
+    participationDescription:
+      'For organizations interested in collaboration on large-model technology, industry applications or security governance. Eligibility, required materials and application availability are stated on the relevant page.',
+    participationEyebrow: 'Ways to participate',
+    participationTitle: 'Clear paths for organizations',
+    trustDescription:
+      'The Alliance promotes collaboration around defined questions and publishes related information after reviewing its source and authorization.',
+    trustEyebrow: 'Collaboration principles',
+    trustTitle: 'Trust through clear goals and responsibilities',
   },
   zh: {
-    actionDescription: '沿清晰路径，推动联盟从能力建设走向产业价值。',
-    actionEyebrow: '行动路径',
-    actionTitle: '从能力到生态的持续跃迁',
-    cyberAction: '了解网络安全生态',
-    cyberBody:
-      '联盟下设网络安全工作组，聚焦安全大模型与网络安全智能体，连接专业用户、真实场景、深度任务与能力验证，持续推进重点项目落地。',
-    cyberEyebrow: '安全工作组',
-    cyberTitle: '网络安全生态',
-    directionsDescription: '围绕自主大模型的核心技术、产业协同、场景数据、评测、安全与国际化持续推进。',
-    directionsEyebrow: '重点方向',
-    directionsTitle: '六项重点工作',
-    endAction: '申请成为生态伙伴',
-    endBody: '诚邀机构伙伴加入联盟，携手共建开放、安全、协同的产业生态。',
-    endTitle: '共建自主大模型产业生态',
-    glass1Key: '联盟定位',
-    glass1Value: '连接模型、芯片、算力、数据、平台及行业应用的自主大模型产业生态平台',
-    glass1Tags: ['模型', '芯片', '算力', '数据', '平台', '行业应用'],
-    glass2Key: '核心议题',
-    glass2Value: '技术创新、产业协同、场景落地与安全可信能力建设',
-    glass2Tags: ['技术创新', '产业协同', '场景落地', '安全可信'],
-    heroCta: '加入联盟',
-    heroWorkingGroupCta: '加入工作组',
+    endBody: '先查看参与说明与入口状态，再选择联盟或工作组的协作方式。',
+    endPrimaryAction: '查看参与方式',
+    endSecondaryAction: '浏览工作组',
+    endTitle: '从适合贵机构的路径开始',
+    focusDescription: '从技术、产业与治理三个层面，识别适合跨机构协作的议题。',
+    focusEyebrow: '联盟关注',
+    focusTitle: '聚焦可共同推进的问题',
+    glass1Key: '联盟关注',
+    glass1Tags: ['技术创新', '产业协同', '场景实践', '安全治理'],
+    glass1Value: '围绕共同议题组织技术与产业协作',
+    glass2Key: '浏览路径',
+    glass2Tags: ['联盟介绍', '工作组', '成员信息', '参与方式'],
+    glass2Value: '从联盟定位到工作组、成员信息与参与方式',
     heroLead:
-      '联盟汇聚高校、科研机构与产业伙伴，围绕自主大模型推动技术创新、产业协同、场景落地与国际合作，持续强化安全大模型、可信智能体与人工智能安全治理能力。',
-    heroTitle: '汇聚自主大模型力量，共建开放、安全、协同的产业生态',
-    membersAllianceAction: '联盟成员',
-    membersDescription: '联盟携手各方共建开放、协同的产业生态。',
-    membersEmptyBody: '成员信息将在完成公开授权后陆续发布，敬请关注。',
-    membersEmptyTitle: '成员信息整理中',
-    membersEyebrow: '生态伙伴',
-    membersTitle: '连接多元产业力量',
-    membersWorkingGroupAction: '工作组成员',
-    newsAction: '查看新闻动态',
-    newsDescription: '发布联盟动态、活动通知、行业观察与阶段成果。',
-    newsEmptyBody: '经联盟确认的新闻、活动与成果将陆续在此更新，敬请关注。',
-    newsEmptyTitle: '最新动态即将发布',
-    newsEyebrow: '最新动态',
-    newsTitle: '关注联盟进展',
-    valueDescription: '以开放共享、安全可信、协同攻坚为支柱，连接产业各方力量。',
-    valueEyebrow: '联盟价值',
-    valueTitle: '开放、安全、协同的产业生态',
+      '中关村自主大模型产业联盟聚焦技术创新、产业协同、场景实践与安全治理。本网站集中呈现联盟方向、公开信息与机构参与路径。',
+    heroPrimaryAction: '查看参与方式',
+    heroSecondaryAction: '了解联盟',
+    heroTitle: '连接大模型技术与产业力量，推动开放、安全、务实的协作',
+    participationDescription:
+      '适合希望围绕大模型技术、产业应用或安全治理开展协作的机构。具体资格、材料要求与入口状态以相应页面为准。',
+    participationEyebrow: '参与路径',
+    participationTitle: '为机构伙伴提供清晰入口',
+    trustDescription: '联盟倡导围绕明确问题开展协作，并在确认来源与授权后公开相关信息。',
+    trustEyebrow: '协作原则',
+    trustTitle: '以清晰目标和责任边界建立信任',
   },
 }
 
 export function HomeView({ locale }: { locale: Locale }): ReactElement {
   const t = STRINGS[locale]
-  const publishedNews = getPublishedNews()
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <section className="hero page-hero">
-        <div className="container hero__inner">
+        <div className="hero__inner site-container">
           <div>
-            <p className="eyebrow">{SITE_NAME}</p>
+            <p className="eyebrow">{getSiteName(locale)}</p>
             <h1>{t.heroTitle}</h1>
             <p className="hero__lead">{t.heroLead}</p>
             <div className="hero__cta">
-              <Link className="btn btn--primary" href={localizePath('/join', locale)}>
-                {t.heroCta}
+              <Link
+                className="btn btn--primary w-full sm:w-auto"
+                href={localizePath('/join', locale)}
+              >
+                {t.heroPrimaryAction}
               </Link>
-              <Link className="btn btn--ghost" href={localizePath('/working-groups', locale)}>
-                {t.heroWorkingGroupCta}
+              <Link
+                className="btn btn--ghost w-full sm:w-auto"
+                href={localizePath('/alliance', locale)}
+              >
+                {t.heroSecondaryAction}
               </Link>
             </div>
           </div>
@@ -202,14 +153,14 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
       </section>
 
       <section className="block">
-        <div className="container">
+        <div className="site-container">
           <SectionHeading
-            description={t.valueDescription}
-            eyebrow={t.valueEyebrow}
-            title={t.valueTitle}
+            description={t.focusDescription}
+            eyebrow={t.focusEyebrow}
+            title={t.focusTitle}
           />
           <div className="grid-3">
-            {getHomeValuePropositions(locale).map((item, index) => (
+            {getHomeFocusAreas(locale).map((item, index) => (
               <article className="card" key={item.id}>
                 <p className="card__num">0{index + 1}</p>
                 <h3>{item.title}</h3>
@@ -221,34 +172,18 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
       </section>
 
       <section className="block block--subtle">
-        <div className="container split">
+        <div className="site-container">
           <SectionHeading
-            description={t.directionsDescription}
-            eyebrow={t.directionsEyebrow}
-            title={t.directionsTitle}
+            description={t.trustDescription}
+            eyebrow={t.trustEyebrow}
+            title={t.trustTitle}
           />
-          <div className="dir-list">
-            {getHomeDirections(locale).map((direction, index) => (
-              <div className="dir-item" key={direction}>
-                <span className="n">{index + 1}</span>
-                <b>{direction}</b>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="block">
-        <div className="container">
-          <SectionHeading
-            description={t.actionDescription}
-            eyebrow={t.actionEyebrow}
-            title={t.actionTitle}
-          />
-          <div className="grid-4">
-            {getHomeActionSlogans(locale).map((slogan) => (
-              <article className="card" key={slogan}>
-                <b>{slogan}</b>
+          <div className="grid-3">
+            {getHomeTrustPrinciples(locale).map((principle, index) => (
+              <article className="card" key={principle.id}>
+                <p className="card__num">0{index + 1}</p>
+                <h3>{principle.title}</h3>
+                <p>{principle.description}</p>
               </article>
             ))}
           </div>
@@ -256,99 +191,46 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
       </section>
 
       <section className="block">
-        <div className="container">
-          <div className="cta-band">
-            <div>
-              <p className="eyebrow">{t.cyberEyebrow}</p>
-              <h2>{t.cyberTitle}</h2>
-              <p>{t.cyberBody}</p>
-            </div>
-            <Link className="btn btn--primary" href={localizePath('/cybersecurity', locale)}>
-              {t.cyberAction}
-            </Link>
+        <div className="site-container">
+          <SectionHeading
+            description={t.participationDescription}
+            eyebrow={t.participationEyebrow}
+            title={t.participationTitle}
+          />
+          <div className="grid-2">
+            {getHomeParticipationPaths(locale).map((path) => (
+              <article className="card" key={path.id}>
+                <h3>{path.title}</h3>
+                <p>{path.description}</p>
+                <Link className="text-link mt-4" href={localizePath(path.href, locale)}>
+                  {path.action}
+                </Link>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="block block--subtle">
-        <div className="container">
-          <SectionHeading
-            action={
-              <div className="flex gap-4">
-                <Link className="text-link" href={localizePath('/members', locale)}>
-                  {t.membersAllianceAction}
-                </Link>
-                <Link className="text-link" href={localizePath('/working-groups', locale)}>
-                  {t.membersWorkingGroupAction}
-                </Link>
-              </div>
-            }
-            description={t.membersDescription}
-            eyebrow={t.membersEyebrow}
-            title={t.membersTitle}
-          />
-          {MEMBERS.length > 0 ? (
-            <div className="grid-4">
-              {MEMBERS.slice(0, 4).map((member) => (
-                <article className="card" key={member.id}>
-                  <h3>{member.name}</h3>
-                  {member.description ? <p>{member.description}</p> : null}
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="empty">
-              <h3>{t.membersEmptyTitle}</h3>
-              <p>{t.membersEmptyBody}</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="block">
-        <div className="container">
-          <SectionHeading
-            action={
-              <Link className="text-link" href={localizePath('/news', locale)}>
-                {t.newsAction}
-              </Link>
-            }
-            description={t.newsDescription}
-            eyebrow={t.newsEyebrow}
-            title={t.newsTitle}
-          />
-          {publishedNews.length > 0 ? (
-            <div className="grid-3 news">
-              {publishedNews.slice(0, 3).map((entry) => (
-                <article className="card" key={entry.slug}>
-                  <div className="news__meta">
-                    <span className="news__date">{entry.date}</span>
-                  </div>
-                  <h3>
-                    <Link href={localizePath(`/news/${entry.slug}`, locale)}>{entry.title}</Link>
-                  </h3>
-                  <p>{entry.description}</p>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="empty">
-              <h3>{t.newsEmptyTitle}</h3>
-              <p>{t.newsEmptyBody}</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="container">
+      <section className="site-container">
         <div className="end-cta">
           <div>
             <h2>{t.endTitle}</h2>
             <p>{t.endBody}</p>
           </div>
-          <Link className="btn btn--primary" href={localizePath('/join', locale)}>
-            {t.endAction}
-          </Link>
+          <div className="flex w-full flex-wrap gap-3 sm:w-auto">
+            <Link
+              className="btn btn--primary w-full sm:w-auto"
+              href={localizePath('/join', locale)}
+            >
+              {t.endPrimaryAction}
+            </Link>
+            <Link
+              className="btn btn--ghost w-full sm:w-auto"
+              href={localizePath('/working-groups', locale)}
+            >
+              {t.endSecondaryAction}
+            </Link>
+          </div>
         </div>
       </section>
     </main>

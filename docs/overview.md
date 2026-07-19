@@ -1,90 +1,128 @@
 # 项目总览
 
-> 中关村自主大模型产业联盟官网（ZGCLLM）工程总览。面向第一次接触本仓库的开发者与协作者，帮助快速建立整体认知。
-> 更详细的上手与命令见根目录 [`README.md`](../README.md) 与 [`CONTRIBUTING.md`](../CONTRIBUTING.md)。
+中关村自主大模型产业联盟官网是一个类型化内容驱动的 Next.js 网站。它公开联盟定位、工作组、成员来源、新闻和参与指引，不包含 CMS、数据库、登录系统或官网内申请接口。
 
-## 一句话定位
+快速上手见 [README](../README.md)，协作和质量门见 [贡献指南](../CONTRIBUTING.md)。
 
-纯静态展示型官网：公开内容由仓库内类型化配置（`src/content/`）驱动，加入申请通过飞书表单外链承接。**官网不接收、不落库、不保存任何申请人数据**，无内容管理后台，无数据库。
+## 技术基线
 
-## 技术栈
+| 领域    | 当前实现                                                 |
+| ------- | -------------------------------------------------------- |
+| 框架    | Next.js 16.2.6 App Router、React 19.2.6                  |
+| 语言    | TypeScript 5.7.3，严格模式                               |
+| 样式    | Tailwind CSS 4 与全局语义 token                          |
+| Node.js | CI/Docker 使用 22.23.1；engine 为 `>=22.19.0 <23`        |
+| 包管理  | pnpm 11.2.2                                              |
+| 测试    | Vitest unit/integration、Playwright E2E、Axe、Lighthouse |
+| 交付    | GitHub Pages 静态导出为主，Docker standalone 为备选      |
 
-| 领域 | 选型 |
-|------|------|
-| 框架 | Next.js 16（App Router）+ React 19 |
-| 语言 | TypeScript 5.7（严格模式，禁用 `any`） |
-| 样式 | Tailwind CSS 4 + 全局设计 Token（`src/app/(frontend)/styles.css`） |
-| 测试 | Vitest（单元/组件，jsdom）、Playwright（E2E） |
-| 质量 | ESLint、Prettier |
-| 交付 | Docker（Next.js standalone）、GitHub Actions |
-| 运行时 | Node.js 22（`engines` 下限 20.9.0）、pnpm 11 |
-
-## 目录结构
+## 目录与职责
 
 ```text
 src/
 ├── app/
-│   ├── (frontend)/       # 官网 App Router 页面、布局、样式、sitemap
-│   │   ├── layout.tsx     # 站点外壳（页头/页脚）
-│   │   ├── page.tsx       # 首页
-│   │   ├── styles.css     # 全局视觉 Token 与响应式断点
-│   │   ├── not-found.tsx  # 统一中文 404
-│   │   ├── sitemap.ts     # /sitemap.xml 生成
-│   │   ├── alliance/ working-groups/ cybersecurity/
-│   │   ├── members/ news/ news/[slug]/
-│   │   └── join/ professionals/ privacy/
-│   └── robots.ts          # 根级 /robots.txt 生成
-├── components/site/       # 站点 UI 组件（页头、页脚、导航、Hero、申请外链等）
-├── config/site.ts         # 站点名称、导航、公开路由、统一申请目标配置
-├── content/               # 类型化的公开内容（各业务领域一个文件）
-│   ├── alliance.ts cybersecurity.ts home.ts
-│   └── members.ts news.ts working-groups.ts
-└── types/content.ts       # 内容与申请目标的类型定义
+│   ├── (frontend)/        中文页面、共享样式、sitemap
+│   ├── (en)/              /en 英文页面
+│   ├── global-not-found.tsx
+│   └── robots.ts
+├── components/
+│   ├── pages/             页面级视图
+│   └── site/              header、footer、导航、SEO 与外链状态
+├── config/site.ts         canonical、导航、公开路由、申请 target
+├── content/               类型化公开内容与来源记录
+├── i18n/                  locale、路由、字典与 localized helper
+├── lib/                   内容校验与结构化数据
+└── types/content.ts       内容、事实和申请 target 类型
+
 tests/
-├── unit/                  # 单元与组件测试（Vitest + jsdom）
-├── e2e/                   # 浏览器端到端测试（Playwright）
-└── helpers/               # 测试辅助（如 E2E 端口/URL 配置）
+├── unit/                  纯函数、内容、配置和组件行为
+├── integration/           路由、metadata、SEO 与跨模块契约
+├── e2e/                   快速与发布级浏览器旅程
+└── helpers/               路由清单、静态服务器、Axe 与 Lighthouse
 ```
+
+## 请求与内容流
+
+```text
+src/content + src/config/site.ts
+          │
+          ├── locale accessor / route shell
+          │          └── page views and site components
+          │
+          ├── content-validation release contract
+          │
+          └── sitemap / metadata / structured data
+```
+
+页面默认使用 Server Components。页头导航、语言切换等需要浏览器状态的交互才使用 Client Components。
+
+内容中的具名主体、角色、结果和承诺通过 `FactReference` 登记来源、复核信息、发布决定和允许公开的范围。`published` 与 `named` 只影响渲染，不能作为授权证据。维护流程见 [内容录入指南](./content-authoring.md)。
 
 ## 公开路由
 
-- 内容页：`/`、`/alliance`、`/working-groups`、`/cybersecurity`、`/members`、`/news`、`/news/[slug]`
-- 转化页：`/join`（机构生态共建）、`/working-groups/cybersecurity/join`（网安组参与/合作）、`/privacy`。两个入口的 CTA 共用同一张飞书问卷。
-- SEO：`/sitemap.xml`、`/robots.txt`
+中文使用根路径，英文使用相同路径的 `/en` 前缀。当前有 12 组页面：
 
-公开静态路由集中在 `src/config/site.ts` 的 `PUBLIC_STATIC_ROUTES`，`sitemap.ts` 与导航均从此派生，避免不一致。
+| 页面           | 中文路径                                |
+| -------------- | --------------------------------------- |
+| 首页           | `/`                                     |
+| 联盟介绍       | `/alliance`                             |
+| 工作组目录     | `/working-groups`                       |
+| 网络安全工作组 | `/working-groups/cybersecurity`         |
+| 工作组公开伙伴 | `/working-groups/cybersecurity/members` |
+| 工作组参与指引 | `/working-groups/cybersecurity/join`    |
+| 网络安全专题   | `/cybersecurity`                        |
+| 联盟成员公示   | `/members`                              |
+| 新闻列表       | `/news`                                 |
+| 已发布新闻详情 | `/news/cybersecurity-open-program`      |
+| 联盟参与入口   | `/join`                                 |
+| 隐私说明       | `/privacy`                              |
 
-## 内容与申请入口维护
+12 组页面乘以两个 locale，共 24 个可索引 HTML。发布矩阵另覆盖 `/robots.txt` 和 `/sitemap.xml` 两个 SEO 路径；图像 Route Handler 与其他静态资产不计入这 26 条页面/SEO 路径。该数量由 `src/config/site.ts`、已发布新闻和测试路由清单共同保护；新增工作组或新闻后必须同步验证。
 
-- **站点级配置**：`src/config/site.ts`（站点名、导航、公开路由、`APPLICATION_TARGET` 单一申请目标）。
-- **业务内容**：`src/content/*.ts`，按领域拆分，开发者直接维护，无需 CMS。
-- **申请外链**：机构入口与网安组入口共用同一张飞书问卷，通过单个环境变量注入，仅接受 HTTPS：
-  - `NEXT_PUBLIC_APPLICATION_URL`（问卷须外部/匿名可填）
-  未配置或非法时页面安全降级为不可点击状态并给出联系回退，**不产生死链**。
-- 这些 `NEXT_PUBLIC_*` 变量在**构建时**写入静态页；生产 Docker 镜像必须通过 `--build-arg` 传入（详见 README「内容与申请入口维护」）。
+未知路由、未知动态 slug 和撤回的 `alliance-website-launch` 新闻返回 404、`noindex`，不输出 canonical，也不进入 sitemap。
 
-## 常用命令
+## 双语与主题
 
-```bash
-pnpm dev             # 开发服务器（http://localhost:3000）
-pnpm build           # 生产构建
-pnpm typecheck       # 类型检查
-pnpm lint            # ESLint
-pnpm test            # 单元测试
-pnpm test:e2e        # Playwright E2E（默认隔离在 127.0.0.1:3100）
-```
+- 中文内容是事实语义的基础；英文页面通过领域 accessor 和明确的英文内容读取。
+- 没有已核验官方英文名称的机构在英文页保留中文专名，不自行造译名；页面用语言标记区分这些名称。
+- 官方英文全称尚未确认，对外英文只使用 `ZGCLLM` 或 `the Alliance`。
+- 语言切换保持当前静态或动态路径，不允许开放重定向。
+- 明暗主题只跟随 `prefers-color-scheme`。head 中的脚本负责首帧，媒体查询监听负责系统偏好实时变化；没有手动开关和本地持久化。
 
-## 架构演进（重要）
+视觉规范见 [设计系统](./design/design-system.md)。
 
-一期开发早期方案曾包含 **Payload CMS + PostgreSQL**，后于 **PR #4** 移除，收敛为当前纯静态架构。`docs/dev/alliance-website-v1/` 下的 SDD 规划文档为该演进的**历史记录**，其中涉及 Payload / 数据库的内容仅作留存，不代表当前架构（各文档顶部均有「更新补记」声明）。
+## 申请 target 与隐私边界
 
-## 部署要点
+| Target                        | 环境变量                                            | 使用位置             |
+| ----------------------------- | --------------------------------------------------- | -------------------- |
+| `alliance`                    | `NEXT_PUBLIC_APPLICATION_URL`                       | `/join`              |
+| `cybersecurity-working-group` | `NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY`         | 网络安全工作组参与页 |
+| `cybersecurity-program`       | `NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM` | 对应历史计划新闻     |
 
-生产使用 Docker 构建 Next.js standalone 镜像。上线前需完成：正式域名与 301 跳转、ICP 备案与 HTTPS/WAF、正式 Logo 与成员/新闻授权材料、两份飞书表单正式 URL、联系人与备案号。详见 README「部署说明」。
+三个变量默认为空。解析器只接受登记过的 Feishu origin 和精确路径；缺失、格式错误、未批准或未配置都会显示不可点击的说明状态，不会回退到另一 target。
 
-## 延伸阅读
+官网没有本地申请表单、提交接口或申请数据库，因此不接收和保存申请表单字段。这一技术边界不覆盖 CDN/托管日志，也不替 Feishu 承诺数据控制者、用途、保存期或联系渠道。用户提交前仍需查看目标表单实际告知。
 
-- [`README.md`](../README.md) — 上手、命令、环境变量、部署
-- [`CONTRIBUTING.md`](../CONTRIBUTING.md) — 协作与提交约定
-- [`docs/README.md`](./README.md) — 文档目录索引
-- [`docs/dev/alliance-website-v1/`](./dev/alliance-website-v1/) — 一期 SDD 历史规划文档
+## 构建、测试与部署
+
+`pnpm build` 生成 standalone 产物，`pnpm build:export` 生成 GitHub Pages 使用的 `out/`。静态导出启用 trailing slash 和无服务端图片优化；standalone 保留 Next.js server 与 `sharp`。
+
+当前质量基线：
+
+- 31 个 Vitest 文件、354 项 unit/integration 测试；
+- statements 99.57%、branches 96.19%、functions 99.29%、lines 99.77%；
+- 6 个 E2E spec，含 7 项 Chromium 快速集；项目展开数量以 Playwright `--list` 的当次结果为准；
+- Chromium、Firefox、WebKit、双移动设备、quality 与 Lighthouse 项目均设置 `retries: 0`；
+- 28 次 Axe 扫描无 serious/critical；
+- 最近一次完整复跑的桌面 Lighthouse 为 100，移动 Performance 为 99–100，其余类别为 100；长期判定以配置门槛和当次验收报告为准。
+
+这些数值是本轮测试治理快照，后续以实际命令和配置硬门为准。人工键盘和辅助技术模板仍为 `Not run`，自动结果不能替代人工签字。
+
+生产路径为 GitHub Pages，部署只接受成功 main CI 的同一 SHA。Docker 为需要自有运行环境时的备选。仓库配置完成不代表正式域名、外部表单、备案或评审人员已经就绪：
+
+- [Pages 与 DNS](./deploy-pages-dns.md)
+- [Docker standalone](./deploy-docker.md)
+
+## 文档与历史
+
+当前文档入口在 [docs/README.md](./README.md)。历史需求、设计和任务保留在 [`docs/dev/`](./dev/README.md)，生命周期由集中索引裁决，不从未勾选的历史任务推断当前待办。
