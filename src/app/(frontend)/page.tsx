@@ -2,14 +2,16 @@ import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
 import { HomeView } from '@/components/pages/home-view'
-import { SITE_NAME } from '@/config/site'
-import { buildAlternates } from '@/i18n/routing'
+import { buildPageMetadata } from '@/i18n/routing'
 
-export const metadata: Metadata = {
-  alternates: buildAlternates('/', 'zh'),
-  description: '汇聚自主大模型力量，共建开放、安全、协同的产业生态，推动技术创新、产业协同、场景落地与国际合作。',
-  title: { absolute: `首页｜${SITE_NAME}` },
-}
+export const metadata: Metadata = buildPageMetadata({
+  absoluteTitle: true,
+  description:
+    '中关村自主大模型产业联盟聚焦大模型技术与产业协作，公开联盟方向、协作机制与参与路径。',
+  locale: 'zh',
+  title: '中关村自主大模型产业联盟',
+  zhPath: '/',
+})
 
 export default function HomePage(): ReactElement {
   return <HomeView locale="zh" />

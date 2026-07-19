@@ -2,16 +2,16 @@ import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
 import { HomeView } from '@/components/pages/home-view'
-import { SITE_NAME } from '@/config/site'
-import { buildAlternates } from '@/i18n/routing'
+import { buildPageMetadata } from '@/i18n/routing'
 
-// 英文首页：正文已英文初稿（HomeView locale="en"）；成员名/新闻标题暂回退中文。
-export const metadata: Metadata = {
-  alternates: buildAlternates('/', 'en'),
+export const metadata: Metadata = buildPageMetadata({
+  absoluteTitle: true,
   description:
-    'Uniting the strength of self-reliant large models to build an open, secure and collaborative industry ecosystem — advancing technology innovation, industrial collaboration, real-world deployment and international cooperation.',
-  title: { absolute: `Home｜${SITE_NAME}` },
-}
+    "ZGCLLM shares the Alliance's focus areas, collaboration model and ways for organizations to participate.",
+  locale: 'en',
+  title: 'ZGCLLM',
+  zhPath: '/',
+})
 
 export default function EnHomePage(): ReactElement {
   return <HomeView locale="en" />

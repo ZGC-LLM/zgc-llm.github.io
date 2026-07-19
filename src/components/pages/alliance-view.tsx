@@ -5,107 +5,108 @@ import { PageHero } from '@/components/site/page-hero'
 import { SectionHeading } from '@/components/site/section-heading'
 import {
   getAllianceDirections,
-  getAllianceIntro,
   getAllianceMechanism,
-  getAllianceMission,
+  getAllianceOverview,
   getAllianceValues,
 } from '@/content/alliance'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
 
-// 页面级双语文案（chrome 与正文中的静态标题/引导语）。中文权威，英文初稿待校对。
 interface AllianceStrings {
-  heroEyebrow: string
-  heroTitle: string
-  heroDescription: string
-  heroAction: string
-  missionEyebrow: string
-  missionTitle: string
-  introEyebrow: string
-  introTitle: string
-  introDescription: string
-  valuesEyebrow: string
-  valuesTitle: string
-  valuesDescription: string
-  mechanismEyebrow: string
-  mechanismTitle: string
-  mechanismDescription: string
+  ctaBody: string
+  ctaPrimaryAction: string
+  ctaSecondaryAction: string
+  ctaTitle: string
+  directionsDescription: string
   directionsEyebrow: string
   directionsTitle: string
-  directionsDescription: string
-  ctaTitle: string
-  ctaBody: string
-  ctaAction: string
+  heroDescription: string
+  heroEyebrow: string
+  heroPrimaryAction: string
+  heroSecondaryAction: string
+  heroTitle: string
+  mechanismDescription: string
+  mechanismEyebrow: string
+  mechanismTitle: string
+  positionEyebrow: string
+  positionTitle: string
+  valuesDescription: string
+  valuesEyebrow: string
+  valuesTitle: string
 }
 
-const STRINGS: Record<Locale, AllianceStrings> = {
+const STRINGS: Readonly<Record<Locale, AllianceStrings>> = {
   en: {
-    ctaAction: 'Apply to become an ecosystem partner',
     ctaBody:
-      'We welcome industry, research and ecosystem partners to join the Alliance and build the self-reliant large-model industry ecosystem together.',
-    ctaTitle: 'Get in Touch',
+      'Organizations with relevant capabilities or needs in large-model technology, infrastructure, data, industry applications, evaluation, security governance or research can review the Alliance and working-group participation guidance. Eligibility, required materials and application availability are stated on the relevant page.',
+    ctaPrimaryAction: 'View ways to participate',
+    ctaSecondaryAction: 'Explore working groups',
+    ctaTitle: 'Who should explore participation',
     directionsDescription:
-      'Starting from shared topics, we build industry collaboration that is participatory, verifiable and worth sharing.',
-    directionsEyebrow: 'Focus Areas',
-    directionsTitle: 'Turning shared priorities into sustained action',
-    heroAction: 'Explore how to participate',
+      'These areas organize discussion and collaboration. They are not presented as completed projects or results.',
+    directionsEyebrow: 'Focus areas',
+    directionsTitle: 'Topics for continued collaboration',
     heroDescription:
-      'Bringing together the strength of self-reliant large models to build an open, secure and collaborative industry ecosystem — advancing technology innovation, industrial collaboration, real-world deployment and international cooperation.',
+      'The Alliance connects organizational capabilities around shared large-model technology and industry priorities, with a focus on open collaboration, security governance and practical applications.',
     heroEyebrow: 'About',
-    heroTitle: 'About the Alliance',
-    introDescription:
-      'Connecting universities, research institutions and industry partners to help build an internationally competitive self-reliant large-model industry ecosystem.',
-    introEyebrow: 'Overview',
-    introTitle: 'About the Zhongguancun Self-Reliant Large Model Industry Alliance',
+    heroPrimaryAction: 'View ways to participate',
+    heroSecondaryAction: 'Explore working groups',
+    heroTitle: 'About ZGCLLM',
     mechanismDescription:
-      'The Alliance coordinates priority directions, sets up working groups (such as the Cybersecurity Working Group) for specialised topics, and advances priority projects through them.',
-    mechanismEyebrow: 'Organization',
-    mechanismTitle: 'How We Collaborate',
-    missionEyebrow: 'Mission',
-    missionTitle: 'Our Purpose',
+      'Start with a shared topic and make participation, delivery and publication boundaries clear.',
+    mechanismEyebrow: 'Collaboration model',
+    mechanismTitle: 'How focused work moves forward',
+    positionEyebrow: 'Our role',
+    positionTitle: 'Sustained collaboration around shared questions',
     valuesDescription:
-      'Connecting different technical paths, institutional strengths and professional experience through shared principles.',
-    valuesEyebrow: 'Values',
-    valuesTitle: 'Shared Values',
+      'Shared principles guide how organizations discuss priorities and define responsibilities.',
+    valuesEyebrow: 'Shared principles',
+    valuesTitle: 'Principles for working together',
   },
   zh: {
-    ctaAction: '申请成为生态伙伴',
-    ctaBody: '欢迎产业、科研与生态伙伴加入联盟，携手共建自主大模型产业生态。',
-    ctaTitle: '联系与参与',
-    directionsDescription: '从共同议题出发，持续形成可参与、可验证、可传播的产业协作。',
+    ctaBody:
+      '如果贵机构在大模型技术、基础设施、数据、行业应用、评测、安全治理或相关研究方面具有明确能力或需求，可先查看联盟与工作组的参与说明。具体资格、材料和入口开放状态以相应页面为准。',
+    ctaPrimaryAction: '查看参与方式',
+    ctaSecondaryAction: '浏览工作组',
+    ctaTitle: '适合怎样的机构参与',
+    directionsDescription: '以下方向用于组织议题与协作，不代表已形成对应成果。',
     directionsEyebrow: '重点方向',
-    directionsTitle: '把共同议题转化为持续行动',
-    heroAction: '了解参与方式',
+    directionsTitle: '持续开展协作的议题',
     heroDescription:
-      '汇聚自主大模型力量，共建开放、安全、协同的产业生态，推动技术创新、产业协同、场景落地与国际合作。',
-    heroEyebrow: '关于联盟',
-    heroTitle: '联盟介绍',
-    introDescription: '连接高校、科研机构和产业伙伴，推动形成具有国际竞争力的自主大模型产业生态。',
-    introEyebrow: '联盟简介',
-    introTitle: '关于中关村自主大模型产业联盟',
-    mechanismDescription:
-      '联盟统筹重点方向，下设工作组（如网络安全工作组）聚焦专业议题，并依托工作组推进重点项目。',
-    mechanismEyebrow: '组织方式',
-    mechanismTitle: '协作机制',
-    missionEyebrow: '使命',
-    missionTitle: '联盟宗旨',
-    valuesDescription: '以共同原则连接不同技术路线、机构能力与专业经验。',
-    valuesEyebrow: '价值主张',
-    valuesTitle: '共同价值',
+      '联盟面向大模型技术与产业协作，围绕共同议题连接机构能力，关注开放协作、安全治理与真实场景实践。',
+    heroEyebrow: '联盟介绍',
+    heroPrimaryAction: '查看参与方式',
+    heroSecondaryAction: '查看工作组',
+    heroTitle: '中关村自主大模型产业联盟',
+    mechanismDescription: '以共同议题为起点，明确参与、推进和公开边界。',
+    mechanismEyebrow: '协作机制',
+    mechanismTitle: '专业议题如何推进',
+    positionEyebrow: '联盟定位',
+    positionTitle: '从共同问题出发，形成可持续协作',
+    valuesDescription: '共同原则用于讨论优先事项、明确参与边界和责任分工。',
+    valuesEyebrow: '共同价值',
+    valuesTitle: '开展协作的基本原则',
   },
 }
 
 export function AllianceView({ locale }: { locale: Locale }): ReactElement {
   const t = STRINGS[locale]
-  const joinHref = localizePath('/join', locale)
 
   return (
     <main id="main-content">
       <PageHero
         actions={
-          <Link className="button-primary" href={joinHref}>
-            {t.heroAction}
-          </Link>
+          <>
+            <Link className="button-primary w-full sm:w-auto" href={localizePath('/join', locale)}>
+              {t.heroPrimaryAction}
+            </Link>
+            <Link
+              className="button-secondary w-full sm:w-auto"
+              href={localizePath('/working-groups', locale)}
+            >
+              {t.heroSecondaryAction}
+            </Link>
+          </>
         }
         description={t.heroDescription}
         eyebrow={t.heroEyebrow}
@@ -114,22 +115,9 @@ export function AllianceView({ locale }: { locale: Locale }): ReactElement {
 
       <section className="block">
         <div className="site-container">
-          <SectionHeading eyebrow={t.missionEyebrow} title={t.missionTitle} />
-          <p className="mt-7 max-w-[60ch] text-xl leading-relaxed text-[var(--text-body)]">
-            {getAllianceMission(locale)}
-          </p>
-        </div>
-      </section>
-
-      <section className="block block--subtle">
-        <div className="site-container">
-          <SectionHeading
-            description={t.introDescription}
-            eyebrow={t.introEyebrow}
-            title={t.introTitle}
-          />
+          <SectionHeading eyebrow={t.positionEyebrow} title={t.positionTitle} />
           <div className="mt-7 flex max-w-[70ch] flex-col gap-5">
-            {getAllianceIntro(locale).map((paragraph) => (
+            {getAllianceOverview(locale).map((paragraph) => (
               <p className="text-lg leading-relaxed text-[var(--text-body)]" key={paragraph}>
                 {paragraph}
               </p>
@@ -138,7 +126,7 @@ export function AllianceView({ locale }: { locale: Locale }): ReactElement {
         </div>
       </section>
 
-      <section className="block">
+      <section className="block block--subtle">
         <div className="site-container">
           <SectionHeading
             description={t.valuesDescription}
@@ -156,19 +144,22 @@ export function AllianceView({ locale }: { locale: Locale }): ReactElement {
         </div>
       </section>
 
-      <section className="block block--subtle">
+      <section className="block">
         <div className="site-container split">
           <SectionHeading
             description={t.mechanismDescription}
             eyebrow={t.mechanismEyebrow}
             title={t.mechanismTitle}
           />
-          <ol className="dir-list" style={{ gridTemplateColumns: '1fr' }}>
+          <ol className="grid gap-4">
             {getAllianceMechanism(locale).map((item, index) => (
-              <li className="dir-item" key={item}>
+              <li className="dir-item" key={item.id}>
                 <span className="n">{index + 1}</span>
                 <div className="body">
-                  <p>{item}</p>
+                  <h3 className="m-0 text-base font-semibold leading-relaxed text-[var(--text-title)]">
+                    {item.title}
+                  </h3>
+                  <p>{item.description}</p>
                 </div>
               </li>
             ))}
@@ -176,7 +167,7 @@ export function AllianceView({ locale }: { locale: Locale }): ReactElement {
         </div>
       </section>
 
-      <section className="block">
+      <section className="block block--subtle">
         <div className="site-container">
           <SectionHeading
             description={t.directionsDescription}
@@ -200,9 +191,17 @@ export function AllianceView({ locale }: { locale: Locale }): ReactElement {
             <h2>{t.ctaTitle}</h2>
             <p>{t.ctaBody}</p>
           </div>
-          <Link className="button-primary" href={joinHref}>
-            {t.ctaAction}
-          </Link>
+          <div className="flex w-full flex-wrap gap-3 sm:w-auto">
+            <Link className="button-primary w-full sm:w-auto" href={localizePath('/join', locale)}>
+              {t.ctaPrimaryAction}
+            </Link>
+            <Link
+              className="button-secondary w-full sm:w-auto"
+              href={localizePath('/working-groups', locale)}
+            >
+              {t.ctaSecondaryAction}
+            </Link>
+          </div>
         </div>
       </section>
     </main>
