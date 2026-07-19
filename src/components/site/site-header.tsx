@@ -175,11 +175,7 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
         </div>
 
         <div className="site-header__mobile-actions">
-          <details
-            className="mobile-menu"
-            open={mobileMenuOpen}
-            ref={menuRef}
-          >
+          <details className="mobile-menu" open={mobileMenuOpen} ref={menuRef}>
             <summary
               aria-controls={menuId}
               aria-expanded={mobileMenuOpen}
