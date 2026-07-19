@@ -14,17 +14,63 @@ export interface NavigationItem {
   children?: readonly NavigationItem[]
 }
 
+export type ApplicationTargetId =
+  'alliance' | 'cybersecurity-program' | 'cybersecurity-working-group'
+
+export type ApplicationAvailability =
+  'available' | 'invalid' | 'missing' | 'unapproved' | 'unconfigured'
+
 export interface ExternalApplicationTarget {
   href?: string
+  id?: ApplicationTargetId
   label: string
   unavailableMessage: string
 }
 
 export interface ResolvedApplicationTarget extends ExternalApplicationTarget {
   isAvailable: boolean
+  status: ApplicationAvailability
 }
 
-export interface WorkingGroupLead {
+export type FactEvidenceStatus =
+  'conflict' | 'editorial' | 'partial' | 'project-decision' | 'public-source' | 'unverified'
+
+export type FactPublicationDecision = 'block' | 'neutralize' | 'publish'
+
+export type FactAuthorizationScope =
+  'commitment' | 'display-name' | 'logo' | 'official-english-name' | 'result' | 'role'
+
+export interface FactSource {
+  publishedAt?: string
+  reviewedAt: string
+  title: string
+  url: string
+}
+
+/**
+ * Public-fact evidence attached to content records.
+ *
+ * `named` and `published` remain rendering flags only. They never imply that a
+ * name, role, result or commitment has been reviewed or authorised for public
+ * use; that decision is represented explicitly here.
+ */
+export interface FactReference {
+  /** Approved public-use scopes; may be empty for block/neutralize, but not publish. */
+  authorizedScopes: readonly FactAuthorizationScope[]
+  evidenceStatus: FactEvidenceStatus
+  factId: string
+  publication: FactPublicationDecision
+  reviewedAt: string
+  reviewer?: string
+  source?: FactSource
+}
+
+export interface FactAwareContent {
+  /** Optional during the staged T-004–T-006 migration; validation reports omissions. */
+  facts?: readonly FactReference[]
+}
+
+export interface WorkingGroupLead extends FactAwareContent {
   /** 角色/职责，如「统筹」「技术牵引」「学术指导」 */
   role: string
   /** 授权具名单位；未授权则填角色化占位描述 */
@@ -35,8 +81,8 @@ export interface WorkingGroupLead {
   description?: string
 }
 
-export interface WorkingGroupSummary {
-  /** 该工作组专属申请问卷的环境变量名（非 URL 本身）；未设置则回退通用 NEXT_PUBLIC_APPLICATION_URL */
+export interface WorkingGroupSummary extends FactAwareContent {
+  /** 该工作组专属申请问卷的环境变量名；缺失或非法时保持不可用，不回退其他表单。 */
   applicationEnvKey?: string
   description: string
   /** 互链业务专题页，如 '/cybersecurity' */
@@ -58,7 +104,7 @@ export interface WorkingGroupSummary {
   title: string
 }
 
-export interface WorkingGroupMember {
+export interface WorkingGroupMember extends FactAwareContent {
   description?: string
   id: string
   logo?: string
@@ -67,7 +113,7 @@ export interface WorkingGroupMember {
   role?: string
 }
 
-export interface MemberSummary {
+export interface MemberSummary extends FactAwareContent {
   description?: string
   id: string
   logo?: string
@@ -82,12 +128,17 @@ export type ContentBlock =
   | { items: readonly string[]; type: 'list' }
   | { text: string; type: 'paragraph' }
 
-export interface NewsEntry {
+/**
+ * News actions are validated as an exclusive runtime contract: use either a
+ * registered `applicationTargetId` or an ordinary HTTPS `ctaHref`, and pair the
+ * selected target with `ctaLabel`. Optional fields remain source-compatible
+ * while T-006 migrates existing raw-form content and its render consumers.
+ */
+export interface NewsEntry extends FactAwareContent {
+  applicationTargetId?: ApplicationTargetId
   body: readonly ContentBlock[]
   category: NewsCategory
-  /** 可选外部行动入口链接（如飞书申请表），须为 https */
   ctaHref?: string
-  /** 外部行动入口按钮文案，与 ctaHref 成对出现 */
   ctaLabel?: string
   date: string
   description: string
@@ -121,7 +172,7 @@ export interface CybersecurityCard {
 export interface CybersecurityEcosystem {
   /** Six-stage continuous loop, in order. */
   cycle: readonly string[]
-  /** Five key resource categories the alliance connects. */
+  /** Six key resource categories the alliance connects. */
   resources: readonly CybersecurityCard[]
   /** Four priority actions the ecosystem drives. */
   actions: readonly CybersecurityCard[]
