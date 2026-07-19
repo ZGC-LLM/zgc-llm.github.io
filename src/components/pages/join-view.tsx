@@ -162,7 +162,7 @@ export function JoinView({ locale }: { locale: Locale }): ReactElement {
   const t = STRINGS[locale]
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <>

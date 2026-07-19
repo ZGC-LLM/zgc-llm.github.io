@@ -157,7 +157,7 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
   const publishedNews = getPublishedNews()
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <section className="hero page-hero">
         <div className="container hero__inner">
           <div>

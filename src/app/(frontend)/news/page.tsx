@@ -106,7 +106,7 @@ export function NewsView({ locale }: { locale: Locale }): ReactElement {
   const t = LIST_STRINGS[locale]
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero description={t.heroDescription} eyebrow={t.heroEyebrow} title={t.heroTitle} />
       <section className="block">
         <div className="site-container">

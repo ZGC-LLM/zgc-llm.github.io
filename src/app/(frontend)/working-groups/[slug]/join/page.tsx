@@ -244,7 +244,7 @@ export function WorkingGroupJoinView({
   const configuredUrl = resolveWorkingGroupApplicationUrl(group)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <ExternalApplicationLink

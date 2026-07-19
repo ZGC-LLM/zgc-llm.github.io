@@ -3,7 +3,7 @@ import type { ReactElement } from 'react'
 
 export default function NotFound(): ReactElement {
   return (
-    <main className="site-container" id="main-content">
+    <main className="site-container" id="main-content" tabIndex={-1}>
       <div className="notfound">
         <p className="eyebrow">404</p>
         <h1>页面未找到</h1>

@@ -100,7 +100,7 @@ export function AllianceView({ locale }: { locale: Locale }): ReactElement {
   const joinHref = localizePath('/join', locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <Link className="button-primary" href={joinHref}>
