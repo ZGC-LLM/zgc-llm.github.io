@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
-import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
+import { getSiteName, SITE_NAVIGATION } from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
@@ -19,6 +19,7 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
   const t = dict(locale)
   const nav = t.nav
   const f = t.footer
+  const siteName = getSiteName(locale)
 
   return (
     <footer className="footer">
@@ -26,7 +27,7 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
         <div className="footer__grid">
           <div className="footer__brand">
             <Link className="footer__brand-link" href={localizePath('/', locale)}>
-              {SITE_NAME}
+              {siteName}
             </Link>
             <p>{f.tagline}</p>
           </div>
@@ -73,7 +74,7 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
         </div>
         <div className="footer__bottom">
           <p>
-            © {new Date().getFullYear()} {SITE_NAME}
+            © {new Date().getFullYear()} {siteName}
           </p>
         </div>
       </div>

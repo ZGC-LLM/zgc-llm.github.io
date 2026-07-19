@@ -222,14 +222,6 @@ summary:focus-visible {
   white-space: nowrap;
 }
 
-.brand-logo {
-  border-radius: var(--radius-ctrl);
-  flex: 0 0 auto;
-  height: 40px;
-  object-fit: contain;
-  width: 40px;
-}
-
 .site-header__nav,
 .site-header__actions {
   display: none;
@@ -654,12 +646,10 @@ summary:focus-visible {
   border: 1px dashed var(--border-strong);
   border-radius: var(--radius-ctrl);
   color: var(--text-body);
-  cursor: not-allowed;
   display: inline-flex;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   line-height: 1.5;
-  min-height: var(--control-min-size);
   padding: 10px 14px;
 }
 

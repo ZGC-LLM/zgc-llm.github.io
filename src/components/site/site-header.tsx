@@ -1,11 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useId, useRef, useState, type ReactElement } from 'react'
 
-import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
+import { getSiteName, SITE_NAVIGATION } from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
@@ -85,6 +84,7 @@ function NavigationLinks({
 
 export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
   const t = dict(locale).header
+  const siteName = getSiteName(locale)
   const pathname = usePathname()
   const menuId = useId()
   const menuRef = useRef<HTMLDetailsElement>(null)
@@ -146,17 +146,8 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
   return (
     <header className="site-header">
       <div className="site-container site-header__inner">
-        <Link aria-label={SITE_NAME} className="site-brand" href={localizePath('/', locale)}>
-          <Image
-            alt=""
-            aria-hidden="true"
-            className="brand-logo"
-            height={40}
-            priority
-            src="/brand/llm-alliance-logo.png"
-            width={40}
-          />
-          <span className="site-brand__name">{SITE_NAME}</span>
+        <Link aria-label={siteName} className="site-brand" href={localizePath('/', locale)}>
+          <span className="site-brand__name">{siteName}</span>
         </Link>
 
         <nav aria-label={t.mainNav} className="site-header__nav">

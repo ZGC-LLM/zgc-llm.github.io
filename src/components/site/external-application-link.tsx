@@ -18,7 +18,7 @@ interface ExternalApplicationCopy {
     ExternalApplicationProvider,
     { accessibleSuffix: string; visibleNotice: string }
   >
-  unavailable: string
+  unavailable: (label: string) => string
 }
 
 const EXTERNAL_APPLICATION_COPY: Record<Locale, ExternalApplicationCopy> = {
@@ -35,7 +35,8 @@ const EXTERNAL_APPLICATION_COPY: Record<Locale, ExternalApplicationCopy> = {
           'Opens Feishu. Application information is handled by the operator identified on that form; this site does not receive or store application-form data.',
       },
     },
-    unavailable: 'This application channel is being prepared. Please try again later.',
+    unavailable: (label) =>
+      `${label}: This channel is not currently available. Please check this site again for updates.`,
   },
   zh: {
     providers: {
@@ -49,7 +50,7 @@ const EXTERNAL_APPLICATION_COPY: Record<Locale, ExternalApplicationCopy> = {
         visibleNotice: '将前往飞书。申请信息由表单所示运营方处理；本站不接收或保存申请表单数据。',
       },
     },
-    unavailable: '申请通道准备中，暂不可用，请稍后重试。',
+    unavailable: (label) => `${label}：当前不可用。请稍后查看官网更新。`,
   },
 }
 
@@ -73,6 +74,7 @@ export function ExternalApplicationLink({
   const target = resolveApplicationTarget(configuredUrl)
   const resolvedLabel = label ?? target.label
   const copy = EXTERNAL_APPLICATION_COPY[locale ?? copyLocaleFor(resolvedLabel)]
+  const unavailableMessage = copy.unavailable(resolvedLabel)
 
   if (!target.isAvailable || !target.href) {
     return (
@@ -81,9 +83,9 @@ export function ExternalApplicationLink({
           aria-disabled="true"
           aria-live="polite"
           className="external-application__unavailable"
-          title={copy.unavailable}
+          title={unavailableMessage}
         >
-          {copy.unavailable}
+          {unavailableMessage}
         </span>
       </span>
     )

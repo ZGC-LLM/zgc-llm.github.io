@@ -116,9 +116,9 @@ export interface PageMetadataInput {
 /**
  * Complete per-page metadata contract. T-004–T-006 page shells provide only
  * their locale-safe title/description/path; canonical, OG and Twitter cannot
- * drift independently. A default social image is intentionally omitted until
- * a stable asset has explicit brand-use approval; emitting no image is safer
- * than publishing a dead or unauthorised URL.
+ * drift independently. The shared static PNG route provides a provisional,
+ * text-only social image without presenting an unapproved graphic as an
+ * official Alliance logo.
  */
 export function buildPageMetadata({
   absoluteTitle = false,
@@ -130,6 +130,13 @@ export function buildPageMetadata({
   zhPath,
 }: PageMetadataInput): Metadata {
   const canonical = absoluteCanonicalUrl(zhPath, locale)
+  const socialImage = {
+    alt: 'ZGCLLM — www.zgc-llm.org.cn',
+    height: 630,
+    type: 'image/png',
+    url: absoluteSiteUrl('/social-preview.png'),
+    width: 1200,
+  }
   const socialTitle = absoluteTitle
     ? title
     : locale === 'zh'
@@ -139,6 +146,7 @@ export function buildPageMetadata({
     alternateLocale: [OPEN_GRAPH_LOCALE[locale === 'zh' ? 'en' : 'zh']],
     description,
     locale: OPEN_GRAPH_LOCALE[locale],
+    images: [socialImage],
     siteName: getSiteName(locale),
     title: socialTitle,
     url: canonical,
@@ -160,8 +168,9 @@ export function buildPageMetadata({
           },
     title: absoluteTitle ? { absolute: title } : title,
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       description,
+      images: [{ alt: socialImage.alt, url: socialImage.url }],
       title: socialTitle,
     },
   }
@@ -181,6 +190,10 @@ export function buildRootMetadata(locale: Locale): Metadata {
   return {
     ...pageMetadata,
     applicationName: name,
+    icons: {
+      apple: [{ sizes: '180x180', type: 'image/png', url: '/apple-icon.png' }],
+      icon: [{ sizes: '64x64', type: 'image/png', url: '/icon.png' }],
+    },
     metadataBase: new URL(SITE_URL),
     title: {
       default: locale === 'zh' ? `${SITE_NAME}｜官网` : 'ZGCLLM',

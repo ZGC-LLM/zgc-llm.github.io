@@ -83,7 +83,6 @@ export function createNewsArticleJsonLd(
     mainEntityOfPage: new URL(localizePath(`/news/${entry.slug}`, locale), SITE_URL).toString(),
     publisher: {
       '@type': 'Organization',
-      logo: new URL('/brand/llm-alliance-logo.png', SITE_URL).toString(),
       name: SITE_NAME,
     },
   }
@@ -162,7 +161,9 @@ export function NewsDetailView({
   )
 }
 
-export default async function NewsDetailPage({ params }: NewsDetailPageProps): Promise<ReactElement> {
+export default async function NewsDetailPage({
+  params,
+}: NewsDetailPageProps): Promise<ReactElement> {
   const { slug } = await params
   const entry = getPublishedNewsBySlug(slug)
 
