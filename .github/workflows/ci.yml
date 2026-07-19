@@ -196,8 +196,8 @@ jobs:
           retention-days: 7
 
   release-e2e:
-    # This executes every project configured by T-010. Until T-010 completes,
-    # this lane is only infrastructure readiness, not full-matrix evidence.
+    # Scheduled and manual release rehearsals execute every Playwright project,
+    # including cross-browser, mobile, accessibility and Lighthouse gates.
     name: Release E2E contract
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
