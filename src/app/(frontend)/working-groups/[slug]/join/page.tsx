@@ -68,7 +68,7 @@ export function WorkingGroupJoinView({
   const detailHref = localizePath(`/working-groups/${group.slug}`, locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <>

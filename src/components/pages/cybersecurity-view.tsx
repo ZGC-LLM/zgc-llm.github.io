@@ -13,7 +13,7 @@ export function CybersecurityView({ locale }: { locale: Locale }): ReactElement 
   const joinHref = localizePath('/working-groups/cybersecurity/join', locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <>

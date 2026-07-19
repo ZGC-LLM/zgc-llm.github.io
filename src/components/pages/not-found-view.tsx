@@ -56,7 +56,7 @@ export function NotFoundView({ locale }: { locale: Locale }): ReactElement {
   const copy = NOT_FOUND_COPY[locale]
 
   return (
-    <main className="site-container" id="main-content">
+    <main className="site-container" id="main-content" tabIndex={-1}>
       <div className="notfound">
         <p className="eyebrow">404</p>
         <h1>{copy.title}</h1>

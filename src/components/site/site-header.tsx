@@ -119,6 +119,14 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
       }
     }
 
+    function handleFocusIn(event: FocusEvent): void {
+      const target = event.target
+
+      if (target instanceof Node && !menuRef.current?.contains(target)) {
+        setMenuState({ open: false, pathname })
+      }
+    }
+
     function handleDesktopBreakpoint(event: MediaQueryListEvent): void {
       if (event.matches) {
         setMenuState({ open: false, pathname })
@@ -129,11 +137,13 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
 
     document.addEventListener('pointerdown', handlePointerDown)
     document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('focusin', handleFocusIn)
     desktopQuery.addEventListener('change', handleDesktopBreakpoint)
 
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown)
       document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('focusin', handleFocusIn)
       desktopQuery.removeEventListener('change', handleDesktopBreakpoint)
     }
   }, [mobileMenuOpen, pathname])
@@ -167,13 +177,6 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
         <div className="site-header__mobile-actions">
           <details
             className="mobile-menu"
-            onBlur={(event) => {
-              const nextTarget = event.relatedTarget
-
-              if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
-                setMenuState({ open: false, pathname })
-              }
-            }}
             open={mobileMenuOpen}
             ref={menuRef}
           >

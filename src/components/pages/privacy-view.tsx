@@ -15,7 +15,7 @@ export function PrivacyView({ locale }: { locale: Locale }): ReactElement {
   const t = PRIVACY_PAGE_COPY[locale]
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero description={t.heroDescription} eyebrow={t.heroEyebrow} title={t.heroTitle} />
 
       <section className="block">

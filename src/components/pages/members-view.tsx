@@ -125,7 +125,7 @@ export function MembersView({ locale }: { locale: Locale }): ReactElement {
   const t = MEMBERS_PAGE_COPY[locale]
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <p className="hero-note">

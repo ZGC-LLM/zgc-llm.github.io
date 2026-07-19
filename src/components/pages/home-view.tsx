@@ -102,7 +102,7 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
   const t = STRINGS[locale]
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <section className="hero page-hero">
         <div className="hero__inner site-container">
           <div>

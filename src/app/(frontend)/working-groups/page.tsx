@@ -25,7 +25,7 @@ export function WorkingGroupsListView({ locale }: { locale: Locale }): ReactElem
   const content = getWorkingGroupCatalogContent(locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         description={content.heroDescription}
         eyebrow={content.heroEyebrow}

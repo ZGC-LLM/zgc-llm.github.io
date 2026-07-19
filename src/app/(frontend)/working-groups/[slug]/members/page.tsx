@@ -130,7 +130,7 @@ export function WorkingGroupMembersView({
   const members = getWorkingGroupMembers(slug, locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         description={content.pageDescriptionFor(localized.title)}
         eyebrow={localized.title}

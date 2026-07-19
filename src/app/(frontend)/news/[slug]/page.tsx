@@ -229,7 +229,7 @@ export function NewsDetailView({
   locale: Locale
 }): ReactElement {
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <JsonLd data={createNewsArticleJsonLd(entry, locale)} />
       <NewsArticle entry={entry} locale={locale} />
     </main>

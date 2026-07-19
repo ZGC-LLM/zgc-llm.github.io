@@ -14,7 +14,7 @@ export function JoinView({ locale }: { locale: Locale }): ReactElement {
   const workingGroupsHref = localizePath('/working-groups', locale)
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         actions={
           <>

@@ -77,7 +77,7 @@ export function NewsView({ locale }: { locale: Locale }): ReactElement {
   const copy = NEWS_PAGE_COPY[locale]
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <PageHero
         description={copy.heroDescription}
         eyebrow={copy.heroEyebrow}
