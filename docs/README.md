@@ -14,7 +14,8 @@
 | GitHub Pages 与域名 | [deploy-pages-dns.md](./deploy-pages-dns.md)                           | CI 依赖部署、DNS、TLS、CNAME 与保护域 301             |
 | 发布配置交接        | [release-configuration-handoff.md](./release-configuration-handoff.md) | 交给域名、Pages、邮箱、备案和飞书表单负责人的逐项清单 |
 | Docker 自托管       | [deploy-docker.md](./deploy-docker.md)                                 | standalone 镜像、构建期变量、反向代理和健康检查       |
-| 历史规格状态        | [dev/README.md](./dev/README.md)                                       | 全部 SDD feature 的完成、部分、替代和追溯状态         |
+| 历史规格状态        | [dev/README.md](./dev/README.md)                                       | SDD feature 的完成、部分、替代、归档和追溯状态        |
+| 历史文档归档        | [archive/README.md](./archive/README.md)                               | 不再指导当前实现的旧规格、原型与操作设计              |
 
 ## 代码事实来源
 
@@ -35,16 +36,10 @@
 
 正式域名、外部 Feishu 表单、备案、评审人员和公开联系渠道属于仓库外状态。仓库配置或 HTTP GET 成功不能代替匿名提交、TLS、301、权限和运营验收。
 
-## 被替代的操作设计
+## 关于 `dev/` 与 `archive/`
 
-| 文档                                                                    | 状态与用途                                                                 |
-| ----------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [飞书“合作与加入”统一登记设计](./feishu-application-registry-design.md) | 早期单一共享表单方案，已被三个独立、默认关闭的 target 契约替代，仅用于追溯 |
+[`dev/`](./dev/README.md) 保存仍承担当前任务或验收职责的规范驱动开发记录；[`archive/`](./archive/README.md) 保存已被替代、仅供追溯的历史正文。归档材料用于理解当时决策，不应改写成当前实现说明。
 
-## 关于 `dev/`
-
-[`dev/`](./dev/README.md) 保存规范驱动开发过程中的需求、设计、任务、上下文与评审记录。历史正文用于追溯当时的决策，不应删除或改写成当前实现说明。
-
-生命周期状态集中登记在 `docs/dev/README.md`。其中“已完成”表示原规格目标曾有实现证据，“被替代”表示当前实现由后续规格裁决，“部分完成”保留明确余项，“仅供追溯”不再指导当前开发。任何历史状态都不等于当前版本已经通过发布验收。
+生命周期状态集中登记在 `docs/dev/README.md`。其中“已完成”表示原规格目标曾有实现证据，“被替代”表示当前实现由后续规格裁决，“部分完成”保留明确余项，“仅供追溯”不再指导当前开发。过期且不再承担当前任务的正文迁入 [`archive/`](./archive/README.md)，保留 Git 历史和决策背景，但不参与当前维护。任何历史状态都不等于当前版本已经通过发布验收。
 
 本轮总规格位于 [`dev/repository-wide-release-optimization/`](./dev/repository-wide-release-optimization/)。最终发布结论只由该规格的 T-012 验收产物给出，其他 README 或历史任务不得提前声明“可发布”。

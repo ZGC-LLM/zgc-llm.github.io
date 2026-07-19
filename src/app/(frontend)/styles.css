@@ -9,7 +9,7 @@
 
 /* ============================================================
    ZGCLLM Design Language v2 — application stylesheet
-   Source of truth: docs/design/prototypes/_design-system.css
+   Runtime source of truth: this file. Maintainer contract: docs/design/design-system.md
    Tokens are literal values expanded from the spec (no {ref}).
    Two themes: :root (light) + html[data-theme="dark"] (dark).
    ============================================================ */

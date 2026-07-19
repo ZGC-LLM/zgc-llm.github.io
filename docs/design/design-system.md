@@ -2,7 +2,7 @@
 
 本文件描述当前网站已经实现的视觉与交互规范。运行时代码、token、断点和状态以 [`src/app/(frontend)/styles.css`](<../../src/app/(frontend)/styles.css>) 为准；本文件负责解释设计意图和维护约束。
 
-[`prototypes/`](./prototypes/) 保存早期全站原型，只用于追溯设计过程，不是当前组件、文案、主题或路由的权威来源。
+[历史原型](../archive/design/prototypes/) 已归档，只用于追溯设计过程，不是当前组件、文案、主题或路由的权威来源。
 
 ## 设计原则
 
