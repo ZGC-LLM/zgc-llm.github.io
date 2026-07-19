@@ -16,6 +16,12 @@ test.describe('home, alliance, and working groups', () => {
 
     await expect(institutionLink).toHaveAttribute('href', '/join')
     await expect(institutionLink).toHaveClass(/btn--primary/)
+    const workingGroupLink = page
+      .getByRole('main')
+      .getByRole('link', { name: '加入工作组', exact: true })
+
+    await expect(workingGroupLink).toHaveAttribute('href', '/working-groups')
+    await expect(workingGroupLink).toHaveClass(/btn--ghost/)
     await expect(page.getByRole('main').getByRole('link', { name: '个人专业用户加入' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: /了解网络安全生态/ })).toHaveAttribute(
       'href',

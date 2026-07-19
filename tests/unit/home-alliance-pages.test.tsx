@@ -25,6 +25,10 @@ describe('home page', () => {
 
     expect(institutionLink.getAttribute('href')).toBe('/join')
     expect(institutionLink.className).toContain('btn--primary')
+    const workingGroupLink = screen.getByRole('link', { name: '加入工作组' })
+
+    expect(workingGroupLink.getAttribute('href')).toBe('/working-groups')
+    expect(workingGroupLink.className).toContain('btn--ghost')
     expect(screen.queryByRole('link', { name: '个人专业用户加入' })).toBeNull()
     expect(document.body.textContent).not.toMatch(/\/professionals/)
     expect(screen.getByRole('link', { name: /了解网络安全生态/ }).getAttribute('href')).toBe(
