@@ -7,7 +7,9 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "build:export": "cross-env BUILD_TARGET=export pnpm build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "format:check": "prettier --check .",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
