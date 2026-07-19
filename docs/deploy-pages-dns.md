@@ -149,9 +149,7 @@ test "$(cat out/CNAME)" = 'www.zgc-llm.org.cn'
 
 ## 分支与外部发布条件
 
-main 当前要求三个 strict status checks：`Security audit`、`Types, lint & unit tests`、`End-to-end tests`；同时要求一名批准者、撤销过期审批、最后推送者限制、解决对话，并对管理员生效。
-
-仓库目前只有一名协作者。增加第二名具备评审权限的 reviewer 前，受保护 PR 无法满足审批门。该限制应通过增加合格 reviewer 解决，不能降低门禁或绕过管理员保护。
+main 当前要求 PR、三个 strict status checks：`Security audit`、`Types, lint & unit tests`、`End-to-end tests`，同时要求解决对话并对管理员生效。组织 owner 已于 2026-07-19 明确接受在短期没有第二名 reviewer 时将强制批准数设为 0；不得因此绕过 required checks、直接推送 main 或关闭管理员保护。具备稳定评审能力后，应通过独立治理变更恢复至少一名批准者，并重新评估撤销过期审批与最后推送者限制。
 
 正式发布还依赖仓库外状态：
 

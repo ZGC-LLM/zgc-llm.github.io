@@ -4,16 +4,17 @@
 
 ## 当前文档
 
-| 主题                | 权威入口                                             | 适用内容                                        |
-| ------------------- | ---------------------------------------------------- | ----------------------------------------------- |
-| 项目定位与快速开始  | [README.md](../README.md)                            | 稳定边界、核心命令、环境变量与文档入口          |
-| 协作与质量门        | [CONTRIBUTING.md](../CONTRIBUTING.md)                | 开发环境、测试分层、提交和 PR 规则              |
-| 当前架构            | [overview.md](./overview.md)                         | 技术栈、目录、路由、内容流和部署形态            |
-| 内容与事实治理      | [content-authoring.md](./content-authoring.md)       | 成员、新闻、工作组、双语和事实来源              |
-| UI 规范             | [design/design-system.md](./design/design-system.md) | token、主题策略、断点、组件状态和无障碍         |
-| GitHub Pages 与域名 | [deploy-pages-dns.md](./deploy-pages-dns.md)         | CI 依赖部署、DNS、TLS、CNAME 与保护域 301       |
-| Docker 自托管       | [deploy-docker.md](./deploy-docker.md)               | standalone 镜像、构建期变量、反向代理和健康检查 |
-| 历史规格状态        | [dev/README.md](./dev/README.md)                     | 全部 SDD feature 的完成、部分、替代和追溯状态   |
+| 主题                | 权威入口                                                               | 适用内容                                              |
+| ------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------- |
+| 项目定位与快速开始  | [README.md](../README.md)                                              | 稳定边界、核心命令、环境变量与文档入口                |
+| 协作与质量门        | [CONTRIBUTING.md](../CONTRIBUTING.md)                                  | 开发环境、测试分层、提交和 PR 规则                    |
+| 当前架构            | [overview.md](./overview.md)                                           | 技术栈、目录、路由、内容流和部署形态                  |
+| 内容与事实治理      | [content-authoring.md](./content-authoring.md)                         | 成员、新闻、工作组、双语和事实来源                    |
+| UI 规范             | [design/design-system.md](./design/design-system.md)                   | token、主题策略、断点、组件状态和无障碍               |
+| GitHub Pages 与域名 | [deploy-pages-dns.md](./deploy-pages-dns.md)                           | CI 依赖部署、DNS、TLS、CNAME 与保护域 301             |
+| 发布配置交接        | [release-configuration-handoff.md](./release-configuration-handoff.md) | 交给域名、Pages、邮箱、备案和飞书表单负责人的逐项清单 |
+| Docker 自托管       | [deploy-docker.md](./deploy-docker.md)                                 | standalone 镜像、构建期变量、反向代理和健康检查       |
+| 历史规格状态        | [dev/README.md](./dev/README.md)                                       | 全部 SDD feature 的完成、部分、替代和追溯状态         |
 
 ## 代码事实来源
 

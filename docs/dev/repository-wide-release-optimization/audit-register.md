@@ -206,7 +206,7 @@ status: open
 | 运行时候选   | `e567124de56542d0d501b368dac9c05a81acaf89`（`e567124`）                                                                                                                                 |
 | 候选演进     | `368ff52` 首次完成当时自动门；`db0fd31` 闭合 F-013 四路径；`e567124` 安全同步当前 `origin/main`，保留事实安全内容和现有工作组 CTA，并在该 SHA 重做双构建、两轮完整 E2E 与 Docker        |
 | 自动证据口径 | 356 个 Vitest 测试；coverage statements 99.57%、branches 96.19%、functions 99.29%、lines 99.77%；Playwright 49 tests / 8 projects / 0 retry；24 个可索引 HTML 与 26 个页面/SEO endpoint |
-| 例外批准     | 无。用户批准按最高标准执行，不等于批准跳过外部、人工或 P1 发布门                                                                                                                        |
+| 例外批准     | 1 项。owner 于 2026-07-19 明确接受短期没有第二 reviewer 时将 main 强制批准数设为 0；PR、三个 strict checks、对话解决和 admin enforcement 保留                                            |
 
 通过删除或中性化事实断言关闭的条目只对候选源码与候选 export 成立，不构成恢复原名称、关系、承诺、资格、Logo、官方英文全称或外链的授权。任一正式发布门为 `blocked` 或 `not-run` 时，总结论仍为 **不可正式发布**。
 
@@ -253,7 +253,7 @@ status: open
 | P1-022 | `closed`             | `passed`                          | `c4f5574`、`faf7725`；join/privacy 迁入 `src/content/`，WG/member/news 事实单源，动态 route shell 变薄；validation tests 通过                         | View 可保留纯呈现 copy，但不得重新写入事实规则                                                           |
 | P1-023 | `closed`             | `passed`                          | `1eff7fb`、`368ff52`；README → docs 单入口，版本、26 endpoint、system theme、三 target 与双部署口径一致；format gate 已启用                           | 维护时继续执行 link/path/command 与 format 检查                                                          |
 | P1-024 | `closed`             | `passed`                          | `1eff7fb`；`docs/dev/README.md` 覆盖全部 feature 并裁决 active/completed/partial/superseded/trace                                                     | 新增或替代 feature 时须在同一 PR 更新索引                                                                |
-| P1-025 | `closed`（门禁配置） | `blocked`                         | 外部复验：strict 三检查、1 approval、dismiss stale、last-push、conversation resolution 与 admin enforcement 已启用；Pages environment 仅允许 main     | 仓库仅一名 collaborator，无法完成独立批准；须新增第二名合格 reviewer，不得降低保护                       |
+| P1-025 | `closed`（门禁配置） | `accepted`                        | owner 于 2026-07-19 明确批准短期 0 approval；外部复验确认 strict 三检查、conversation resolution、admin enforcement 保留，Pages environment 仅允许 main | 具备稳定评审能力后，以独立治理变更恢复至少一名批准者并重新评估 stale dismissal 与 last-push               |
 
 ### 9.4 P2 闭环（12）
 
@@ -277,17 +277,17 @@ status: open
 | 级别 | Repo closed | Repo partial | Repo open | 正式发布门主承接审计 ID                                                               |
 | ---- | ----------: | -----------: | --------: | ------------------------------------------------------------------------------------- |
 | P0   |          10 |            0 |         0 | 9：P0-001～008（旧现网内容/域名/表单/部署）及 P0-010（人工键盘/AT）；P0-009 已通过    |
-| P1   |          24 |            1 |         0 | 3：P1-008（已核验联系替代）、P1-019（当前候选 Actions 实跑）、P1-025（第二 reviewer） |
+| P1   |          24 |            1 |         0 | 2：P1-008（已核验联系替代）、P1-019（当前候选 Actions 实跑）；P1-025 已明确接受        |
 | P2   |          10 |            2 |         0 | 0；P2-002/P2-006 为已记录的非阻断维护债务                                             |
-| 合计 |          44 |            3 |         0 | 12 个审计 ID，归并为下述 7 类独立发布门；旧现网按证据影响既有门 1/2/3/4/6，不新增门类 |
+| 合计 |          44 |            3 |         0 | 11 个审计 ID，归并为下述 6 类开放门；原门 7 已接受，旧现网按证据影响门 1/2/3/4/6      |
 
 `Repo closed` 不能回填成“初始 P0/P1 已全部正式关闭”。当前只证明仓库可控整改已收口；外部或人工证据未通过的行仍保留原优先级和发布约束。
 
 “主承接审计 ID”按独立恢复任务去重，不表示其他 `blocked` / `not-run` 子证据消失：P1-001～007
 的人工视觉、触屏与辅助技术检查归入 P0-010，P2-004 的联系恢复归入 P1-008。P0-004～007
-因旧公开部署正在暴露对应内容，分别保留为现行主承接 ID；七类门的数量不因此增加。
+因旧公开部署正在暴露对应内容，分别保留为现行主承接 ID；开放门的数量不因此增加。
 
-### 9.6 七类正式发布门与恢复任务
+### 9.6 原七类正式发布门与恢复任务（六类仍开放）
 
 | 发布门                          | 当前状态  | 直接证据                                                                                                                    | 恢复任务与通过条件                                                                                                   |
 | ------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -297,7 +297,7 @@ status: open
 | 4. 当前候选远端 CI/部署证据     | `not-run` | 现网是旧 `d624120…`/run `29671570130`；候选 `e567124…` Actions count=0                                                      | 推送受保护 PR；失败门不得部署，成功只部署获批同 SHA；对实际 endpoint 做 ICP/邮箱/Logo/上线稿/具名关系/CTA 负向 smoke |
 | 5. 人工键盘、缩放与辅助技术     | `not-run` | 自动 keyboard/Axe/Lighthouse 已通过；键盘/读屏/双主题/首帧/禁 JS/OS 切换模板仍全为 `Not run`                                | 由记录身份的操作人填写环境、URL/SHA 和逐项结果；完成 200% zoom、全有意义状态与辅助技术验收，阻断项修复后重新签字     |
 | 6. 已核验公开联系替代           | `blocked` | 候选移除未核邮箱；旧 github.io 仍公开 `contact@zgc-llm.org.cn`，无域名邮件可达证据                                          | 先移除旧公开动作；核验获准渠道并实际收发/到达，再补本地化、键盘可达 fallback                                         |
-| 7. 独立 reviewer 与受保护合并   | `blocked` | main 已要求 strict 三检查、1 approval、stale dismissal、last-push、conversation resolution、admin enforcement；仅一名协作者 | 增加第二名具备评审权限且与最后推送者不同的 reviewer，通过受保护 PR 完成独立批准；不得降低分支保护                    |
+| 7. 独立 reviewer 与受保护合并   | `accepted` | owner 已批准短期 0 approval；strict 三检查、conversation resolution、admin enforcement 保留                                | 当前按受保护 PR 合并；具备稳定评审能力后，以独立治理变更恢复至少一名批准者并重新评估 stale dismissal 与 last-push    |
 
 外部配置补充：GitHub Actions 仍保留两个已无代码消费者的旧变量 `NEXT_PUBLIC_INSTITUTION_APPLICATION_URL` 与 `NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL`。它们不会启用当前三个 target，但属于配置残留；确认没有外部 workflow 消费后再由有权限者删除。
 
@@ -318,4 +318,4 @@ status: open
 
 ### 9.8 T-012 closure 结论
 
-仓库可控的 P0 已全部完成，P1 仅 P1-008 保留明确 partial，P2 的两项结构债务已记录恢复条件；完整自动测试、双构建和本地 Docker 证据可支持“运行时候选已形成”。但是旧 github.io 仍部署 `d624120…` 并暴露候选已移除的内容，七类正式发布门也尚未全部通过，尤其是域名、三张表单、远端同 SHA 发布链、人工辅助技术证据、公开联系替代和独立 reviewer。因此本附录的发布结论是：**仓库内候选基本闭环，但现网未闭环且不可正式发布**。
+仓库可控的 P0 已全部完成，P1 仅 P1-008 保留明确 partial，P2 的两项结构债务已记录恢复条件；完整自动测试、双构建和本地 Docker 证据可支持“运行时候选已形成”。原七类门中的独立 reviewer 门已由 owner 明确接受；但是旧 github.io 仍部署 `d624120…` 并暴露候选已移除的内容，其余六类正式发布门尚未全部通过，尤其是域名、三张表单、远端同 SHA 发布链、人工辅助技术证据和公开联系替代。因此本附录的发布结论是：**仓库内候选基本闭环，但现网未闭环且不可正式发布**。

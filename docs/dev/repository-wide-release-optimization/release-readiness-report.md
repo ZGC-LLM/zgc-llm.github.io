@@ -6,7 +6,7 @@ assessed_at: 2026-07-19T22:05:34+08:00
 candidate_runtime_head: e567124de56542d0d501b368dac9c05a81acaf89
 branch: feat/repository-wide-release-optimization
 decision: no-go
-approved_exceptions: 0
+approved_exceptions: 1
 ---
 
 # 发布就绪验收报告
@@ -18,11 +18,13 @@ approved_exceptions: 0
 运行时候选 `e567124de56542d0d501b368dac9c05a81acaf89` 已通过本地代码、测试、双构建、
 静态导出、浏览器、性能、自动无障碍、安全、Docker 与文档质量门，可以作为进入受保护 PR
 流程的**仓库内候选**，且已安全合入验收时的 `origin/main`，相对 `origin/main` 为 29 ahead / 0
-behind。但七类外部或人工发布门仍未通过，当前 `https://zgc-llm.github.io/` 还在服务旧提交
+behind。原七类外部或人工发布门中，独立 reviewer 门已按 owner 明确决策接受；其余六类仍未通过，当前 `https://zgc-llm.github.io/` 还在服务旧提交
 `d624120…` 的不安全公开内容。因此不能合并“仓库候选质量”与“正式对外发布批准”两个结论，
 也不能声称已达到正式上线状态。
 
-本轮没有用户批准的质量例外。用户允许按最高标准执行，不等于批准忽略阻塞项。
+本轮有一项经用户明确批准的治理例外：短期没有第二名 reviewer 时，main 的强制批准数设为 0；
+PR、三个 strict checks、对话解决和管理员保护继续强制生效。该例外不接受任何代码质量、外部事实、
+人工验收或其他发布阻塞项。
 
 ## 2. 验收范围与主要整改
 
@@ -79,9 +81,9 @@ CI/CD、Docker、依赖、测试目录和项目文档。
 | 级别 | Repo closed | Repo partial | Repo open | 正式发布门主承接 ID |
 | ---- | ----------: | -----------: | --------: | ------------------: |
 | P0   |          10 |            0 |         0 |             9 个 ID |
-| P1   |          24 |            1 |         0 |             3 个 ID |
+| P1   |          24 |            1 |         0 |             2 个 ID |
 | P2   |          10 |            2 |         0 |         0 个阻断 ID |
-| 合计 |          44 |            3 |         0 |   12 个 ID / 7 类门 |
+| 合计 |          44 |            3 |         0 | 11 个 ID / 6 类开放门 |
 
 主承接 ID 用于避免同一发布门内重复计数；例如 P1-001～007 的人工视觉/辅助技术依赖归入
 P0-010，P2-004 的联系恢复依赖归入 P1-008。各行原始状态仍完整保留在审计登记中。
@@ -121,7 +123,7 @@ P2-006 保留较大的全局 CSS 与 transitional token 层。后两项是明确
 | F-022 | PASS    | 事实内容在 `src/content/`、站点配置在 `src/config/site.ts`，route/view 职责清晰  |
 | F-023 | NOT RUN | workflow 静态设计通过，但最终候选没有远端同 SHA CI 与失败传播实跑证据            |
 | F-024 | PASS    | standalone、export、Pages 与 Docker 的职责、输入和 artifact 边界明确并本地复验   |
-| F-025 | PASS    | 最小权限、固定 Action SHA、环境、并发和无隐式放行通过；第二 reviewer 另列治理门  |
+| F-025 | PASS    | 最小权限、固定 Action SHA、环境、并发和无隐式放行通过；批准数 0 为已记录例外    |
 | F-026 | PASS    | unit/integration/e2e/helpers 的位置、命名、配置与文档一致                        |
 | F-027 | PASS    | 四项覆盖率硬阈值与高风险逻辑分支均通过                                           |
 | F-028 | PASS    | 导航、菜单、主题、语言、CTA、异常态、动态详情、404、SEO 已覆盖                   |
@@ -131,8 +133,8 @@ P2-006 保留较大的全局 CSS 与 transitional token 层。后两项是明确
 | F-032 | PASS    | 本地 type/lint/format/coverage/e2e/standalone/export/Docker 全部通过             |
 | F-033 | PASS    | 本报告包含范围、结果、性能/无障碍、例外、剩余风险和恢复任务，且如实 NO-GO        |
 
-F-025 的 `PASS` 只评价该条文字要求中的 workflow/环境配置，不代表组织已具备独立审批人；
-“第二 reviewer”仍是正式发布门 7，不能用该勾选绕过。
+F-025 的 `PASS` 评价该条文字要求中的 workflow/环境配置；组织尚不具备独立审批人，但 owner 已
+明确接受门 7 的短期例外。该决定不允许绕过 PR、required checks、对话解决或管理员保护。
 
 ### 5.1 R-001..R-011 总需求状态
 
@@ -177,7 +179,7 @@ F 项通过数不等于总需求完成。以下按每条 R 的全部验收语句
 | F-032                      | [baseline 全命令表](./baseline-after.md#2-命令与退出码)                                                                                                                                                                                                                                                                  |
 | F-033                      | 本报告 §1～§8、[baseline](./baseline-after.md) 与 [audit closure](./audit-register.md#98-t-012-closure-结论)                                                                                                                                                                                                             |
 
-## 6. 七类正式发布门
+## 6. 原七类正式发布门（六类仍开放）
 
 |   # | 门                                | 当前证据                                                                                          | 恢复任务与通过条件                                                                                                                                                             | 建议 owner              |
 | --: | --------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
@@ -187,7 +189,7 @@ F 项通过数不等于总需求完成。以下按每条 R 的全部验收语句
 |   4 | 当前候选远端 CI 与部署链          | 现网部署旧 `d624120…`（run `29671570130`）；候选 `e567124…` 未推送且 Actions run count=0          | 推送短分支、开受保护 PR；同 SHA strict checks 全绿；证明失败门不部署、成功只部署获批 SHA，并对实际端点做负向 smoke                                                             | 维护者 / GitHub 管理员  |
 |   5 | 真人 UX、双主题与辅助技术         | 自动键盘/Axe/Lighthouse 及代表主题状态通过；人工模板全为 `Not run`，全状态双主题未证              | 在 [人工证据模板](../../../tests/e2e/manual-keyboard-evidence.md) 填 SHA/环境/操作者；完成键盘、200% zoom、读屏、全页面有意义状态的 light/dark、首帧、禁 JS 与系统主题切换验收 | QA / 无障碍测试人       |
 |   6 | 已核验公开联系替代                | 候选已移除未核邮箱；旧 github.io 仍暴露 `contact@zgc-llm.org.cn`，该域无可用邮件/DNS 证据         | 先移除旧公开动作；授权一个公开渠道并完成实际收发/到达测试，再补双语、键盘可达的 fallback                                                                                       | 运营 / 联系渠道 owner   |
-|   7 | 独立 reviewer 与受保护合并        | main 门禁要求 1 approval、stale dismissal、last-push、admin enforcement；仓库仅 1 名 collaborator | 增加第二名合格 reviewer，由非最后推送者完成 PR 独立批准；不得降低保护                                                                                                          | 组织 owner              |
+|   7 | 独立 reviewer 与受保护合并        | `accepted`：owner 已批准短期强制批准数为 0；PR、三个 strict checks、对话解决与 admin enforcement 保留 | 当前可按受保护 PR 合并；具备稳定评审能力后，用独立治理变更恢复至少一名批准者并重新评估 stale dismissal 与 last-push                                                            | 组织 owner              |
 
 外部配置还保留两个已无代码消费者的旧 Actions Variables：
 `NEXT_PUBLIC_INSTITUTION_APPLICATION_URL`、`NEXT_PUBLIC_PROFESSIONAL_APPLICATION_URL`。
@@ -214,18 +216,19 @@ F-012 为 PARTIAL，门 1/2/3/4/6 均不能关闭。
 
 ## 8. 发布操作边界与下一步
 
-本轮没有推送最终候选、创建 PR、合并 `main`、触发部署、修改 DNS、修改 GitHub Variables 或向
-Feishu 提交任何表单数据。这些动作需要相应 owner 权限和明确发布授权。
+截至本报告生成时，最终候选尚未推送、创建 PR、合并 `main` 或触发部署；用户已经明确授权通过
+受保护 PR 尽快替换旧 github.io 内容，并继续监控同 SHA CI 与 Pages 部署。DNS、GitHub Variables
+和 Feishu 表单仍由对应 owner 按交接清单执行，本轮不会提交任何表单数据。
 
 建议恢复顺序：
 
-1. 由有权限 owner 立即遏制旧 Pages 暴露：可停用旧站，或仅在受保护 PR、同 SHA CI 和独立审批
-   通过后用事实安全候选替换；保留证据与回滚点，不直接把未审批本地分支发布到现网；
-2. 完成备案判断、三表、公开联系渠道和第二 reviewer；
+1. 立即遏制旧 Pages 暴露：通过受保护 PR 和同 SHA strict checks 后，用事实安全候选替换；保留
+   证据与回滚点，不直接把未通过 required checks 的本地分支发布到现网；
+2. 完成备案判断、三表和公开联系渠道；
 3. 完成人工键盘/zoom/屏幕阅读器、全页面双主题、首帧、禁 JS 与系统切换验收并签字；
 4. 推送候选并通过受保护 PR、同 SHA CI 与失败门演练；
 5. 按“先验证归属和绑定、后切 DNS”的顺序启用 Pages、TLS 与所有 301；
 6. 对实际 github.io 与正式 endpoint 重跑 E2E/SEO/TLS/redirect 及旧事实负向 smoke，所有门通过后
    生成新的 GO 报告。
 
-在以上七类门全部关闭前，本报告结论保持：**NO-GO / 不可正式发布**。
+在以上六类开放门全部关闭前，本报告结论保持：**NO-GO / 不可正式发布**。

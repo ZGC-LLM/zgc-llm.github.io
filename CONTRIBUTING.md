@@ -97,4 +97,4 @@ Docker daemon 可用时，再构建并执行健康检查。最终发布验收必
 3. 使用 Conventional Commits，例如 `docs: align deployment guidance with release gates`。
 4. 开 PR，等待 strict required checks、对话解决和评审门通过后合入。
 
-main 当前要求 `Security audit`、`Types, lint & unit tests`、`End-to-end tests` 三个严格状态检查，至少一名批准者，撤销过期审批，最后推送者限制，并对管理员生效。仓库目前只有一名协作者；增加第二名具备评审权限的 reviewer 前，受保护 PR 无法满足审批门。不要为绕过该外部条件而降低分支保护。
+main 当前要求 PR、`Security audit`、`Types, lint & unit tests`、`End-to-end tests` 三个严格状态检查、对话解决，并对管理员生效。由于短期没有第二名 reviewer，组织 owner 已于 2026-07-19 明确接受将强制批准数设为 0；该临时策略不允许绕过 required checks、直接推送 main 或跳过对话解决。具备稳定评审能力后，应在独立治理变更中恢复至少一名批准者并重新评估 stale dismissal 与 last-push 限制。
