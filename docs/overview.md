@@ -32,13 +32,15 @@ src/
 │   │   ├── sitemap.ts     # /sitemap.xml 生成
 │   │   ├── alliance/ working-groups/ cybersecurity/
 │   │   ├── members/ news/ news/[slug]/
-│   │   └── join/ professionals/ privacy/
+│   │   └── join/ privacy/
+│   ├── (en)/             # 英文官网页面（/en 前缀，镜像中文结构）
 │   └── robots.ts          # 根级 /robots.txt 生成
 ├── components/site/       # 站点 UI 组件（页头、页脚、导航、Hero、申请外链等）
 ├── config/site.ts         # 站点名称、导航、公开路由、统一申请目标配置
-├── content/               # 类型化的公开内容（各业务领域一个文件）
+├── content/               # 类型化的公开内容（各业务领域一个文件，含 enDraft 英文覆盖）
 │   ├── alliance.ts cybersecurity.ts home.ts
 │   └── members.ts news.ts working-groups.ts
+├── i18n/                  # 国际化：语言枚举、文案字典、路由与内容映射
 └── types/content.ts       # 内容与申请目标的类型定义
 tests/
 ├── unit/                  # 单元与组件测试（Vitest + jsdom）
@@ -48,11 +50,12 @@ tests/
 
 ## 公开路由
 
-- 内容页：`/`、`/alliance`、`/working-groups`、`/cybersecurity`、`/members`、`/news`、`/news/[slug]`
-- 转化页：`/join`（机构生态共建）、`/working-groups/cybersecurity/join`（网安组参与/合作）、`/privacy`。两个入口的 CTA 共用同一张飞书问卷。
-- SEO：`/sitemap.xml`、`/robots.txt`
+- 内容页：`/`、`/alliance`、`/working-groups`、`/working-groups/[slug]`、`/cybersecurity`、`/members`、`/news`、`/news/[slug]`
+- 转化页：`/join`（机构生态共建）、`/working-groups/[slug]/join`（工作组参与/合作，如网安组）、`/privacy`。CTA 共用统一飞书问卷（网安组可配专属问卷）。
+- 多语言：以上页面均有英文版本，位于 `/en/*` 前缀下（结构与 slug 镜像中文）。
+- SEO：`/sitemap.xml`（含中英双语条目与 hreflang）、`/robots.txt`
 
-公开静态路由集中在 `src/config/site.ts` 的 `PUBLIC_STATIC_ROUTES`，`sitemap.ts` 与导航均从此派生，避免不一致。
+公开静态路由集中在 `src/config/site.ts` 的 `PUBLIC_STATIC_ROUTES`，`sitemap.ts` 与导航均从此派生，中英路由由 `src/i18n/routing.ts` 的 `localizePath` 统一生成，避免不一致。
 
 ## 内容与申请入口维护
 
