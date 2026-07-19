@@ -169,11 +169,11 @@ export function HomeView({ locale }: { locale: Locale }): ReactElement {
             <h1>{t.heroTitle}</h1>
             <p className="hero__lead">{t.heroLead}</p>
             <div className="hero__cta">
-              <Link className="btn btn--primary" href={localizePath('/join', locale)}>
-                {t.heroCta}
-              </Link>
               <Link className="btn btn--ghost" href={localizePath('/working-groups', locale)}>
                 {t.heroWorkingGroupCta}
+              </Link>
+              <Link className="btn btn--primary" href={localizePath('/join', locale)}>
+                {t.heroCta}
               </Link>
             </div>
           </div>
