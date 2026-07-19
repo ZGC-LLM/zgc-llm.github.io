@@ -28,6 +28,7 @@
 - [环境变量](#环境变量)
 - [内容与申请入口维护](#内容与申请入口维护)
 - [公开路由](#公开路由)
+- [国际化（i18n）](#国际化i18n)
 - [项目结构](#项目结构)
 - [部署说明](#部署说明)
 - [相关文档](#相关文档)
@@ -46,7 +47,7 @@
 | --- | --- |
 | 联盟介绍 | 联盟定位、工作组与重点专项 |
 | 网络安全专题 | 厂商中立的网络安全生态专题 |
-| 生态共建 | 机构生态共建与专业用户双申请路径 |
+| 生态共建 | 机构与专业用户经统一飞书问卷入口参与共建 |
 | 成员与动态 | 成员伙伴展示与新闻动态 |
 | 合规基础 | 隐私说明、基础 SEO、`sitemap` 与 `robots` |
 
@@ -90,14 +91,18 @@ pnpm test:all        # 单元 + 端到端测试
 
 ## 环境变量
 
-统一合作/加入申请的飞书问卷链接通过单个环境变量配置，**仅接受 HTTPS 地址**（`/join` 机构入口与网安组 join 入口共用同一链接，问卷内以「意向类型 + 专家/机构身份」分支区分）：
+飞书问卷链接通过环境变量配置，**仅接受 HTTPS 地址**。均为可选：留空则使用 `src/config/site.ts` 内置默认问卷链接，填写则覆盖默认值。
 
 ```bash
+# 统一合作/加入申请入口（`/join` 机构入口默认使用）
 NEXT_PUBLIC_APPLICATION_URL=https://example.feishu.cn/share/base/form/...
+# 网络安全工作组专属入口（网安组 join 页使用，未命中回退通用入口）
+NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY=https://example.feishu.cn/share/base/form/...
+# 正式主域名（canonical / sitemap / robots 基准）
 NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn
 ```
 
-> ⚠️ 这个 `NEXT_PUBLIC_*` 变量会在 **Next.js 构建时**写入静态页面。未配置或地址非法时，页面会显示不可点击状态和联系回退，不会产生死链。飞书问卷须设为**外部/匿名可填**，申请数据由飞书问卷及飞书多维表格承接，官网不接收或保存申请数据。
+> ⚠️ 这些 `NEXT_PUBLIC_*` 变量会在 **Next.js 构建时**写入静态页面。地址未配置或非法时，页面会显示不可点击状态与联系回退，不会产生死链。飞书问卷须设为**外部/匿名可填**，申请数据由飞书问卷及飞书多维表格承接，官网不接收或保存申请数据。
 >
 > 构建生产 Docker 镜像时必须通过 `--build-arg` 传入（见[部署说明](#部署说明)）；仅在容器启动时注入不会改变已静态生成的申请链接。
 
@@ -107,36 +112,50 @@ NEXT_PUBLIC_SITE_URL=https://www.zgc-llm.org.cn
 | --- | --- |
 | 站点名称、导航、公开路由、申请目标 | `src/config/site.ts` |
 | 首页、联盟、专项、成员、新闻内容 | `src/content/` |
-| 页面实现 | `src/app/(frontend)/` |
+| 英文翻译（覆盖层） | `src/content/*.ts` 的 `enDraft` / `*_EN`、`src/i18n/dictionary.ts` |
+| 页面实现（中文 / 英文） | `src/app/(frontend)/` · `src/app/(en)/` |
 | 全局视觉 Token 与响应式规则 | `src/app/(frontend)/styles.css` |
 
 ## 公开路由
 
+站点为**中/英双语**：中文在根路径，英文在 `/en` 前缀下（结构镜像，slug 一致）。
+
 ```text
 /                     首页
 /alliance             联盟介绍
-/working-groups       工作组
+/working-groups                     工作组列表
+/working-groups/[slug]              工作组详情（如 /working-groups/cybersecurity）
+/working-groups/[slug]/members      工作组成员
+/working-groups/[slug]/join         工作组参与/合作入口（→ 对应飞书问卷）
 /cybersecurity        网络安全专题
 /members              成员伙伴
 /news  ·  /news/[slug]  新闻动态与详情
 /join                 机构合作/加入入口（→ 统一飞书问卷）
-/working-groups/cybersecurity/join   网安组参与/合作入口（→ 同一问卷）
 /privacy              隐私说明
-/sitemap.xml  ·  /robots.txt   SEO 基础
+/en/*                 上述所有页面的英文版本
+/sitemap.xml  ·  /robots.txt   SEO 基础（sitemap 含中英双语条目与 hreflang）
 ```
 
 `/sitemap.xml` 由 `src/app/(frontend)/sitemap.ts` 生成，`/robots.txt` 由 `src/app/robots.ts` 生成。
+
+## 国际化（i18n）
+
+- 中文为**权威语言**，英文为覆盖层。UI 文案字典与路由映射集中在 `src/i18n/`（`locales.ts` / `dictionary.ts` / `routing.ts` / `localized.ts`）。
+- 页面内容的英文翻译通过各 `src/content/*.ts` 内的 `enDraft` / `*_EN` 覆盖层提供，翻译仅覆写可翻译文本，路由 slug 与数据结构在两种语言下保持一致。
+- 英文页面位于 `src/app/(en)/en/*`，与中文页面（`src/app/(frontend)/*`）共用组件与内容常量。
 
 ## 项目结构
 
 ```text
 src/
 ├── app/
-│   ├── (frontend)/   # 官网 App Router 页面、布局、样式与 sitemap
+│   ├── (frontend)/   # 中文官网 App Router 页面、布局、样式与 sitemap
+│   ├── (en)/         # 英文官网页面（/en 前缀，镜像中文结构）
 │   └── robots.ts     # 根级 /robots.txt 生成
 ├── components/       # 站点 UI 组件
 ├── config/           # 站点级配置（site.ts）
-├── content/          # 类型化的公开内容
+├── content/          # 类型化的公开内容（含 enDraft 英文覆盖层）
+├── i18n/             # 国际化：语言枚举、文案字典、路由与内容映射
 └── types/            # 内容类型定义
 
 tests/
@@ -144,8 +163,6 @@ tests/
 ├── e2e/              # 浏览器端到端测试（Playwright）
 └── helpers/          # 测试辅助
 ```
-
-> 注：`src/app/my-route/` 为空的脚手架残留目录，未对应任何公开路由，可安全删除。
 
 ## 部署说明
 

@@ -7,6 +7,7 @@
 - 纯静态展示官网，Next.js 16（App Router）+ React 19 + TypeScript + Tailwind CSS 4。
 - 公开内容来自仓库内类型化配置（`src/content/`），无内容后台、无数据库。
 - 加入申请通过飞书表单收集，官网**不接收、不落库、不保存**任何申请人个人信息。
+- **中文为权威语言，英文为覆盖层**：站点提供中/英双语，中文内容常量为准，英文经 `enDraft` 覆盖层翻译（详见「国际化」）。
 
 ## 域名（重要）
 
@@ -26,7 +27,15 @@ pnpm test            # 单元测试（Vitest）
 pnpm test:e2e        # Playwright 端到端测试（隔离在 127.0.0.1:3100）
 ```
 
-要求 Node.js 22、pnpm 11。**统一使用 pnpm**，不要用 npm/yarn。
+要求 Node.js 22、pnpm 11。**统一使用 pnpm**，不要用 npm/yarn。（`package.json` 的 `engines` 下限为 Node 20.9，本地与 CI 统一按 Node 22 验证。）
+
+## 国际化（i18n）
+
+- 站点为**中/英双语**：中文在根路径（`/alliance` 等），英文在 `/en/*` 前缀下（`src/app/(en)/en/*`）。两套页面共用 `src/components/` 组件与 `src/content/` 内容常量。
+- 语言机制集中在 `src/i18n/`：`locales.ts`（语言枚举）、`dictionary.ts`（UI 文案字典）、`routing.ts`（`localizePath` / `buildAlternates` 路径与 hreflang 生成）、`localized.ts`（内容取值）。
+- **中文常量是权威内容**，英文通过各 `src/content/*.ts` 内的 `enDraft` / `*_EN` 覆盖层翻译；路由 `slug` 与数据结构在两种语言下保持一致，翻译只覆写可翻译文本字段。
+- `sitemap.ts` 会为每条公开路由生成中、英两个条目及 hreflang alternates；新增页面/路由时无需手写英文条目，但要确保 `src/content/` 提供对应英文覆盖。
+- 新增可翻译文案时，同步补齐 `src/i18n/dictionary.ts` 与内容覆盖层，避免英文站回退到中文原文。
 
 ## 提交前必须通过
 
