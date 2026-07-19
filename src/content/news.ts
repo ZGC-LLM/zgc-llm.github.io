@@ -110,7 +110,7 @@ const NEWS_EN: Readonly<Record<string, NewsOverlay>> = {
   'alliance-website-launch': {
     body: [
       {
-        text: 'The official website of the Zhongguancun Self-Reliant Large Model Industry Alliance is now live, presenting the Alliance introduction, working groups, cybersecurity ecosystem, members and latest updates, so that all stakeholders can follow the Alliance’s progress and take part in building the industry ecosystem.',
+        text: 'The official website of the Zhongguancun Independent Large Model Industry Alliance is now live, presenting the Alliance introduction, working groups, cybersecurity ecosystem, members and latest updates, so that all stakeholders can follow the Alliance’s progress and take part in building the industry ecosystem.',
         type: 'paragraph',
       },
       { text: 'What the site provides', type: 'heading' },
@@ -133,13 +133,13 @@ const NEWS_EN: Readonly<Record<string, NewsOverlay>> = {
       },
     ],
     description:
-      'The official website of the Zhongguancun Self-Reliant Large Model Industry Alliance is now live, presenting the Alliance positioning, priority work, cybersecurity ecosystem and institutional cooperation entry.',
+      'The official website of the Zhongguancun Independent Large Model Industry Alliance is now live, presenting the Alliance positioning, priority work, cybersecurity ecosystem and institutional cooperation entry.',
     title: 'The Alliance official website is now live',
   },
   'cybersecurity-open-program': {
     body: [
       {
-        text: 'Effective immediately, the Zhongguancun Self-Reliant Large Model Industry Alliance officially launches the “Cybersecurity Professionals Open Program”, offering trusted security partners invited, controlled access to the capabilities of self-reliant large models in cybersecurity scenarios. The program follows the principles of lawful authorization, defense-first and auditable processes; it is not open to the public, but provides a controlled access mechanism to trusted defenders.',
+        text: 'Effective immediately, the Zhongguancun Independent Large Model Industry Alliance officially launches the “Cybersecurity Professionals Open Program”, offering trusted security partners invited, controlled access to the capabilities of self-reliant large models in cybersecurity scenarios. The program follows the principles of lawful authorization, defense-first and auditable processes; it is not open to the public, but provides a controlled access mechanism to trusted defenders.',
         type: 'paragraph',
       },
       {
@@ -181,7 +181,7 @@ const NEWS_EN: Readonly<Record<string, NewsOverlay>> = {
     ],
     ctaLabel: 'Submit application',
     description:
-      'The Zhongguancun Self-Reliant Large Model Industry Alliance launches the “Cybersecurity Professionals Open Program”, giving trusted defenders controlled access to self-reliant large-model capabilities in cybersecurity scenarios, upholding lawful authorization, defense-first and auditable processes.',
+      'The Zhongguancun Independent Large Model Industry Alliance launches the “Cybersecurity Professionals Open Program”, giving trusted defenders controlled access to self-reliant large-model capabilities in cybersecurity scenarios, upholding lawful authorization, defense-first and auditable processes.',
     title: 'Alliance launches the “Cybersecurity Professionals Open Program”',
   },
 }

@@ -56,7 +56,7 @@ const STRINGS: Record<Locale, AllianceStrings> = {
     introDescription:
       'Connecting universities, research institutions and industry partners to help build an internationally competitive self-reliant large-model industry ecosystem.',
     introEyebrow: 'Overview',
-    introTitle: 'About the Zhongguancun Self-Reliant Large Model Industry Alliance',
+    introTitle: 'About the Zhongguancun Independent Large Model Industry Alliance',
     mechanismDescription:
       'The Alliance coordinates priority directions, sets up working groups (such as the Cybersecurity Working Group) for specialised topics, and advances priority projects through them.',
     mechanismEyebrow: 'Organization',

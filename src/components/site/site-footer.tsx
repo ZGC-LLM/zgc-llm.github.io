@@ -77,11 +77,6 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
           <p>
             © {new Date().getFullYear()} {SITE_NAME}
           </p>
-          <p>
-            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
-              京ICP备2025000000号-1
-            </a>
-          </p>
         </div>
       </div>
     </footer>
