@@ -145,17 +145,17 @@ design: ./repository-wide-release-optimization-design.md
 - **parallel_group**: foundation-seo
 - **execution**: agent
 - **model**: opus
-- **estimated_files**: 16
+- **estimated_files**: 18
 - **dependencies**: [T-001, T-002]
 - **requires**: []
-- **provides**: [src/config/site.ts, src/i18n/locales.ts, src/i18n/localized.ts, src/i18n/dictionary.ts, src/i18n/routing.ts, src/lib/structured-data.ts, src/components/site/json-ld.tsx, src/app/(frontend)/layout.tsx, src/app/(en)/layout.tsx, src/app/(frontend)/sitemap.ts, src/app/robots.ts, src/app/global-not-found.tsx]
+- **provides**: [src/config/site.ts, src/i18n/locales.ts, src/i18n/localized.ts, src/i18n/dictionary.ts, src/i18n/routing.ts, src/lib/content-validation.ts, src/lib/structured-data.ts, src/types/content.ts, src/components/site/json-ld.tsx, src/app/(frontend)/layout.tsx, src/app/(en)/layout.tsx, src/app/(frontend)/sitemap.ts, src/app/robots.ts, src/app/global-not-found.tsx]
 - **consumes**: [docs/dev/repository-wide-release-optimization/audit-register.md, docs/dev/repository-wide-release-optimization/content-fact-register.md, src/components/site/site-chrome.tsx]
 - **must_not_create**: [src/components/pages/home-view.tsx, src/components/pages/join-view.tsx, .github/workflows/ci.yml]
 - **injected_skills**: [dev-frontend-standards, test-governance]
 
 ### 描述
 
-集中治理正式域名、导航/申请配置、locale 解析与路径映射、共享 metadata/structured data、根布局、robots、sitemap 和全局 404；CNAME 与部署配置由 T-007 统一拥有。保持中文根路径与 `/en/*`，动态 slug 对应切换不丢失。为页面族提供可复用 canonical/hreflang/OG/JSON-LD helper，并强化域名、HTTPS、内容和双语校验；不在本任务改页面正文。
+集中治理正式域名、导航/申请配置、locale 解析与路径映射、公开内容事实元数据类型与校验、共享 metadata/structured data、根布局、robots、sitemap 和全局 404；CNAME 与部署配置由 T-007 统一拥有。保持中文根路径与 `/en/*`，动态 slug 对应切换不丢失。为页面族提供可复用 canonical/hreflang/OG/JSON-LD helper，并强化域名、HTTPS、内容、授权状态和双语校验；不在本任务改页面正文。
 
 ### 验收标准
 
@@ -170,7 +170,9 @@ design: ./repository-wide-release-optimization-design.md
 
 - src/config/site.ts
 - src/i18n/*
+- src/lib/content-validation.ts
 - src/lib/structured-data.ts
+- src/types/content.ts
 - src/components/site/json-ld.tsx
 - 根布局、sitemap、robots、global-not-found
 
@@ -524,7 +526,7 @@ T-003..T-011 ─> T-012
 ## 4. 文件契约静态检查
 
 - `styles.css` 仅 T-002 拥有。
-- `src/config/site.ts`、i18n、sitemap/robots/layout 仅 T-003 拥有。
+- `src/config/site.ts`、i18n、内容校验/公共内容类型、sitemap/robots/layout 仅 T-003 拥有。
 - 三个页面族无重叠页面或内容文件。
 - `package.json`、lockfile、workflows、Dockerfile 与 CNAME 仅 T-007 拥有。
 - Next/TS/ESLint/PostCSS 与品牌资产仅 T-008 拥有。
