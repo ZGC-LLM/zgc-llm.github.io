@@ -198,10 +198,14 @@ jobs:
           retention-days: 7
 
   release-e2e:
-    # Scheduled and manual release rehearsals execute every Playwright project,
-    # including cross-browser, mobile, accessibility and Lighthouse gates.
+    # Main pushes must pass every Playwright project before the Pages workflow
+    # can deploy the same SHA. Scheduled and manual runs also rehearse the full
+    # cross-browser, mobile, accessibility and Lighthouse release contract.
     name: Release E2E contract
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: >-
+      github.event_name == 'push' ||
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
