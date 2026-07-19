@@ -224,7 +224,7 @@ design: ./repository-wide-release-optimization-design.md
 - **estimated_files**: 18
 - **dependencies**: [T-002, T-003]
 - **requires**: []
-- **provides**: [src/components/pages/join-view.tsx, src/components/pages/cybersecurity-view.tsx, src/content/cybersecurity.ts, src/content/working-groups.ts, src/content/working-group-members.ts, src/app/(frontend)/join/page.tsx, src/app/(en)/en/join/page.tsx, src/app/(frontend)/cybersecurity/page.tsx, src/app/(en)/en/cybersecurity/page.tsx, src/app/(frontend)/working-groups/page.tsx, src/app/(en)/en/working-groups/page.tsx, src/app/(frontend)/working-groups/[slug]/page.tsx, src/app/(frontend)/working-groups/[slug]/members/page.tsx, src/app/(frontend)/working-groups/[slug]/join/page.tsx, src/app/(en)/en/working-groups/[slug]/page.tsx, src/app/(en)/en/working-groups/[slug]/members/page.tsx, src/app/(en)/en/working-groups/[slug]/join/page.tsx]
+- **provides**: [src/components/pages/join-view.tsx, src/components/pages/cybersecurity-view.tsx, src/content/join.ts, src/content/cybersecurity.ts, src/content/working-groups.ts, src/content/working-group-members.ts, src/app/(frontend)/join/page.tsx, src/app/(en)/en/join/page.tsx, src/app/(frontend)/cybersecurity/page.tsx, src/app/(en)/en/cybersecurity/page.tsx, src/app/(frontend)/working-groups/page.tsx, src/app/(en)/en/working-groups/page.tsx, src/app/(frontend)/working-groups/[slug]/page.tsx, src/app/(frontend)/working-groups/[slug]/members/page.tsx, src/app/(frontend)/working-groups/[slug]/join/page.tsx, src/app/(en)/en/working-groups/[slug]/page.tsx, src/app/(en)/en/working-groups/[slug]/members/page.tsx, src/app/(en)/en/working-groups/[slug]/join/page.tsx]
 - **consumes**: [docs/dev/repository-wide-release-optimization/audit-register.md, docs/dev/repository-wide-release-optimization/content-fact-register.md, src/app/(frontend)/styles.css, src/components/site/external-application-link.tsx, src/config/site.ts, src/i18n/routing.ts]
 - **must_not_create**: [src/app/(frontend)/styles.css, src/content/members.ts, .env.example, tests/e2e]
 - **injected_skills**: [dev-frontend-standards, doc-polish, test-governance]
@@ -256,10 +256,10 @@ design: ./repository-wide-release-optimization-design.md
 - **parallel_group**: pages-c
 - **execution**: agent
 - **model**: opus
-- **estimated_files**: 14
+- **estimated_files**: 16
 - **dependencies**: [T-002, T-003]
 - **requires**: []
-- **provides**: [src/components/pages/members-view.tsx, src/components/pages/privacy-view.tsx, src/content/members.ts, src/content/news.ts, src/app/(frontend)/members/page.tsx, src/app/(en)/en/members/page.tsx, src/app/(frontend)/news/page.tsx, src/app/(frontend)/news/[slug]/page.tsx, src/app/(en)/en/news/page.tsx, src/app/(en)/en/news/[slug]/page.tsx, src/app/(frontend)/privacy/page.tsx, src/app/(en)/en/privacy/page.tsx, src/app/(frontend)/not-found.tsx]
+- **provides**: [src/components/pages/members-view.tsx, src/components/pages/privacy-view.tsx, src/components/pages/not-found-view.tsx, src/content/members.ts, src/content/news.ts, src/content/privacy.ts, src/app/(frontend)/members/page.tsx, src/app/(en)/en/members/page.tsx, src/app/(frontend)/news/page.tsx, src/app/(frontend)/news/[slug]/page.tsx, src/app/(en)/en/news/page.tsx, src/app/(en)/en/news/[slug]/page.tsx, src/app/(frontend)/privacy/page.tsx, src/app/(en)/en/privacy/page.tsx, src/app/(frontend)/not-found.tsx, src/app/(en)/not-found.tsx]
 - **consumes**: [docs/dev/repository-wide-release-optimization/audit-register.md, docs/dev/repository-wide-release-optimization/content-fact-register.md, src/app/(frontend)/styles.css, src/config/site.ts, src/i18n/routing.ts, src/lib/structured-data.ts]
 - **must_not_create**: [src/app/global-not-found.tsx, src/app/(frontend)/styles.css, src/content/cybersecurity.ts, tests/unit]
 - **injected_skills**: [dev-frontend-standards, doc-polish, test-governance]
