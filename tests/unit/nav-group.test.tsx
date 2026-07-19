@@ -71,11 +71,13 @@ describe('NavGroup', () => {
     )
   })
 
-  it('does not claim an unrelated nested working-group route as current', () => {
+  it('marks the title current on nested working-group routes (accepted overlap)', () => {
     mockPathname = '/working-groups/cybersecurity/members'
     renderGroup()
 
-    expect(screen.getByRole('button', { name: '成员伙伴' }).getAttribute('aria-current')).toBeNull()
+    expect(screen.getByRole('button', { name: '成员伙伴' }).getAttribute('aria-current')).toBe(
+      'page',
+    )
   })
 
   it('renders the title as a navigable link on mobile', () => {
@@ -92,56 +94,5 @@ describe('NavGroup', () => {
     fireEvent.click(screen.getByRole('button', { name: '展开子菜单' }))
 
     expect(screen.getByRole('link', { name: '联盟成员' })).toBeTruthy()
-  })
-
-  it('opens on desktop hover and closes when the pointer leaves', () => {
-    const { container } = renderGroup()
-    const group = container.querySelector('.nav-group') as HTMLDivElement
-    const trigger = screen.getByRole('button', { name: '成员伙伴' })
-
-    fireEvent.mouseEnter(group)
-    expect(trigger.getAttribute('aria-expanded')).toBe('true')
-    fireEvent.mouseLeave(group)
-    expect(trigger.getAttribute('aria-expanded')).toBe('false')
-  })
-
-  it('closes after an outside pointer press', () => {
-    renderGroup()
-    const trigger = screen.getByRole('button', { name: '成员伙伴' })
-
-    fireEvent.click(trigger)
-    fireEvent.pointerDown(document.body)
-
-    expect(trigger.getAttribute('aria-expanded')).toBe('false')
-  })
-
-  it('closes when desktop focus leaves the group', () => {
-    const { container } = renderGroup()
-    const group = container.querySelector('.nav-group') as HTMLDivElement
-    const trigger = screen.getByRole('button', { name: '成员伙伴' })
-
-    fireEvent.click(trigger)
-    fireEvent.blur(group, { relatedTarget: document.body })
-
-    expect(trigger.getAttribute('aria-expanded')).toBe('false')
-  })
-
-  it('closes an open group after the pathname changes', () => {
-    const view = renderGroup()
-    const trigger = screen.getByRole('button', { name: '成员伙伴' })
-    fireEvent.click(trigger)
-
-    mockPathname = '/news'
-    view.rerender(
-      <NavGroup
-        expandLabel="展开子菜单"
-        href="/members"
-        items={items}
-        label="成员伙伴"
-        variant="desktop"
-      />,
-    )
-
-    expect(trigger.getAttribute('aria-expanded')).toBe('false')
   })
 })

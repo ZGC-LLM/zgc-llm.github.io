@@ -2,15 +2,15 @@ import type { Metadata } from 'next'
 import type { ReactElement } from 'react'
 
 import { AllianceView } from '@/components/pages/alliance-view'
-import { buildPageMetadata } from '@/i18n/routing'
+import { buildAlternates } from '@/i18n/routing'
 
-export const metadata: Metadata = buildPageMetadata({
+// 英文联盟页：已做正文英文初稿（AllianceView locale="en"），不再回退中文。
+export const metadata: Metadata = {
+  alternates: buildAlternates('/alliance', 'en'),
   description:
-    "Learn about the Alliance's purpose, shared principles, collaboration model, focus areas and ways to participate.",
-  locale: 'en',
+    'Learn about the Zhongguancun Self-Reliant Large Model Industry Alliance — its purpose, overview, shared values and collaboration mechanisms.',
   title: 'About the Alliance',
-  zhPath: '/alliance',
-})
+}
 
 export default function EnAlliancePage(): ReactElement {
   return <AllianceView locale="en" />

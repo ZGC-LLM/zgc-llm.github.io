@@ -1,22 +1,19 @@
 {
   "name": "zgcllm-website",
   "version": "0.1.0",
-  "description": "Website project for ZGCLLM",
+  "description": "Official website of the Zhongguancun Independent Large Model Industry Alliance",
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
-    "build:export": "cross-env BUILD_TARGET=export pnpm build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
-    "format:check": "prettier --check .",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:unit",
     "test:all": "pnpm run test:unit && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
-    "test:e2e:chromium": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts --project=chromium",
     "test:unit": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.unit.config.mts",
     "test:coverage": "cross-env NODE_OPTIONS=--no-deprecation vitest run --coverage --config ./vitest.unit.config.mts",
     "typecheck": "tsc --noEmit --pretty"
@@ -29,7 +26,6 @@
     "sharp": "0.34.2"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.12.1",
     "@playwright/test": "1.58.2",
     "@tailwindcss/postcss": "^4.3.2",
     "@testing-library/react": "16.3.0",
@@ -37,21 +33,20 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "4.5.2",
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "4.0.18",
     "eslint": "^9.16.0",
     "eslint-config-next": "16.2.6",
     "jsdom": "28.0.0",
-    "lighthouse": "13.4.0",
     "prettier": "^3.4.2",
     "tailwindcss": "^4.3.2",
     "tsx": "4.22.4",
     "typescript": "5.7.3",
     "vite-tsconfig-paths": "6.0.5",
-    "vitest": "4.1.10"
+    "vitest": "4.0.18"
   },
   "engines": {
-    "node": ">=22.19.0 <23",
-    "pnpm": "11.x"
+    "node": ">=20.9.0",
+    "pnpm": "^9 || ^10 || ^11"
   },
   "packageManager": "pnpm@11.2.2"
 }

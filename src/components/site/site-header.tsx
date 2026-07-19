@@ -1,10 +1,8 @@
-'use client'
-
+import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useEffect, useId, useRef, useState, type ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
-import { getSiteName, SITE_NAVIGATION } from '@/config/site'
+import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
@@ -84,87 +82,30 @@ function NavigationLinks({
 
 export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
   const t = dict(locale).header
-  const siteName = getSiteName(locale)
-  const pathname = usePathname()
-  const menuId = useId()
-  const menuRef = useRef<HTMLDetailsElement>(null)
-  const menuTriggerRef = useRef<HTMLElement>(null)
-  const [menuState, setMenuState] = useState({ open: false, pathname })
-  const mobileMenuOpen = menuState.pathname === pathname && menuState.open
-
-  // Programmatic navigation can change the route without a click inside the menu.
-  // Reset during render so the next committed tree is already closed.
-  if (menuState.pathname !== pathname) {
-    setMenuState({ open: false, pathname })
-  }
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return undefined
-
-    function closeAndRestoreFocus(): void {
-      setMenuState({ open: false, pathname })
-      menuTriggerRef.current?.focus({ preventScroll: true })
-    }
-
-    function handlePointerDown(event: PointerEvent): void {
-      if (!menuRef.current?.contains(event.target as Node)) {
-        closeAndRestoreFocus()
-      }
-    }
-
-    function handleKeyDown(event: KeyboardEvent): void {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        closeAndRestoreFocus()
-      }
-    }
-
-    function handleFocusIn(event: FocusEvent): void {
-      const target = event.target
-
-      if (target instanceof Node && !menuRef.current?.contains(target)) {
-        setMenuState({ open: false, pathname })
-      }
-    }
-
-    function handleDesktopBreakpoint(event: MediaQueryListEvent): void {
-      if (event.matches) {
-        setMenuState({ open: false, pathname })
-      }
-    }
-
-    const desktopQuery = window.matchMedia('(min-width: 1280px)')
-
-    document.addEventListener('pointerdown', handlePointerDown)
-    document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('focusin', handleFocusIn)
-    desktopQuery.addEventListener('change', handleDesktopBreakpoint)
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
-      document.removeEventListener('keydown', handleKeyDown)
-      document.removeEventListener('focusin', handleFocusIn)
-      desktopQuery.removeEventListener('change', handleDesktopBreakpoint)
-    }
-  }, [mobileMenuOpen, pathname])
-
-  function closeMobileMenu(): void {
-    setMenuState({ open: false, pathname })
-    menuTriggerRef.current?.focus({ preventScroll: true })
-  }
 
   return (
     <header className="site-header">
-      <div className="site-container site-header__inner">
-        <Link aria-label={siteName} className="site-brand" href={localizePath('/', locale)}>
-          <span className="site-brand__name">{siteName}</span>
+      <div className="site-container flex min-h-20 items-center justify-between gap-4">
+        <Link className="flex min-w-0 items-center gap-3" href={localizePath('/', locale)}>
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="brand-logo"
+            height={40}
+            priority
+            src="/brand/llm-alliance-logo.png"
+            width={40}
+          />
+          <span className="max-w-72 whitespace-nowrap text-sm font-semibold leading-5 text-[var(--alliance-text-title)] sm:text-base">
+            {SITE_NAME}
+          </span>
         </Link>
 
-        <nav aria-label={t.mainNav} className="site-header__nav">
+        <nav aria-label={t.mainNav} className="hidden items-center gap-1 min-[1024px]:flex">
           <NavigationLinks locale={locale} variant="desktop" />
         </nav>
 
-        <div className="site-header__actions">
+        <div className="hidden items-center gap-3 min-[1024px]:flex">
           <Link className="button-secondary" href={localizePath('/working-groups', locale)}>
             {t.joinWorkingGroup}
           </Link>
@@ -174,37 +115,14 @@ export function SiteHeader({ locale }: { locale: Locale }): ReactElement {
           <LanguageToggle locale={locale} />
         </div>
 
-        <div className="site-header__mobile-actions">
-          <details className="mobile-menu" open={mobileMenuOpen} ref={menuRef}>
-            <summary
-              aria-controls={menuId}
-              aria-expanded={mobileMenuOpen}
-              aria-label={
-                mobileMenuOpen
-                  ? locale === 'zh'
-                    ? '关闭网站导航'
-                    : 'Close site navigation'
-                  : t.openNav
-              }
-              className="mobile-menu__trigger"
-              onClick={(event) => {
-                event.preventDefault()
-                setMenuState({ open: !mobileMenuOpen, pathname })
-              }}
-              ref={menuTriggerRef}
-            >
-              <span aria-hidden="true" className="mobile-menu__icon" />
-              <span>{t.menu}</span>
+        {/* 窄屏(<1024px)常驻控件簇：「菜单」按钮在任何宽度都伸手可点，
+            不再埋进折叠菜单里。桌面端(≥1024px)仍用上方的控件簇。 */}
+        <div className="flex items-center gap-2 min-[1024px]:hidden">
+          <details className="mobile-menu">
+            <summary aria-label={t.openNav} className="mobile-menu__trigger">
+              <span aria-hidden="true">{t.menu}</span>
             </summary>
-            <div
-              className="mobile-menu__panel"
-              id={menuId}
-              onClickCapture={(event) => {
-                if (event.target instanceof Element && event.target.closest('a')) {
-                  closeMobileMenu()
-                }
-              }}
-            >
+            <div className="mobile-menu__panel">
               <nav aria-label={t.mobileNav} className="grid gap-1">
                 <NavigationLinks locale={locale} variant="mobile" />
               </nav>

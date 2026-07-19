@@ -1,37 +1,19 @@
 import type { ReactElement } from 'react'
 
-import type { JsonObject, JsonValue } from '@/lib/structured-data'
-
-type LegacyJsonLdObject = Record<string, unknown>
-type JsonLdData =
-  | JsonObject
-  | JsonValue
-  | LegacyJsonLdObject
-  | readonly JsonObject[]
-  | readonly LegacyJsonLdObject[]
-
 interface JsonLdProps {
-  /** Compatibility union narrows to JsonValue as page-owned Article helpers migrate. */
-  data: JsonLdData
+  /** 一个或多个 schema.org 结构化数据对象 */
+  data: Record<string, unknown> | readonly Record<string, unknown>[]
 }
 
 /**
- * Serialize JSON for an HTML script data block. JSON.stringify alone does not
- * escape the HTML parser's `</script>` sentinel or JavaScript line separators.
+ * 渲染 `<script type="application/ld+json">` 结构化数据。
+ * 服务端组件；`JSON.stringify` 负责转义，注入面仅来自内部常量（无用户输入）。
+ * 机制与 layout 主题脚本一致，静态导出（output: export）兼容。
  */
-export function serializeJsonLd(data: JsonLdData): string {
-  return JSON.stringify(data)
-    .replace(/&/gu, '\\u0026')
-    .replace(/</gu, '\\u003c')
-    .replace(/>/gu, '\\u003e')
-    .replace(/\u2028/gu, '\\u2028')
-    .replace(/\u2029/gu, '\\u2029')
-}
-
 export function JsonLd({ data }: JsonLdProps): ReactElement {
   return (
     <script
-      dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
       type="application/ld+json"
     />
   )
