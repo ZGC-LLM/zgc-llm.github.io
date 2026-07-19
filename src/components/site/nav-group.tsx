@@ -45,11 +45,9 @@ export function NavGroup({
   const containerRef = useRef<HTMLDivElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
 
-  // 父级或任一子项路由命中 → 标题呈激活态（含 /working-groups/* 重叠，已确认接受）。
-  const targets = [href, ...items.map((item) => item.href)]
-  const isCurrent = targets.some(
-    (target) => pathname === target || pathname.startsWith(`${target}/`),
-  )
+  // 分组只代表自身落点。子项与顶层导航存在重复目的地，不再让一个页面同时
+  // 出现两个 aria-current；子项仍可访问，但由唯一的顶层/分组项表达当前页。
+  const isCurrent = pathname === href || pathname.startsWith(`${href}/`)
 
   // 路由变化时收起（render 阶段调整状态，React 官方推荐模式，避免 effect 内同步 setState）。
   if (pathname !== lastPathname) {
@@ -143,7 +141,7 @@ export function NavGroup({
       <ul className="nav-group__panel" hidden={!open} id={panelId}>
         {items.map((item) => (
           <li key={item.href}>
-            <SiteNavigationLink href={item.href} label={item.label} />
+            <SiteNavigationLink href={item.href} label={item.label} showCurrent={false} />
           </li>
         ))}
       </ul>
