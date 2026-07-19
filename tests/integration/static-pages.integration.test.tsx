@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, render, screen, within } from '@testing-library/react'
 import type { Metadata } from 'next'
 import type { ComponentType } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -91,6 +91,34 @@ describe('static locale route composition', () => {
       expect(headings).toHaveLength(1)
       expect(headings[0].textContent?.trim()).not.toBe('')
       expectLocalizedMetadata(metadata, path, locale)
+    },
+  )
+
+  it.each([
+    {
+      component: HomePage,
+      href: '/working-groups',
+      label: '浏览工作组',
+      sectionTitle: '从适合贵机构的路径开始',
+    },
+    {
+      component: EnHomePage,
+      href: '/en/working-groups',
+      label: 'Explore working groups',
+      sectionTitle: 'Start with the path that fits your organization',
+    },
+  ])(
+    'keeps the $label working-group path in the home CTA band',
+    ({ component: Page, href, label, sectionTitle }) => {
+      render(<Page />)
+      const section = screen
+        .getByRole('heading', { level: 2, name: sectionTitle })
+        .closest('section')
+
+      expect(section).not.toBeNull()
+      const link = within(section as HTMLElement).getByRole('link', { name: label })
+
+      expect(link.getAttribute('href')).toBe(href)
     },
   )
 

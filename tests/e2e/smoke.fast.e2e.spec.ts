@@ -20,7 +20,11 @@ test.describe('required Chromium release gate', () => {
       }),
     ).toBeVisible()
 
-    await page.getByRole('main').getByRole('link', { name: '查看工作组' }).click()
+    const workingGroupLink = page
+      .getByRole('main')
+      .getByRole('link', { exact: true, name: '浏览工作组' })
+    await expect(workingGroupLink).toHaveAttribute('href', '/working-groups/')
+    await workingGroupLink.click()
     await expect(page).toHaveURL(/\/working-groups\/$/u)
     await page
       .getByRole('main')
