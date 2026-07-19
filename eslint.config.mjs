@@ -6,9 +6,10 @@ export default defineConfig([
   ...nextVitals,
   ...nextTypeScript,
   {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
     rules: {
-      '@typescript-eslint/ban-ts-comment': 'warn',
-      '@typescript-eslint/no-empty-object-type': 'warn',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'warn',
