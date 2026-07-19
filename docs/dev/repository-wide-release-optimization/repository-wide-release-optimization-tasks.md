@@ -186,7 +186,7 @@ design: ./repository-wide-release-optimization-design.md
 - **parallel_group**: pages-a
 - **execution**: agent
 - **model**: opus
-- **estimated_files**: 8
+- **estimated_files**: 9
 - **dependencies**: [T-002, T-003]
 - **requires**: []
 - **provides**: [src/components/pages/home-view.tsx, src/components/pages/alliance-view.tsx, src/content/home.ts, src/content/alliance.ts, src/app/(frontend)/page.tsx, src/app/(frontend)/alliance/page.tsx, src/app/(en)/en/page.tsx, src/app/(en)/en/alliance/page.tsx]
@@ -294,14 +294,14 @@ design: ./repository-wide-release-optimization-design.md
 - **estimated_files**: 8
 - **dependencies**: [T-001]
 - **requires**: []
-- **provides**: [package.json, pnpm-lock.yaml, .env.example, .github/workflows/ci.yml, .github/workflows/deploy-pages.yml, Dockerfile, docker-compose.prod.yml, public/CNAME]
+- **provides**: [package.json, pnpm-lock.yaml, pnpm-workspace.yaml, .env.example, .github/workflows/ci.yml, .github/workflows/deploy-pages.yml, Dockerfile, docker-compose.prod.yml, public/CNAME]
 - **consumes**: [docs/dev/repository-wide-release-optimization/baseline-before.md, docs/dev/repository-wide-release-optimization/audit-register.md]
 - **must_not_create**: [playwright.config.ts, vitest.unit.config.mts, tests/unit, tests/e2e]
 - **injected_skills**: [test-governance]
 
 ### 描述
 
-统一 Node/pnpm、公开环境变量、依赖和双构建目标；优化 CI 并行、缓存、超时、并发取消、最小权限、Action 可追溯性、coverage hard gate、快速 e2e 与 build/export 验证。厘清 CI 与 Pages 部署构建职责：允许为正式产物安全重建，但必须消除没有质量意义的重复并记录理由。同步 Dockerfile、`docker-compose.prod.yml`、`.env.example`、Actions 和 CNAME；升级/删除依赖必须有风险与锁文件证据。
+统一 Node/pnpm、公开环境变量、依赖和双构建目标；优化 CI 并行、缓存、超时、并发取消、最小权限、Action 可追溯性、coverage hard gate、快速 e2e 与 build/export 验证。厘清 CI 与 Pages 部署构建职责：允许为正式产物安全重建，但必须消除没有质量意义的重复并记录理由。同步 pnpm workspace/override、Dockerfile、`docker-compose.prod.yml`、`.env.example`、Actions 和 CNAME；升级/删除依赖必须有风险与锁文件证据。
 
 ### 验收标准
 
@@ -315,7 +315,7 @@ design: ./repository-wide-release-optimization-design.md
 
 ### 涉及文件
 
-- package.json、pnpm-lock.yaml、.env.example、GitHub workflows、Dockerfile、docker-compose.prod.yml、public/CNAME
+- package.json、pnpm-lock.yaml、pnpm-workspace.yaml、.env.example、GitHub workflows、Dockerfile、docker-compose.prod.yml、public/CNAME
 
 ---
 
@@ -528,7 +528,7 @@ T-003..T-011 ─> T-012
 - `styles.css` 仅 T-002 拥有。
 - `src/config/site.ts`、i18n、内容校验/公共内容类型、sitemap/robots/layout 仅 T-003 拥有。
 - 三个页面族无重叠页面或内容文件。
-- `package.json`、lockfile、workflows、Dockerfile、docker-compose.prod.yml 与 CNAME 仅 T-007 拥有。
+- `package.json`、lockfile、pnpm-workspace、workflows、Dockerfile、docker-compose.prod.yml 与 CNAME 仅 T-007 拥有。
 - Next/TS/ESLint/PostCSS 与品牌资产仅 T-008 拥有。
 - Vitest/unit/integration 仅 T-009 拥有；Playwright/e2e/helpers 仅 T-010 拥有。
 - README/docs 索引仅 T-011 拥有；本功能 baseline-after/report/requirements 验收状态仅 T-012 拥有。
