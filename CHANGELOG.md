@@ -7,7 +7,9 @@
 
 ## [未发布]
 
-首个上线版本（v1）准备中，以下为已合入 `main` 的主要变更。
+## [1.0.0] - 2026-07-20
+
+首个上线版本（v1），包含以下已合入 `main` 的主要变更。
 
 ### 新增
 
@@ -16,6 +18,8 @@
 - 项目根 `CLAUDE.md`：项目概要、域名规范（含改域名需同步的文件清单）、常用命令、开发约定与分支流程。
 - GitHub Pages 部署与 CI 工作流，自定义域名 `CNAME`。
 - 联盟理事会/监事会成员、工作组组织层真实文案与成员数据。
+- 中英文双语站点、语言切换及对应的 hreflang、sitemap 与结构化数据。
+- 首页「参与我们」入口，区分加入联盟与加入网络安全工作组两条申请路径。
 
 ### 变更
 
@@ -24,10 +28,13 @@
 - 工作组页与生态专题页采用设计系统 v2（`btn` / `cta-band` / `grid-3` 等）。
 - 窄屏（<1280px）主题切换按钮常驻可见，语言切换移入移动菜单面板。
 - 优化 `.gitignore`（去重、补 `.claude/worktrees/` 忽略、按类分组）；删除无用的 `.yarnrc` 与 `.npmrc`。
+- 完善页眉、页脚与导航语义，补充语言切换辅助标签，并安全转义 JSON-LD 内容。
 
 ### 修复
 
 - 修正 `CNAME` 与部署配置误用无连字符域名 `zgcllm.org.cn` 的问题，避免 Pages 自定义域名绑定失败及线上 canonical/sitemap 使用错误域名。
 - 修复 `next dev` 扫描 `.claude/` 目录导致的非法 CSS 解析失败。
+- 修复页面导航后顶部内容被吸顶导航栏遮挡的问题。
 
-[未发布]: https://github.com/ZGC-LLM/zgc-llm.github.io/commits/main
+[未发布]: https://github.com/ZGC-LLM/zgc-llm.github.io/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ZGC-LLM/zgc-llm.github.io/releases/tag/v1.0.0
