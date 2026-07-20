@@ -109,6 +109,10 @@ html[data-theme='dark'] {
 
 html {
   scroll-behavior: smooth;
+  /* 吸顶导航栏高约 5rem（site-header min-h-20）。为所有滚动定位——路由跳转复位、
+     锚点跳转、a11y 焦点滚动——预留同等顶部间距，避免页面顶部内容（如 hero eyebrow）
+     钻到导航栏下方被遮挡。 */
+  scroll-padding-top: 5rem;
 }
 
 body {
