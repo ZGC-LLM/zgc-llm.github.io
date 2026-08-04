@@ -128,6 +128,24 @@ docker compose -f docker-compose.caddy.yml down -v       # 连同 caddy_data 卷
 
 - Let's Encrypt 有速率限制：短时间反复重建 + 删卷（`down -v`）可能触发限流，排障期可用 staging 环境或减少重试。
 
+**测试环境：域名还没指向本机，签不出公网证书**
+
+若在测试机上域名的公网 DNS 仍指向别处（例如线上 GitHub Pages），Let's Encrypt 会校验到错误的主机而失败（日志可见 `challenge failed` / `404` / `no application protocol`）。测试环境应改用 Caddy **内部自签 CA**，免公网 DNS/ACME 校验：在 `.env` 设
+
+```bash
+CADDY_EXTRA_GLOBAL=local_certs
+```
+
+然后 `docker compose -f docker-compose.caddy.yml up -d caddy` 重建 caddy。访问时在客户端 hosts 里把域名指到测试机（`127.0.0.1 www.zgc-llm.org.cn`），浏览器会提示自签证书不受信任——直接继续，或导入 Caddy 根证书消除警告：
+
+```bash
+docker compose -f docker-compose.caddy.yml exec caddy \
+  cat /data/caddy/pki/authorities/local/root.crt > caddy-local-root.crt
+# 将 caddy-local-root.crt 导入系统/浏览器「受信任的根证书颁发机构」
+```
+
+> ⚠️ **上生产务必删掉 `CADDY_EXTRA_GLOBAL`（或留空）** 恢复公网 Let's Encrypt 签发，并确保域名 DNS 已指向本服务器。
+
 **web 容器不健康 / 502**
 
 - 查看 web 日志：

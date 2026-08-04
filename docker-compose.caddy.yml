@@ -38,6 +38,8 @@ services:
     environment:
       SITE_DOMAIN: ${SITE_DOMAIN:?必填：对外服务域名（不含协议），须已解析到本机并开放 80/443}
       ACME_EMAIL: ${ACME_EMAIL:?必填：ACME/Let's Encrypt 账户邮箱}
+      # 可选：测试环境设为 local_certs 用内部自签 CA（免公网 DNS/ACME）；生产留空。
+      CADDY_EXTRA_GLOBAL: ${CADDY_EXTRA_GLOBAL:-}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data # 证书持久化，避免重建后重签触发 Let's Encrypt 限流
