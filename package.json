@@ -22,10 +22,10 @@
   },
   "dependencies": {
     "cross-env": "^7.0.3",
-    "next": "16.2.6",
+    "next": "16.2.12",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "sharp": "0.34.2"
+    "sharp": "0.35.3"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",
@@ -37,7 +37,7 @@
     "@vitejs/plugin-react": "4.5.2",
     "@vitest/coverage-v8": "4.0.18",
     "eslint": "^9.16.0",
-    "eslint-config-next": "16.2.6",
+    "eslint-config-next": "16.2.12",
     "jsdom": "28.0.0",
     "prettier": "^3.4.2",
     "tailwindcss": "^4.3.2",
