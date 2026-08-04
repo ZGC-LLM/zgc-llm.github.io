@@ -26,6 +26,12 @@ export function resolveSiteUrl(configuredUrl?: string): string {
 
 export const SITE_URL = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
 
+/** 工信部 ICP 备案号；运营方已在 beian.miit.gov.cn 核验为 www.zgc-llm.org.cn 的真实记录。 */
+export const ICP_FILING_NUMBER = '京ICP备2026046932号-1'
+
+/** 工信部公开备案查询系统。 */
+export const ICP_FILING_URL = 'https://beian.miit.gov.cn/'
+
 export const SITE_NAVIGATION: readonly NavigationItem[] = [
   { href: '/alliance', label: '联盟介绍' },
   { href: '/working-groups', label: '工作组' },
