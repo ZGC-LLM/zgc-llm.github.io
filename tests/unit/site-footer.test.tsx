@@ -13,11 +13,30 @@ describe('site footer', () => {
 
     const contactLink = screen.getByRole('link', { name: 'contact@zgc-llm.org.cn' })
     expect(contactLink.getAttribute('href')).toBe('mailto:contact@zgc-llm.org.cn')
+  })
 
-    // The placeholder ICP filing number is intentionally absent until a real
-    // filing is issued; no beian.miit.gov.cn link should render.
-    expect(screen.queryByRole('link', { name: /京ICP备/ })).toBeNull()
-    expect(document.body.textContent).not.toMatch(/beian\.miit\.gov\.cn/)
+  it('shows the verified ICP filing number linking to the MIIT lookup', () => {
+    render(<SiteFooter locale="zh" />)
+
+    const icpLink = screen.getByRole('link', { name: /京ICP备/ })
+    expect(icpLink.textContent).toBe('京ICP备2026046932号-1')
+    expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
+    expect(icpLink.getAttribute('target')).toBe('_blank')
+    expect(icpLink.getAttribute('rel')).toMatch(/noreferrer/)
+  })
+
+  it('shows the same ICP filing number on the English locale', () => {
+    render(<SiteFooter locale="en" />)
+
+    const icpLink = screen.getByRole('link', { name: /京ICP备/ })
+    expect(icpLink.textContent).toBe('京ICP备2026046932号-1')
+    expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
+  })
+
+  it('never renders the removed placeholder ICP number', () => {
+    render(<SiteFooter locale="zh" />)
+
+    expect(document.body.textContent).not.toMatch(/2025000000/)
   })
 
   it('localizes navigation links under /en for the English locale', () => {
@@ -46,6 +65,6 @@ describe('site footer', () => {
     render(<SiteFooter locale="zh" />)
 
     const year = String(new Date().getFullYear())
-    expect(screen.getByText((text) => text.includes(year))).toBeTruthy()
+    expect(screen.getByText((text) => text.includes('©') && text.includes(year))).toBeTruthy()
   })
 })

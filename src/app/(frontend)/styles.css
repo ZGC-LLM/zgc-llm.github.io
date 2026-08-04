@@ -1396,6 +1396,18 @@ section.block {
   line-height: 1.6;
 }
 
+.footer__beian-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__beian-link:hover,
+.footer__beian-link:focus-visible {
+  color: var(--text-inverse);
+  text-decoration: underline;
+}
+
 /* ============================================================
    Responsive (requirements §4: 900px / 520px)
    ============================================================ */

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
-import { SITE_NAME, SITE_NAVIGATION } from '@/config/site'
+import { ICP_FILING_NUMBER, ICP_FILING_URL, SITE_NAME, SITE_NAVIGATION } from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
@@ -76,6 +76,16 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
         <div className="footer__bottom">
           <p>
             © {new Date().getFullYear()} {SITE_NAME}
+          </p>
+          <p className="footer__beian">
+            <a
+              className="footer__beian-link"
+              href={ICP_FILING_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {ICP_FILING_NUMBER}
+            </a>
           </p>
         </div>
       </div>
