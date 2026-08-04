@@ -41,6 +41,7 @@ yarn-error.log*
 # Claude Code
 /.claude/worktrees/
 .claude/settings.local.json
+.claude/agent-memory/
 
 # Codex
 /.codex/
