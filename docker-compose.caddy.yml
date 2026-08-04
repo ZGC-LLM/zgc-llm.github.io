@@ -1,0 +1,53 @@
+# 自托管全栈编排：本地构建 web + Caddy 自动 HTTPS 反代。
+# 一键启动：docker compose -f docker-compose.caddy.yml up -d --build
+#
+# NEXT_PUBLIC_* 为构建时烘焙值（canonical/sitemap/问卷链接），换域名必须 --build 重建。
+# SITE_DOMAIN / ACME_EMAIL 为运行时值，供 Caddy 自动签发 Let's Encrypt 证书。
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_APPLICATION_URL: ${NEXT_PUBLIC_APPLICATION_URL:-}
+        NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY: ${NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY:-}
+        NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM: ${NEXT_PUBLIC_APPLICATION_URL_CYBERSECURITY_PROGRAM:-}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?必填：站点对外完整 URL（含协议），烘焙进 canonical/sitemap}
+    image: zgcllm:latest
+    init: true
+    restart: unless-stopped
+    # 仅在 compose 内网暴露，不发布到主机端口；对外仅经 caddy 的 80/443。
+    expose:
+      - '3000'
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 15s
+
+  caddy:
+    image: caddy:2-alpine
+    init: true
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp' # HTTP/3
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:?必填：对外服务域名（不含协议），须已解析到本机并开放 80/443}
+      ACME_EMAIL: ${ACME_EMAIL:?必填：ACME/Let's Encrypt 账户邮箱}
+      # 可选：测试环境设为 local_certs 用内部自签 CA（免公网 DNS/ACME）；生产留空。
+      CADDY_EXTRA_GLOBAL: ${CADDY_EXTRA_GLOBAL:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data # 证书持久化，避免重建后重签触发 Let's Encrypt 限流
+      - caddy_config:/config
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 15s
+
+volumes:
+  caddy_data:
+  caddy_config:

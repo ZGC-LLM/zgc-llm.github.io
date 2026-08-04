@@ -1,0 +1,11 @@
+{
+	email {$ACME_EMAIL}
+	# 测试环境把 CADDY_EXTRA_GLOBAL 设为 local_certs，让 Caddy 用内部自签 CA
+	# 签证（无需公网 DNS / ACME 校验）；生产留空则走 Let's Encrypt 公网签发。
+	{$CADDY_EXTRA_GLOBAL:}
+}
+
+{$SITE_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy web:3000
+}

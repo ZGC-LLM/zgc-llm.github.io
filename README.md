@@ -177,6 +177,8 @@ docker build \
   -t zgcllm-website .
 ```
 
+若希望**填域名即用、自动 HTTPS** 的一键自托管（本地构建 web + Caddy 自动签发 Let's Encrypt 证书），见 [`docs/deploy/self-hosting.md`](./docs/deploy/self-hosting.md)：仅需在 `.env` 填域名与邮箱，执行 `docker compose -f docker-compose.caddy.yml up -d --build` 即可。
+
 **上线前检查清单：**
 
 - [ ] `www.zgc-llm.org.cn` 指向正式服务，其他注册域名配置 HTTPS 301 跳转
