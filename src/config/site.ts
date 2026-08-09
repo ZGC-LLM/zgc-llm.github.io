@@ -39,9 +39,8 @@ export const PUBLIC_SECURITY_FILING_NUMBER = '京公网安备11010802049661号'
 export const PUBLIC_SECURITY_FILING_URL =
   'https://beian.mps.gov.cn/#/query/webSearch?code=11010802049661'
 
-/** 全国互联网安全管理服务平台提供的公安备案标识。 */
-export const PUBLIC_SECURITY_FILING_ICON_URL =
-  'https://beian.mps.gov.cn/img/logo01.dd7ff50e.png'
+/** 全国互联网安全管理服务平台提供的公安备案标识（本地原始文件）。 */
+export const PUBLIC_SECURITY_FILING_ICON_PATH = '/filing/public-security-filing.png'
 
 export const SITE_NAVIGATION: readonly NavigationItem[] = [
   { href: '/alliance', label: '联盟介绍' },
