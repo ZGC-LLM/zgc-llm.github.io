@@ -22,7 +22,10 @@ describe('site footer', () => {
     expect(icpLink.textContent).toBe('京ICP备2026046932号-1')
     expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
     expect(icpLink.getAttribute('target')).toBe('_blank')
-    expect(icpLink.getAttribute('rel')).toMatch(/noreferrer/)
+    expect(icpLink.getAttribute('rel')).toBe('noopener noreferrer')
+    expect(icpLink.getAttribute('aria-label')).toBe(
+      '京ICP备2026046932号-1，在新窗口打开',
+    )
   })
 
   it('shows the same ICP filing number on the English locale', () => {
@@ -31,6 +34,35 @@ describe('site footer', () => {
     const icpLink = screen.getByRole('link', { name: /京ICP备/ })
     expect(icpLink.textContent).toBe('京ICP备2026046932号-1')
     expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
+  })
+
+  it('shows the public security filing with its official badge and lookup link', () => {
+    render(<SiteFooter locale="zh" />)
+
+    const filingLink = screen.getByRole('link', { name: /京公网安备/ })
+    expect(filingLink.textContent).toBe('京公网安备11010802049661号')
+    expect(filingLink.getAttribute('href')).toBe(
+      'https://beian.mps.gov.cn/#/query/webSearch?code=11010802049661',
+    )
+    expect(filingLink.getAttribute('target')).toBe('_blank')
+    expect(filingLink.getAttribute('rel')).toBe('noopener noreferrer')
+    expect(filingLink.getAttribute('aria-label')).toBe(
+      '京公网安备11010802049661号，在新窗口打开',
+    )
+
+    const filingBadge = filingLink.querySelector('img')
+    expect(filingBadge?.getAttribute('src')).toBe('/filing/public-security-filing.png')
+    expect(filingBadge?.getAttribute('alt')).toBe('')
+  })
+
+  it('shows the same public security filing on the English locale', () => {
+    render(<SiteFooter locale="en" />)
+
+    const filingLink = screen.getByRole('link', { name: /京公网安备/ })
+    expect(filingLink.textContent).toBe('京公网安备11010802049661号')
+    expect(filingLink.getAttribute('aria-label')).toBe(
+      '京公网安备11010802049661号，opens in a new window',
+    )
   })
 
   it('never renders the removed placeholder ICP number', () => {

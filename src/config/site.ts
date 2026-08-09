@@ -32,6 +32,16 @@ export const ICP_FILING_NUMBER = '京ICP备2026046932号-1'
 /** 工信部公开备案查询系统。 */
 export const ICP_FILING_URL = 'https://beian.miit.gov.cn/'
 
+/** 公安机关联网备案号。 */
+export const PUBLIC_SECURITY_FILING_NUMBER = '京公网安备11010802049661号'
+
+/** 全国互联网安全管理服务平台的备案查询结果。 */
+export const PUBLIC_SECURITY_FILING_URL =
+  'https://beian.mps.gov.cn/#/query/webSearch?code=11010802049661'
+
+/** 全国互联网安全管理服务平台提供的公安备案标识（本地原始文件）。 */
+export const PUBLIC_SECURITY_FILING_ICON_PATH = '/filing/public-security-filing.png'
+
 export const SITE_NAVIGATION: readonly NavigationItem[] = [
   { href: '/alliance', label: '联盟介绍' },
   { href: '/working-groups', label: '工作组' },

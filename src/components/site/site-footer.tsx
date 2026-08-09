@@ -1,7 +1,16 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
-import { ICP_FILING_NUMBER, ICP_FILING_URL, SITE_NAME, SITE_NAVIGATION } from '@/config/site'
+import {
+  ICP_FILING_NUMBER,
+  ICP_FILING_URL,
+  PUBLIC_SECURITY_FILING_ICON_PATH,
+  PUBLIC_SECURITY_FILING_NUMBER,
+  PUBLIC_SECURITY_FILING_URL,
+  SITE_NAME,
+  SITE_NAVIGATION,
+} from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
@@ -77,14 +86,32 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
           <p>
             © {new Date().getFullYear()} {SITE_NAME}
           </p>
-          <p className="footer__beian">
+          <p className="footer__filings">
             <a
-              className="footer__beian-link"
+              className="footer__filing-link"
               href={ICP_FILING_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
+              aria-label={`${ICP_FILING_NUMBER}，${f.opensInNewWindow}`}
             >
               {ICP_FILING_NUMBER}
+            </a>
+            <a
+              className="footer__filing-link"
+              href={PUBLIC_SECURITY_FILING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${PUBLIC_SECURITY_FILING_NUMBER}，${f.opensInNewWindow}`}
+            >
+              <Image
+                className="footer__filing-icon"
+                src={PUBLIC_SECURITY_FILING_ICON_PATH}
+                alt=""
+                width={16}
+                height={17}
+                unoptimized
+              />
+              {PUBLIC_SECURITY_FILING_NUMBER}
             </a>
           </p>
         </div>

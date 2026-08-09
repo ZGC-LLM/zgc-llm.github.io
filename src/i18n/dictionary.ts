@@ -40,6 +40,7 @@ export interface Dictionary {
     linkMembers: string
     linkNews: string
     linkPrivacy: string
+    opensInNewWindow: string
   }
 }
 
@@ -50,6 +51,7 @@ const zh: Dictionary = {
     linkMembers: '成员伙伴',
     linkNews: '新闻动态',
     linkPrivacy: '隐私说明',
+    opensInNewWindow: '在新窗口打开',
     sectionMore: '更多',
     sectionParticipate: '参与联盟',
     sectionUnderstand: '了解联盟',
@@ -88,6 +90,7 @@ const en: Dictionary = {
     linkMembers: 'Members',
     linkNews: 'News',
     linkPrivacy: 'Privacy',
+    opensInNewWindow: 'opens in a new window',
     sectionMore: 'More',
     sectionParticipate: 'Get Involved',
     sectionUnderstand: 'About the Alliance',
