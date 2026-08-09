@@ -33,7 +33,7 @@ export default function RootLayout(props: { children: React.ReactNode }): React.
       <head>
         <ThemeScript />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <SiteChrome locale="zh">{children}</SiteChrome>
       </body>
     </html>

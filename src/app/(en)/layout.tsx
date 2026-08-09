@@ -35,7 +35,7 @@ export default function EnRootLayout(props: { children: React.ReactNode }): Reac
       <head>
         <ThemeScript />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <SiteChrome locale="en">{children}</SiteChrome>
       </body>
     </html>
