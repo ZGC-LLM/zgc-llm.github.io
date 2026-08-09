@@ -1,7 +1,16 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactElement } from 'react'
 
-import { ICP_FILING_NUMBER, ICP_FILING_URL, SITE_NAME, SITE_NAVIGATION } from '@/config/site'
+import {
+  ICP_FILING_NUMBER,
+  ICP_FILING_URL,
+  PUBLIC_SECURITY_FILING_ICON_URL,
+  PUBLIC_SECURITY_FILING_NUMBER,
+  PUBLIC_SECURITY_FILING_URL,
+  SITE_NAME,
+  SITE_NAVIGATION,
+} from '@/config/site'
 import { dict, type Dictionary } from '@/i18n/dictionary'
 import type { Locale } from '@/i18n/locales'
 import { localizePath } from '@/i18n/routing'
@@ -85,6 +94,22 @@ export function SiteFooter({ locale }: { locale: Locale }): ReactElement {
               rel="noreferrer"
             >
               {ICP_FILING_NUMBER}
+            </a>
+            <a
+              className="footer__beian-link"
+              href={PUBLIC_SECURITY_FILING_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Image
+                className="footer__beian-icon"
+                src={PUBLIC_SECURITY_FILING_ICON_URL}
+                alt=""
+                width={16}
+                height={17}
+                unoptimized
+              />
+              {PUBLIC_SECURITY_FILING_NUMBER}
             </a>
           </p>
         </div>

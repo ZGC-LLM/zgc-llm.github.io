@@ -1396,10 +1396,27 @@ section.block {
   line-height: 1.6;
 }
 
+.footer__beian {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 16px;
+}
+
 .footer__beian-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: inherit;
   text-decoration: none;
   transition: color 0.2s ease;
+}
+
+.footer__beian-icon {
+  width: 16px;
+  height: 17px;
+  flex: 0 0 auto;
 }
 
 .footer__beian-link:hover,

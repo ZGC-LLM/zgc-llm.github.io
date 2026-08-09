@@ -33,6 +33,31 @@ describe('site footer', () => {
     expect(icpLink.getAttribute('href')).toBe('https://beian.miit.gov.cn/')
   })
 
+  it('shows the public security filing with its official badge and lookup link', () => {
+    render(<SiteFooter locale="zh" />)
+
+    const filingLink = screen.getByRole('link', { name: /京公网安备/ })
+    expect(filingLink.textContent).toBe('京公网安备11010802049661号')
+    expect(filingLink.getAttribute('href')).toBe(
+      'https://beian.mps.gov.cn/#/query/webSearch?code=11010802049661',
+    )
+    expect(filingLink.getAttribute('target')).toBe('_blank')
+    expect(filingLink.getAttribute('rel')).toMatch(/noreferrer/)
+
+    const filingBadge = filingLink.querySelector('img')
+    expect(filingBadge?.getAttribute('src')).toBe(
+      'https://beian.mps.gov.cn/img/logo01.dd7ff50e.png',
+    )
+    expect(filingBadge?.getAttribute('alt')).toBe('')
+  })
+
+  it('shows the same public security filing on the English locale', () => {
+    render(<SiteFooter locale="en" />)
+
+    const filingLink = screen.getByRole('link', { name: /京公网安备/ })
+    expect(filingLink.textContent).toBe('京公网安备11010802049661号')
+  })
+
   it('never renders the removed placeholder ICP number', () => {
     render(<SiteFooter locale="zh" />)
 
